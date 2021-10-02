@@ -8,10 +8,32 @@
 	<form action="/" method="POST">
 		<label for="subjectName">Subject Name: </label>
 		<input type="text" id="subjectName" name="schedule[subjectName]"><br>
-		<label for="start">Start time:</label>
-		<input type="number" id="start" name="schedule[start]"><br>
-		<label for="end">End time: </label>
-		<input type="number" id="end" name="schedule[end]"><br>
+		
+		<label for="start">Monday Start time:</label>
+		<input type="number" id="start" name="schedule[mon].start"><br>
+		<label for="end">Monday End time: </label>
+		<input type="number" id="end" name="schedule[mon].end"><br>
+		
+		<label for="start">Tuesday Start time:</label>
+		<input type="number" id="start" name="schedule[tue].start"><br>
+		<label for="end">Tuesday End time: </label>
+		<input type="number" id="end" name="schedule[tue].end"><br>
+		
+		<label for="start">Wednesday Start time:</label>
+		<input type="number" id="start" name="schedule[wed].start"><br>
+		<label for="end">Wednesday End time: </label>
+		<input type="number" id="end" name="schedule[wed].end"><br>
+		
+		<label for="start">Thursday Start time:</label>
+		<input type="number" id="start" name="schedule[thur].start"><br>
+		<label for="end">Thursday End time: </label>
+		<input type="number" id="end" name="schedule[thur].end"><br>
+		
+		<label for="start">Friday Start time:</label>
+		<input type="number" id="start" name="schedule[fri].start"><br>
+		<label for="end">Friday End time: </label>
+		<input type="number" id="end" name="schedule[fri].end"><br>
+		
 		<label for="weight">Importance: </label>
 		<input type="number" id="weight" name="schedule[weight]">
 		<button>Submit</button>

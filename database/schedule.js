@@ -6,14 +6,56 @@ const scheduleSchema = new Schema({
         type: String,
         default: "Unknown",
     },
-    start: {
-        type: Number,
-        required: true,
-    },
-    end: {
-        type: Number,
-        required: true,
-    },
+	mon: {
+		start: {
+			type: Number,
+			required: true,
+		},
+		end: {
+			type: Number,
+			required: true,
+		},
+	},
+	tue: {
+		start: {
+			type: Number,
+			required: true,
+		},
+		end: {
+			type: Number,
+			required: true,
+		},
+	},
+    wed: {
+		start: {
+			type: Number,
+			required: true,
+		},
+		end: {
+			type: Number,
+			required: true,
+		},
+	},
+	thur: {
+		start: {
+			type: Number,
+			required: true,
+		},
+		end: {
+			type: Number,
+			required: true,
+		},
+	},
+	fri: {
+		start: {
+			type: Number,
+			required: true,
+		},
+		end: {
+			type: Number,
+			required: true,
+		},
+	},
     weight: {
         type: Number,
         required: true,

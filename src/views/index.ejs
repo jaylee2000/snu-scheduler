@@ -10,9 +10,14 @@
 	 
 	 <% for(let schedule of allSchedules) { %>
 	  <div>
-	  	<%= schedule.subjectName %>
-	  	<%= schedule.start %> ~ <%= schedule.end %>
-	  	<%= schedule.weight %>
+	  	<%= schedule.subjectName %><br>
+	  	mon: <%= schedule.mon.start %> ~ <%= schedule.mon.end %><br>
+	  	tue: <%= schedule.tue.start %> ~ <%= schedule.tue.end %><br>
+	  	wed: <%= schedule.wed.start %> ~ <%= schedule.wed.end %><br>
+	  	thur: <%= schedule.thur.start %> ~ <%= schedule.thur.end %><br>
+	  	fri: <%= schedule.fri.start %> ~ <%= schedule.fri.end %><br>
+		  
+	  	Weight: <%= schedule.weight %>
 		  <form action="/<%= schedule._id %>/?_method=DELETE" method="POST">
 			  <button>Delete</button>
 		  </form>

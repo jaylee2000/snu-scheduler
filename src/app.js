@@ -12,7 +12,7 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 const mongodbURL =
-    process.env.MONGODB_URL || "mongodb://localhost:27017/snu-scheduler";
+    process.env.MONGODB_URL || "mongodb://localhost:27017/snu-scheduler-2";
 
 // view engine setup
 app.engine("ejs", engine);
@@ -54,7 +54,27 @@ app.get("/update/:id", async (req, res) => {
 })
 
 app.patch("/:id", async (req, res) => {
-	const updateSchedule = await Schedule.findByIdAndUpdate(req.params.id, req.body.schedule);
+	const { schedule } = req.body;
+	const updateSchedule = await Schedule.findByIdAndUpdate(req.params.id, {
+		subjectName: schedule.subjectName,
+		mon: {
+			start: schedule.start[0], end: schedule.end[0]
+		},
+		tue: {
+			start: schedule.start[1], end: schedule.end[1]
+		},
+		wed: {
+			start: schedule.start[2], end: schedule.end[2]
+		},
+		thur: {
+			start: schedule.start[3], end: schedule.end[3]
+		},
+		fri: {
+			start: schedule.start[4], end: schedule.end[4]
+		},
+		weight: schedule.weight
+	});
+	console.log(updateSchedule)
 	await updateSchedule.save();
 	res.redirect("/");
 })
@@ -66,7 +86,32 @@ app.delete("/:id", async (req, res) => {
 
 app.post("/", async (req, res) => {
     const { schedule } = req.body;
-    const newSchedule = new Schedule(schedule);
+	// console.log(schedule)
+	const newSchedule = new Schedule({
+		subjectName: schedule.subjectName,
+		mon: {
+			start: schedule.mon[0],
+			end: schedule.mon[1]
+		},
+		tue: {
+			start: schedule.tue[0],
+			end: schedule.tue[1]
+		},
+		wed: {
+			start: schedule.wed[0],
+			end: schedule.wed[1]
+		},
+		thur: {
+			start: schedule.thur[0],
+			end: schedule.thur[1]
+		},
+		fri: {
+			start: schedule.fri[0],
+			end: schedule.fri[1]
+		},
+		weight: schedule.weight
+	})
+	console.log(newSchedule);
     await newSchedule.save();
     res.redirect("/");
 });
