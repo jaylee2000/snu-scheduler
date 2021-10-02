@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>This is your <%= title %>!</p>
+	  
+	 
+	 <% for(let schedule of optimizedSchdule) { %>
+	  	<%= schedule.subjectName %>
+	  	<%= schedule.start %> ~ <%= schedule.end %>
+	  	<%= schedule.weight %>
+	  	<br>
+	 <% } %>
+	  
+	 <a href="/">Return to main page</a>
+	  
+  </body>
+</html>

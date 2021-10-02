@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+  <body>
+	
+	  <h1>Update <%= updateSchedule.subjectName %> </h1>
+	 
+	  <div>
+		  <form action="/<%= updateSchedule._id %>?_method=PATCH" method="POST">
+			<label for="subjectName">Subject Name: </label>
+			<input type="text" id="subjectName" name="schedule[subjectName]" value="<%= updateSchedule.subjectName %>"><br>
+			<label for="start">Start time:</label>
+			<input type="number" id="start" name="schedule[start]" value="<%= updateSchedule.start %>"><br>
+			<label for="end">End time: </label>
+			<input type="number" id="end" name="schedule[end]" value="<%= updateSchedule.end %>"><br>
+			<label for="weight">Importance: </label>
+			<input type="number" id="weight" name="schedule[weight]" value="<%= updateSchedule.weight %>">
+			<button>Submit</button>
+		</form>
+	  </div>
+	  
+	 <a href="/">Return to main page</a>
+	  
+  </body>
+</html>

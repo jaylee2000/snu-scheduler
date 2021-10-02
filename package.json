@@ -1,0 +1,21 @@
+{
+    "name": "application-name",
+    "version": "0.0.1",
+    "scripts": {
+        "start": "node src/app.js",
+        "dev": "nodemon src/app.js",
+        "pretty": "prettier --write . --tab-width 4",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "ejs-mate": "^3.0.0",
+        "express": "^4.17.1",
+        "method-override": "^3.0.0",
+        "mongoose": "^6.0.8"
+    },
+    "devDependencies": {
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.13",
+        "prettier": "^2.4.1"
+    }
+}
