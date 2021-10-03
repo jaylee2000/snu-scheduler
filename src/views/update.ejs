@@ -11,28 +11,17 @@
 		<form action="/<%= updateSchedule._id %>?_method=PATCH" method="POST">
 			<label for="subjectName">Subject Name: </label>
 			<input type="text" id="subjectName" name="schedule[subjectName]" value="<%= updateSchedule.subjectName %>"><br>
-			<label for="start">Monday Start time:</label>
-			<input type="number" id="start" name="schedule[start]" value="<%= updateSchedule.mon.start %>"><br>
-			<label for="end">Monday End time: </label>
-			<input type="number" id="end" name="schedule[end]" value="<%= updateSchedule.mon.end %>"><br>
-			<label for="start">Tuesday Start time:</label>
-			<input type="number" id="start" name="schedule[start]" value="<%= updateSchedule.tue.start %>"><br>
-			<label for="end">Tuesday End time: </label>
-			<input type="number" id="end" name="schedule[end]" value="<%= updateSchedule.tue.end %>"><br>
-			<label for="start">Wednesday Start time:</label>
-			<input type="number" id="start" name="schedule[start]" value="<%= updateSchedule.wed.start %>"><br>
-			<label for="end">Wednesday End time: </label>
-			<input type="number" id="end" name="schedule[end]" value="<%= updateSchedule.wed.end %>"><br>
-			<label for="start">Thursday Start time:</label>
-			<input type="number" id="start" name="schedule[start]" value="<%= updateSchedule.thur.start %>"><br>
-			<label for="end">Thursday End time: </label>
-			<input type="number" id="end" name="schedule[end]" value="<%= updateSchedule.thur.end %>"><br>
-			<label for="start">Friday Start time:</label>
-			<input type="number" id="start" name="schedule[start]" value="<%= updateSchedule.fri.start %>"><br>
-			<label for="end">Friday End time: </label>
-			<input type="number" id="end" name="schedule[end]" value="<%= updateSchedule.fri.end %>"><br>
+			
+			<% for (let yoil of daysOfWeek) { %>
+				<label for="start-<%= yoil[1]%>"><%= yoil[0] %> Start time: </label>
+				<input type="number" id="start-<%= yoil[1]%>" name="schedule[start]" value="<%= updateSchedule[yoil[1]].start %>"><br>
+				<label for="end-<%= yoil[1]%>"><%= yoil[0] %> End time: </label>
+				<input type="number" id="end-<%= yoil[1]%>" name="schedule[end]" value="<%= updateSchedule[yoil[1]].end %>"><br>
+			<% } %>
+			
 			<label for="weight">Importance: </label>
 			<input type="number" id="weight" name="schedule[weight]" value="<%= updateSchedule.weight %>">
+			
 			<button>Submit</button>
 		</form>
 	  </div>

@@ -7,19 +7,22 @@
     <h1><%= title %></h1>
     <p>This is your <%= title %>!</p>
 	  
-	 
-	 <% for(let schedule of optimizedSchedule.selectedClasses ) { %>
-	  	<%= schedule.subjectName %><br>
-	  	mon: <%= schedule.mon.start %> ~ <%= schedule.mon.end %><br>
-	  	tue: <%= schedule.tue.start %> ~ <%= schedule.tue.end %><br>
-	  	wed: <%= schedule.wed.start %> ~ <%= schedule.wed.end %><br>
-	  	thur: <%= schedule.thur.start %> ~ <%= schedule.thur.end %><br>
-	  	fri: <%= schedule.fri.start %> ~ <%= schedule.fri.end %><br>
-	    Weight: <%= schedule.weight %>
-	  	<br>
+	  
+	 <% for(let i = 0; i < numDisplay; i++) { %>
+	   <% for (let j = 0; j < possibleSchedules[i].selectedClasses.length; j++) { %>
+	  		<%= possibleSchedules[i].selectedClasses[j].subjectName %><br>
+	  		
+	  		<% for(let yoil of daysOfWeek) { %>
+	  			<% if(possibleSchedules[i].selectedClasses[j][ yoil[1] ].start > 0) { %>
+					<%= yoil[0] %>: <%= possibleSchedules[i].selectedClasses[j][ yoil[1] ] %><br>
+				<% } %>
+	  		<% } %>
+	  		<br>
+	   <% } %>
+	  	<%= possibleSchedules[i].sum %><br><br><br>
+	  
 	 <% } %>
-	 
-	  Total Weight: <%= optimizedSchedule.sum %>
+	  
 	  
 	 <a href="/">Return to main page</a>
 	  

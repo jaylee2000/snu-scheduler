@@ -11,11 +11,11 @@
 	 <% for(let schedule of allSchedules) { %>
 	  <div>
 	  	<%= schedule.subjectName %><br>
-	  	mon: <%= schedule.mon.start %> ~ <%= schedule.mon.end %><br>
-	  	tue: <%= schedule.tue.start %> ~ <%= schedule.tue.end %><br>
-	  	wed: <%= schedule.wed.start %> ~ <%= schedule.wed.end %><br>
-	  	thur: <%= schedule.thur.start %> ~ <%= schedule.thur.end %><br>
-	  	fri: <%= schedule.fri.start %> ~ <%= schedule.fri.end %><br>
+		  <% for (let yoil of daysOfWeek ) { %>
+		  	<% if(schedule[yoil[1]].start > 0) { %>
+		  		<%= yoil[0] %> : <%= schedule[yoil[1]].start %> ~ <%= schedule[yoil[1]].end %><br>
+		  	<% } %>
+		<% } %>
 		  
 	  	Weight: <%= schedule.weight %>
 		  <form action="/<%= schedule._id %>/?_method=DELETE" method="POST">
