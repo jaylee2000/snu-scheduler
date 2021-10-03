@@ -26,21 +26,26 @@ https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/
 
 **DEVELOP WITH EXCELLENCE**
 
-`Happy coding! The goormIDE team`
+`Happy coding!`
 
-## 🔧 Tip & Guide
+## 🔧 Updates
 
--   Useful shortcut
+- October 3rd
+  * Expanded to 5 daysOfWeek
+  * Allowed Several Intervals Within One Day
+  * Can Select 'mustTake' Subjects
+  * Can Create&Modify Restricted TimeBlocks
+  
+- TODO (Coming up soon)
+  * Add automated testing
+  * Can Select 'mustTake' by group (mustTake... one of the following)
+  * Can Select 'incompatible' by group (canTake... maximum one of the following)
+  * Add "Number of Credits" attribute to Subjects
+  * Can Select "Maximum Credit"
 
-| Shortcuts name     | Command (Mac) | Command (Window) |
-| ------------------ | :-----------: | :--------------: |
-| Copy in Terminal   |     ⌘ + C     | Ctrl + Shift + C |
-| Paste in Terminal  |     ⌘ + V     | Ctrl + Shift + V |
-| Search File        |   ⌥ + ⇧ + F   | Alt + Shift + F  |
-| Terminal Toggle    |   ⌥ + ⇧ + B   | Alt + Shift + B  |
-| New Terminal       |   ⌥ + ⇧ + T   | Alt + Shift + T  |
-| Code Formatting    |   ⌥ + ⇧ + P   | Alt + Shift + P  |
-| Show All Shortcuts |     ⌘ + H     |     Ctrl + H     |
+- TODO (Long-term) // 5단계
+  * Get data from sugang.snu.ac.kr
+  * Don't manually add subjects by default - select some from the prepared database.
 
 ## 💬 Support & Documentation
 
