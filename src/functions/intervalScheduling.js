@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schedule } = require("../models/schedule");
+const { Subject } = require("../models/subject");
 
 function sortByWeight(candidateScheduleA, candidateScheduleB) {
     return -candidateScheduleA.sum + candidateScheduleB.sum;
@@ -55,7 +55,10 @@ const cartesian = (...a) =>
     a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
 async function calculateMaxIntervalSum() {
-    const candidates = await Schedule.find({});
+    const candidates = await Subject.find({});
+	if(!candidates || !candidates.length) {
+		return [];
+	}
 
     // generate [ [0, 0, 0, 0, 0, ..., 0], [0, 0, 0, 0, 0, ..., 1] ... [1, 1, 1, 1, 1, ..., 1] ]
     const cartesianSeed = [];

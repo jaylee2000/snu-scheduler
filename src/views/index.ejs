@@ -8,27 +8,27 @@
     <p>Welcome to <%= title %>!</p>
 	  
 	 
-	 <% for(let schedule of allSchedules) { %>
+	 <% for(let subject of allSubjects) { %>
 	  <div>
-	  	<%= schedule.subjectName %><br>
+	  	<%= subject.subjectName %><br>
 		  <% for (let yoil of daysOfWeek ) { %>
-		  	<% if(schedule[yoil[1]].start > 0) { %>
-		  		<%= yoil[0] %> : <%= schedule[yoil[1]].start %> ~ <%= schedule[yoil[1]].end %><br>
+		  	<% if(subject[yoil[1]].start > 0) { %>
+		  		<%= yoil[0] %> : <%= subject[yoil[1]].start %> ~ <%= subject[yoil[1]].end %><br>
 		  	<% } %>
 		<% } %>
 		  
-	  	Weight: <%= schedule.weight %>
-		  <form action="/<%= schedule._id %>/?_method=DELETE" method="POST">
+	  	Weight: <%= subject.weight %>
+		  <form action="/<%= subject._id %>/?_method=DELETE" method="POST">
 			  <button>Delete</button>
 		  </form>
-		  <form action="/update/<%= schedule._id %>">
+		  <form action="/update/<%= subject._id %>">
 			  <button>Update</button>
 		  </form>
 	  </div>
 		<br>
 	 <% } %>
 	  
-	 <a href="/new">Add new custom schedule</a>
+	 <a href="/new">Add new custom subject</a>
 	  <br>
 	 <a href="/best">View optimized schedule</a>
 	  

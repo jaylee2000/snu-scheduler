@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
-const { Schedule } = require("../models/schedule");
+const { Subject } = require("../models/subject");
 
 const schedule = require("../controllers/schedule");
 

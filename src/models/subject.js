@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const scheduleSchema = new Schema({
+const subjectSchema = new Schema({
     subjectName: {
         type: String,
         default: "Unknown",
@@ -64,6 +64,6 @@ const scheduleSchema = new Schema({
     },
 });
 
-const Schedule = mongoose.model("Schedule", scheduleSchema);
+const Subject = mongoose.model("Subject", subjectSchema);
 
-module.exports = { Schedule };
+module.exports = { Subject };
