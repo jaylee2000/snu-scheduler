@@ -3,25 +3,31 @@ const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
 const { parseSubjectInput } = require("../functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
 
-const daysOfWeek = [ ['Monday', 'mon'], ['Tuesday', 'tue'], ['Wednesday', 'wed'], ['Thursday', 'thur'], ['Friday', 'fri'] ]
+const daysOfWeek = [
+    ["Monday", "mon"],
+    ["Tuesday", "tue"],
+    ["Wednesday", "wed"],
+    ["Thursday", "thur"],
+    ["Friday", "fri"],
+];
 
 /* CRUD Functionality for Subjects */
 // Create New Subject
 module.exports.renderCreate = (req, res) => {
-    res.render("new", { title: "SNU Scheduler" , daysOfWeek});
-}
+    res.render("new", { title: "SNU Scheduler", daysOfWeek });
+};
 module.exports.createNewSubject = async (req, res) => {
     const { subjectName, mon, tue, wed, thur, fri, weight } = req.body;
-	const subject = parseSubjectInput(mon, tue, wed, thur, fri);
-	const yoilBlocks = generateYoilBlocks(subject);
+    const subject = parseSubjectInput(mon, tue, wed, thur, fri);
+    const yoilBlocks = generateYoilBlocks(subject);
     const newSubject = new Subject({
         subjectName,
         mon: yoilBlocks.monBlock,
-		tue: yoilBlocks.tueBlock,
-		wed: yoilBlocks.wedBlock,
-		thur: yoilBlocks.thurBlock,
-		fri: yoilBlocks.friBlock,
-        weight
+        tue: yoilBlocks.tueBlock,
+        wed: yoilBlocks.wedBlock,
+        thur: yoilBlocks.thurBlock,
+        fri: yoilBlocks.friBlock,
+        weight,
     });
     await newSubject.save();
     res.redirect("/");
@@ -39,16 +45,16 @@ module.exports.renderUpdate = async (req, res) => {
     res.render("update", { title: "SNU Scheduler", updateSubject, daysOfWeek });
 };
 module.exports.updateSubject = async (req, res) => {
-	const { subjectName, mon, tue, wed, thur, fri, weight } = req.body;
-	const subject = parseSubjectInput(mon, tue, wed, thur, fri);
-	const yoilBlocks = generateYoilBlocks(subject);
+    const { subjectName, mon, tue, wed, thur, fri, weight } = req.body;
+    const subject = parseSubjectInput(mon, tue, wed, thur, fri);
+    const yoilBlocks = generateYoilBlocks(subject);
     const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
         subjectName,
         mon: yoilBlocks.monBlock,
-		tue: yoilBlocks.tueBlock,
-		wed: yoilBlocks.wedBlock,
-		thur: yoilBlocks.thurBlock,
-		fri: yoilBlocks.friBlock,
+        tue: yoilBlocks.tueBlock,
+        wed: yoilBlocks.wedBlock,
+        thur: yoilBlocks.thurBlock,
+        fri: yoilBlocks.friBlock,
         weight: subject.weight,
     });
     await updateSubject.save();
@@ -67,20 +73,19 @@ module.exports.deleteSubject = async (req, res) => {
 // Calculate
 module.exports.calculateBestSchedules = async (req, res, next) => {
     const possibleSchedules = await calculateMaxIntervalSum();
-	console.log(possibleSchedules) // <-- Check this out.
     req.body.possibleSchedules = possibleSchedules;
     next();
 };
 // Render
 module.exports.displayBestSchedules = (req, res) => {
     const numDisplay =
-        req.body.possibleSchedules.length >= 6 
-			? 
-		  6 : req.body.possibleSchedules.length;
+        req.body.possibleSchedules.length >= 6
+            ? 6
+            : req.body.possibleSchedules.length;
     res.render("best", {
         title: "Optimized Schedule",
         possibleSchedules: req.body.possibleSchedules,
         numDisplay,
-		daysOfWeek
+        daysOfWeek,
     });
 };

@@ -1,25 +1,38 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// Typically looks like
+// {
+// 	subjectName: 'Math 101',
+// 	mon: [ [2, 3], [5, 7], [10, 11] ],
+// 	tue: [ [1, 4] ],
+// 	wed: [ ],
+// 	thur: [ ],
+// 	fri: [ ],
+// 	weight: 10
+// }
+// Validation is currently not being done.
+
+
 const subjectSchema = new Schema({
     subjectName: {
         type: String,
         default: "Unknown",
     },
     mon: {
-		type: [[Number]]
+        type: [[Number]],
     },
     tue: {
-        type: [[Number]]
+        type: [[Number]],
     },
     wed: {
-        type: [[Number]]
+        type: [[Number]],
     },
     thur: {
-        type: [[Number]]
+        type: [[Number]],
     },
     fri: {
-        type: [[Number]]
+        type: [[Number]],
     },
     weight: {
         type: Number,
