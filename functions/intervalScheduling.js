@@ -83,11 +83,6 @@ async function calculateMaxIntervalSum() {
 	console.log('possibleSchedules', possibleSchedules);
 	
 	return possibleSchedules;
-	
-	
-	
-	
-	
 }
 
 module.exports = { calculateMaxIntervalSum };
