@@ -40,8 +40,9 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/best", async (req, res) => {
-    const optimizedSchdule = await calculateMaxIntervalSum();
-    res.render("best", { title: "Optimized Schedule", optimizedSchdule });
+    const possibleSchedules = await calculateMaxIntervalSum();
+	// display best 1 possible schedule (for now, just 1)
+    res.render("best", { title: "Optimized Schedule", optimizedSchedule: possibleSchedules[0] });
 });
 
 app.get("/new", (req, res) => {

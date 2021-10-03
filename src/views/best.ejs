@@ -8,12 +8,18 @@
     <p>This is your <%= title %>!</p>
 	  
 	 
-	 <% for(let schedule of optimizedSchdule) { %>
-	  	<%= schedule.subjectName %>
-	  	<%= schedule.start %> ~ <%= schedule.end %>
-	  	<%= schedule.weight %>
+	 <% for(let schedule of optimizedSchedule.selectedClasses ) { %>
+	  	<%= schedule.subjectName %><br>
+	  	mon: <%= schedule.mon.start %> ~ <%= schedule.mon.end %><br>
+	  	tue: <%= schedule.tue.start %> ~ <%= schedule.tue.end %><br>
+	  	wed: <%= schedule.wed.start %> ~ <%= schedule.wed.end %><br>
+	  	thur: <%= schedule.thur.start %> ~ <%= schedule.thur.end %><br>
+	  	fri: <%= schedule.fri.start %> ~ <%= schedule.fri.end %><br>
+	    Weight: <%= schedule.weight %>
 	  	<br>
 	 <% } %>
+	 
+	  Total Weight: <%= optimizedSchedule.sum %>
 	  
 	 <a href="/">Return to main page</a>
 	  
