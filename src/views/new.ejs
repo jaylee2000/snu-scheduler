@@ -7,17 +7,15 @@
     <h2>Add custom subject</h2>
 	<form action="/" method="POST">
 		<label for="subjectName">Subject Name: </label>
-		<input type="text" id="subjectName" name="subject[subjectName]"><br>
+		<input type="text" id="subjectName" name="subjectName"><br>
 		
 		<% for(let yoil of daysOfWeek) { %>
-			<label for="start-<%= yoil[1]%>"><%= yoil[0] %> Start time:</label>
-			<input type="number" id="start-<%= yoil[1]%>" name="subject[<%= yoil[1] %>].start"><br>
-			<label for="end-<%= yoil[1]%>"><%= yoil[0] %> End time: </label>
-			<input type="number" id="end-<%= yoil[1]%>" name="subject[<%= yoil[1] %>].end"><br>
+			<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
+			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
 		<% } %>
 		
 		<label for="weight">Importance: </label>
-		<input type="number" id="weight" name="subject[weight]">
+		<input type="number" id="weight" name="weight">
 		<button>Submit</button>
 	</form>
 	

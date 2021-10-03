@@ -13,7 +13,7 @@
 	  		<%= possibleSchedules[i].selectedClasses[j].subjectName %><br>
 	  		
 	  		<% for(let yoil of daysOfWeek) { %>
-	  			<% if(possibleSchedules[i].selectedClasses[j][ yoil[1] ].start > 0) { %>
+	  			<% if(possibleSchedules[i].selectedClasses[j][yoil[1]][0]) { %>
 					<%= yoil[0] %>: <%= possibleSchedules[i].selectedClasses[j][ yoil[1] ] %><br>
 				<% } %>
 	  		<% } %>

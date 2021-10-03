@@ -7,54 +7,19 @@ const subjectSchema = new Schema({
         default: "Unknown",
     },
     mon: {
-        start: {
-            type: Number,
-            required: true,
-        },
-        end: {
-            type: Number,
-            required: true,
-        },
+		type: [[Number]]
     },
     tue: {
-        start: {
-            type: Number,
-            required: true,
-        },
-        end: {
-            type: Number,
-            required: true,
-        },
+        type: [[Number]]
     },
     wed: {
-        start: {
-            type: Number,
-            required: true,
-        },
-        end: {
-            type: Number,
-            required: true,
-        },
+        type: [[Number]]
     },
     thur: {
-        start: {
-            type: Number,
-            required: true,
-        },
-        end: {
-            type: Number,
-            required: true,
-        },
+        type: [[Number]]
     },
     fri: {
-        start: {
-            type: Number,
-            required: true,
-        },
-        end: {
-            type: Number,
-            required: true,
-        },
+        type: [[Number]]
     },
     weight: {
         type: Number,
