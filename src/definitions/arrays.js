@@ -6,4 +6,4 @@ const daysOfWeek = [
     ["Friday", "fri"],
 ];
 
-module.exports = {daysOfWeek};
+module.exports = { daysOfWeek };

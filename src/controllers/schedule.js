@@ -1,6 +1,7 @@
 const { Subject } = require("../models/subject");
 const { Restriction } = require("../models/restriction");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
+const { calculateSafetyZone } = require("../functions/calculateSafetyZone");
 const { parseSubjectInput } = require("../functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
 const { daysOfWeek } = require("../definitions/arrays");
@@ -82,6 +83,7 @@ module.exports.deleteSubject = async (req, res) => {
 /* Optimize Schedule */
 // Calculate
 module.exports.calculateBestSchedules = async (req, res, next) => {
+	await calculateSafetyZone();
     const possibleSchedules = await calculateMaxIntervalSum();
     req.body.possibleSchedules = possibleSchedules;
     next();

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Subject } = require("../models/subject");
 const { Restriction } = require("../models/restriction");
+const { daysOfWeek } = require("../definitions/arrays");
+const { calculateSafetyZone } = require("./calculateSafetyZone");
 
 function sortByWeight(candidateScheduleA, candidateScheduleB) {
     return -candidateScheduleA.sum + candidateScheduleB.sum;
@@ -63,12 +65,38 @@ function schedulize(possibleClasses, selectedIndices) {
     }
 }
 
+function doesOneBlockFitIn(oneTimeBlock, safeTimeBlocks) {
+	const start = oneTimeBlock[0];
+	const end = oneTimeBlock[1];
+	for(let block of safeTimeBlocks) {
+		if(block[0] <= start && end <= block[1]) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function doesFit(subject, safetyZone) {
+	for(let i = 0; i < daysOfWeek.length; i++) {
+		const subjectTimeBlocks = subject[daysOfWeek[i][1]];
+		const safeTimeBlocks = safetyZone[i];
+		for(let j = 0; j < subjectTimeBlocks.length; j++) {
+			if (!doesOneBlockFitIn(subjectTimeBlocks[j], safeTimeBlocks)) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 // https://stackoverflow.com/questions/12152409/find-all-combinations-of-options-in-a-loop
 const cartesian = (...a) =>
     a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
 async function calculateMaxIntervalSum() {
     const candidates = await Subject.find({});
+	const safetyZone = await calculateSafetyZone();
+	
     if (!candidates || !candidates.length) {
         return [];
     }
@@ -77,14 +105,19 @@ async function calculateMaxIntervalSum() {
     const cartesianSeed = [];
     for (let i = 0; i < candidates.length; i++) {
 		if(candidates[i].mustTake) {
+			if(!doesFit(candidates[i], safetyZone)) {
+				return []; // Impossible! A mustTake lecture conflicts with restriction.
+			}
 			cartesianSeed.push([1]);
+		}
+		else if(!doesFit(candidates[i], safetyZone)) {
+			cartesianSeed.push([0]);
 		}
         else {
 			cartesianSeed.push([0, 1]);
 		}
     }
     const possibleCombinations = cartesian(...cartesianSeed);
-    // console.log('possibleCombinations', possibleCombinations);
 
     const possibleSchedules = [];
     for (let i = 1; i < possibleCombinations.length; i++) {
@@ -99,8 +132,6 @@ async function calculateMaxIntervalSum() {
 
     // sort possibleSchedules by weight sum (in descending order)
     possibleSchedules.sort(sortByWeight);
-
-    // console.log("possibleSchedules", possibleSchedules);
 
     return possibleSchedules;
 }
