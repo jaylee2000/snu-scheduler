@@ -3,22 +3,15 @@ const Schema = mongoose.Schema;
 
 // Typically looks like
 // {
-// 	subjectName: 'Math 101',
 // 	mon: [ [2, 3], [5, 7], [10, 11] ],
 // 	tue: [ [1, 4] ],
 // 	wed: [ ],
 // 	thur: [ ],
-// 	fri: [ ],
-// 	weight: 10
+// 	fri: [ ]
 // }
 // Validation is currently not being done.
 
-
-const subjectSchema = new Schema({
-    subjectName: {
-        type: String,
-        default: "Unknown",
-    },
+const restrictionSchema = new Schema({
     mon: {
         type: [[Number]],
     },
@@ -33,19 +26,9 @@ const subjectSchema = new Schema({
     },
     fri: {
         type: [[Number]],
-    },
-    weight: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 10,
-    },
-	mustTake: {
-		type: Boolean,
-		default: false
-	}
+    }
 });
 
-const Subject = mongoose.model("Subject", subjectSchema);
+const Restriction = mongoose.model("Restriction", restrictionSchema);
 
-module.exports = { Subject };
+module.exports = { Restriction };

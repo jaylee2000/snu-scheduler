@@ -12,6 +12,7 @@ const mongodbURL =
     process.env.MONGODB_URL || "mongodb://localhost:27017/snu-scheduler-2";
 
 const scheduleRoutes = require("./routes/schedule");
+const restrictionRoutes = require("./routes/restriction");
 
 // view engine setup
 app.engine("ejs", engine);
@@ -35,6 +36,7 @@ mongoose
     });
 
 // routers
+app.use("/restriction", restrictionRoutes);
 app.use("/", scheduleRoutes);
 
 // connect to port

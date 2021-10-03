@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SNU Scheduler</title>
+  </head>
+  <body>
+	
+	  <h1>Update <%= updateRestriction.subjectName %> </h1>
+	 
+	  <div>
+		<form action="/restriction/<%= updateRestriction._id %>?_method=PATCH" method="POST">
+			
+			<% for(let yoil of daysOfWeek) { %>
+				<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
+				<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateRestriction[yoil[1]]%>"><br>
+			<% } %>
+			
+			<button>Submit</button>
+		</form>
+	  </div>
+	  
+	 <a href="/restriction">Go back</a>
+	  
+  </body>
+</html>

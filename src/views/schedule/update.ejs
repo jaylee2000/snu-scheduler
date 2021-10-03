@@ -17,6 +17,15 @@
 				<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateSubject[yoil[1]]%>"><br>
 			<% } %>
 			
+			<div>
+			  <% if(updateSubject.mustTake) { %>
+			  	<input type="checkbox" id="mustTake" name="mustTake" value="true" checked>
+			  <% } else { %>
+			    <input type="checkbox" id="mustTake" name="mustTake" value="true">
+			  <% } %>
+			  <label for="mustTake">I must take this course.</label>
+			</div>
+			
 			<label for="weight">Importance: </label>
 			<input type="number" id="weight" name="weight" value="<%= updateSubject.weight %>">
 			
