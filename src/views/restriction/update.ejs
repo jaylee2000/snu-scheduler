@@ -9,6 +9,14 @@
 	 
 	  <div>
 		<form action="/restriction/<%= updateRestriction._id %>?_method=PATCH" method="POST">
+			<% if(updateRestriction.restrictionName) { %>
+				<label for="restrictionName">Restriction Name(Optional):</label>
+				<input type="text" name="restrictionName" value="<%=updateRestriction.restrictionName%>"><br>
+			<% } else { %>
+				<label for="restrictionName">Restriction Name(Optional):</label>
+				<input type="text" name="restrictionName"><br>
+			<% } %>
+			
 			
 			<% for(let yoil of daysOfWeek) { %>
 				<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>

@@ -8,6 +8,8 @@
 	<h1>Add a restriction!</h1>
 	
 	<form action="/restriction" method="POST">
+		<label for="restrictionName">Restriction Name(Optional):</label>
+		<input type="text" name="restrictionName"><br>
 		<% for(let yoil of daysOfWeek) { %>
 			<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
 			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>

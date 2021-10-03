@@ -12,6 +12,10 @@ const Schema = mongoose.Schema;
 // Validation is currently not being done.
 
 const restrictionSchema = new Schema({
+	restrictionName: {
+		type: String,
+		required: false
+	},
     mon: {
         type: [[Number]],
     },

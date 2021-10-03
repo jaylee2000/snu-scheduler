@@ -12,6 +12,9 @@
 	
 	
 	<% for(let restriction of restrictions) { %>
+		<% if(restriction.restrictionName) { %>
+			<%= restriction.restrictionName %>
+		<% } %>
 	  <div>
 		  <% for (let yoil of daysOfWeek ) { %>
 		  	<% if (restriction[yoil[1]].length !== 0) { %>

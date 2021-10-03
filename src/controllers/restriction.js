@@ -14,17 +14,30 @@ module.exports.renderAllRestrictions = async (req, res) => {
 }
 
 module.exports.createNewRestriction = async (req, res) => {
-	const {mon, tue, wed, thur, fri} = req.body;
+	const {restrictionName, mon, tue, wed, thur, fri} = req.body;
 	const blockedTimes = parseSubjectInput(mon, tue, wed, thur, fri);
 	const yoilBlocks = generateYoilBlocks(blockedTimes);
-	const newRestriction = new Restriction({
-		mon: yoilBlocks.monBlock,
-		tue: yoilBlocks.tueBlock,
-		wed: yoilBlocks.wedBlock,
-		thur: yoilBlocks.thurBlock,
-		fri: yoilBlocks.friBlock
-	});
-	await newRestriction.save();
+	if(restrictionName) {
+		const newRestriction = new Restriction({
+			restrictionName,
+			mon: yoilBlocks.monBlock,
+			tue: yoilBlocks.tueBlock,
+			wed: yoilBlocks.wedBlock,
+			thur: yoilBlocks.thurBlock,
+			fri: yoilBlocks.friBlock
+		});
+		await newRestriction.save();
+	}
+	else {
+		const newRestriction = new Restriction({
+			mon: yoilBlocks.monBlock,
+			tue: yoilBlocks.tueBlock,
+			wed: yoilBlocks.wedBlock,
+			thur: yoilBlocks.thurBlock,
+			fri: yoilBlocks.friBlock
+		});
+		await newRestriction.save();
+	}
 	res.redirect("/restriction");
 }
 
@@ -38,17 +51,30 @@ module.exports.renderUpdate = async (req, res) => {
 };
 
 module.exports.updateRestriction = async (req, res) => {
-    const { mon, tue, wed, thur, fri } = req.body;
+    const { restrictionName, mon, tue, wed, thur, fri } = req.body;
     const blockedTimes = parseSubjectInput(mon, tue, wed, thur, fri);
     const yoilBlocks = generateYoilBlocks(blockedTimes);
-    const updateRestriction = await Restriction.findByIdAndUpdate(req.params.id, {
-        mon: yoilBlocks.monBlock,
-        tue: yoilBlocks.tueBlock,
-        wed: yoilBlocks.wedBlock,
-        thur: yoilBlocks.thurBlock,
-        fri: yoilBlocks.friBlock
-    });
-    await updateRestriction.save();
+	if(restrictionName) {
+		const updateRestriction = await Restriction.findByIdAndUpdate(req.params.id, {
+			restrictionName,
+			mon: yoilBlocks.monBlock,
+			tue: yoilBlocks.tueBlock,
+			wed: yoilBlocks.wedBlock,
+			thur: yoilBlocks.thurBlock,
+			fri: yoilBlocks.friBlock
+		});
+		await updateRestriction.save();
+	}
+	else {
+		const updateRestriction = await Restriction.findByIdAndUpdate(req.params.id, {
+			mon: yoilBlocks.monBlock,
+			tue: yoilBlocks.tueBlock,
+			wed: yoilBlocks.wedBlock,
+			thur: yoilBlocks.thurBlock,
+			fri: yoilBlocks.friBlock
+		});
+		await updateRestriction.save();
+	}
     res.redirect("/restriction");
 };
 
