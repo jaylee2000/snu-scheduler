@@ -4,6 +4,7 @@ const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
 const { calculateSafetyZone } = require("../functions/calculateSafetyZone");
 const { parseSubjectInput } = require("../functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
+const { convertNullToEmptyArray } = require("../functions/convertNullToEmptyArray_Yoil");
 const { daysOfWeek } = require("../definitions/arrays");
 
 // const daysOfWeek = [
@@ -22,6 +23,7 @@ module.exports.renderCreate = (req, res) => {
 module.exports.createNewSubject = async (req, res) => {
     const { subjectName, mon, tue, wed, thur, fri, weight, mustTake } = req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
+	convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
     const newSubject = new Subject({
         subjectName,
@@ -51,6 +53,7 @@ module.exports.renderUpdate = async (req, res) => {
 module.exports.updateSubject = async (req, res) => {
     const { subjectName, mon, tue, wed, thur, fri, weight, mustTake } = req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
+	convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
     const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
         subjectName,

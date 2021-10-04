@@ -10,6 +10,9 @@
 // 	fri: [2, 3]
 // }
 
+const { daysOfWeek } = require("../definitions/arrays");
+
+
 function parseSubjectInput(mon, tue, wed, thur, fri) {
     return {
         mon: (mon && mon.length) ? mon.match(/\d+/g) : [],

@@ -23,17 +23,21 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false })); // Accept x-www-form-urlencoded
 app.use(bodyParser.json())						  // Accept JSON
 app.use(methodOverride("_method"));
-app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public")));
+if(process.env.MODE === 'DEV') {
+	app.use(logger("dev"));
+}
 
 // connect to mongoose
 mongoose
     .connect(mongodbURL)
     .then((result) => {
-        console.log("Mongoose connection success");
+		if(process.env.MODE === 'DEV')
+        	console.log("Mongoose connection success");
     })
     .catch((error) => {
-        console.log("Mongoose connection failed", error);
+		if(process.env.MODE === 'DEV')
+			console.log("Mongoose connection failed", error);
     });
 
 // routers

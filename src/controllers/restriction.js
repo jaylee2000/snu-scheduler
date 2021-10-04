@@ -2,6 +2,7 @@ const { Restriction } = require("../models/restriction");
 const { parseSubjectInput } = require("../functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
 const { daysOfWeek } = require("../definitions/arrays");
+const { convertNullToEmptyArray } = require("../functions/convertNullToEmptyArray_Yoil");
 
 
 
@@ -9,13 +10,13 @@ const { daysOfWeek } = require("../definitions/arrays");
 
 module.exports.renderAllRestrictions = async (req, res) => {
 	const restrictions = await Restriction.find({});
-	console.log(restrictions);
 	res.render("./restriction/index", {restrictions, daysOfWeek});
 }
 
 module.exports.createNewRestriction = async (req, res) => {
 	const {restrictionName, mon, tue, wed, thur, fri} = req.body;
 	const blockedTimes = parseSubjectInput(mon, tue, wed, thur, fri);
+	convertNullToEmptyArray(blockedTimes);
 	const yoilBlocks = generateYoilBlocks(blockedTimes);
 	if(restrictionName) {
 		const newRestriction = new Restriction({
@@ -53,6 +54,7 @@ module.exports.renderUpdate = async (req, res) => {
 module.exports.updateRestriction = async (req, res) => {
     const { restrictionName, mon, tue, wed, thur, fri } = req.body;
     const blockedTimes = parseSubjectInput(mon, tue, wed, thur, fri);
+	convertNullToEmptyArray(blockedTimes);
     const yoilBlocks = generateYoilBlocks(blockedTimes);
 	if(restrictionName) {
 		const updateRestriction = await Restriction.findByIdAndUpdate(req.params.id, {
