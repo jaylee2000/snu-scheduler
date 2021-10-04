@@ -3,7 +3,8 @@ const app = require('../src/app');
 const { parseSubjectInput } = require("../src/functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../src/functions/generateYoilBlocks");
 const { convertNullToEmptyArray } = require("../src/functions/convertNullToEmptyArray_Yoil");
-const { calculateSafetyZone } = require("../src/functions/calculateSafetyZone");
+const { calculateSafetyZone, minTime, maxTime } = require("../src/functions/calculateSafetyZone");
+const { Restriction } = require("../src/models/restriction.js");
 const { calculateMaxIntervalSum } = require("../src/functions/intervalScheduling");
 
 test('parseSubjectInput', () => {
@@ -78,8 +79,116 @@ test('convertNullToEmptyArray', () => {
 	expect(nulledInput).toEqual(expectedOutput);
 })
 
-test('calculateSafetyZone', () => {
-	
+test('calculateSafetyZone_onlyMonday', async () => {
+	await Restriction.deleteMany({});
+	const restrictOne = new Restriction({
+		mon: [1, 3]
+	});
+	const restrictTwo = new Restriction({
+		mon: [4, 7]
+	});
+	const restrictThree = new Restriction({
+		mon: [9, 12]
+	});
+	const restrictFour = new Restriction({
+		mon: [13, 17]
+	});
+	await restrictOne.save();
+	await restrictTwo.save();
+	await restrictThree.save();
+	await restrictFour.save();
+	const allRestrictions = await Restriction.find({});
+	const safetyZone = await calculateSafetyZone();
+	expect(safetyZone).toEqual([
+		[   [minTime, 1], [3, 4], [7, 9], [12, 13], [17, maxTime]   ], 
+		[   [minTime, maxTime]   ], 
+		[   [minTime, maxTime]   ], 
+		[   [minTime, maxTime]   ], 
+		[   [minTime, maxTime]   ]
+	]);
+	await Restriction.deleteMany({});
+})
+
+test('calculateSafetyZone_mondayAndTuesday', async () => {
+	await Restriction.deleteMany({});
+	const restrictOne = new Restriction({
+		mon: [1, 3],
+		tue: [3, 7]
+	});
+	const restrictTwo = new Restriction({
+		mon: [4, 7],
+		tue: [5, 11]
+	});
+	const restrictThree = new Restriction({
+		mon: [9, 12],
+		tue: [2, 6]
+	});
+	const restrictFour = new Restriction({
+		mon: [13, 17],
+		tue: [9, 10]
+	});
+	await restrictOne.save();
+	await restrictTwo.save();
+	await restrictThree.save();
+	await restrictFour.save();
+	const allRestrictions = await Restriction.find({});
+	const safetyZone = await calculateSafetyZone();
+	expect(safetyZone).toEqual([
+		[   [minTime, 1], [3, 4], [7, 9], [12, 13], [17, maxTime]   ], 
+		[   [minTime, 2], [11, maxTime]   ], 
+		[   [minTime, maxTime]   ], 
+		[   [minTime, maxTime]   ], 
+		[   [minTime, maxTime]   ]
+	]);
+	await Restriction.deleteMany({});
+})
+
+test('calculateSafetyZone_complicatedCase', async () => {
+	// edge cases (including minTime, maxTime as time-interval endpoints) included
+	await Restriction.deleteMany({});
+	const restrictOne = new Restriction({
+		mon: [1, 3],
+		tue: [3, 7],
+		wed: [2, 3]
+	});
+	const restrictTwo = new Restriction({
+		mon: [4, 7],
+		tue: [5, 11],
+		wed: [2, 3]
+	});
+	const restrictThree = new Restriction({
+		mon: [9, 12],
+		tue: [2, 6],
+		wed: [minTime, 3]
+	});
+	const restrictFour = new Restriction({
+		mon: [13, 17],
+		tue: [15, 19],
+		wed: [4, 5]
+	});
+	const restrictFive = new Restriction({
+		tue: [17, 18]
+	});
+	const restrictSix = new Restriction({
+		tue: [18, maxTime],
+		wed: [23, maxTime]
+	})
+	await restrictOne.save();
+	await restrictTwo.save();
+	await restrictThree.save();
+	await restrictFour.save();
+	await restrictFive.save();
+	await restrictSix.save();
+	const allRestrictions = await Restriction.find({});
+	const safetyZone = await calculateSafetyZone();
+	expect(safetyZone).toEqual([
+		[   [minTime, 1], [3, 4], [7, 9], [12, 13], [17, maxTime]   ], 
+		[   [minTime, 2], [11, 15]   ], 
+		[   [3, 4], [5, 23]   ], 
+		[   [minTime, maxTime]   ], 
+		[   [minTime, maxTime]   ]
+	]);
+	await Restriction.deleteMany({});
 })
 
 test('calculateMaxIntervalSum', () => {
