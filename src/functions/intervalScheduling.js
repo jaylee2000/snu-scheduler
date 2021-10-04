@@ -136,4 +136,4 @@ async function calculateMaxIntervalSum() {
     return possibleSchedules;
 }
 
-module.exports = { calculateMaxIntervalSum };
+module.exports = { calculateMaxIntervalSum, isPossibleCombination, schedulize, doesFit };
