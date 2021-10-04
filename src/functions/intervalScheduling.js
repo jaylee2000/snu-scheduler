@@ -118,14 +118,18 @@ async function calculateMaxIntervalSum() {
 		}
     }
     const possibleCombinations = cartesian(...cartesianSeed);
+	
 
     const possibleSchedules = [];
-    for (let i = 1; i < possibleCombinations.length; i++) {
+    for (let i = 0; i < possibleCombinations.length; i++) {
+		// used to start from i = 0 to avoid [ 0, 0, 0, 0, ..., 0] seed.
+		// But if first subject is banned due to restrictions, the first seed is not [ 0, 0, 0, 0, ..., 0] so a bug occurs.
+		// As an alternative, we attempt to discard [0, 0, 0, 0, ..., 0] right...
         const candidateSchedule = schedulize(
             candidates,
             possibleCombinations[i]
         );
-        if (candidateSchedule) {
+        if (candidateSchedule && candidateSchedule.selectedClasses.length ) { // here by checking selectedClasses.length
             possibleSchedules.push(candidateSchedule);
         }
     }
