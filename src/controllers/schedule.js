@@ -17,7 +17,7 @@ const { daysOfWeek } = require("../definitions/arrays");
 /* CRUD Functionality for Subjects */
 // Create New Subject
 module.exports.renderCreate = (req, res) => {
-    res.render("./schedule/new", { title: "SNU Scheduler", daysOfWeek });
+    res.status(200).render("./schedule/new", { title: "SNU Scheduler", daysOfWeek });
 };
 module.exports.createNewSubject = async (req, res) => {
     const { subjectName, mon, tue, wed, thur, fri, weight, mustTake } = req.body;
@@ -40,20 +40,18 @@ module.exports.createNewSubject = async (req, res) => {
 // Read All Subjects
 module.exports.renderAllSubjects = async (req, res) => {
     const allSubjects = await Subject.find({});
-    res.render("./schedule/index", { title: "SNU Scheduler", allSubjects, daysOfWeek });
+    res.status(200).render("./schedule/index", { title: "SNU Scheduler", allSubjects, daysOfWeek });
 };
 
 // Update Subject
 module.exports.renderUpdate = async (req, res) => {
     const updateSubject = await Subject.findById(req.params.id);
-    res.render("./schedule/update", { title: "SNU Scheduler", updateSubject, daysOfWeek });
+    res.status(200).render("./schedule/update", { title: "SNU Scheduler", updateSubject, daysOfWeek });
 };
 module.exports.updateSubject = async (req, res) => {
     const { subjectName, mon, tue, wed, thur, fri, weight, mustTake } = req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
     const yoilBlocks = generateYoilBlocks(subject);
-	console.log('weight', weight);
-	console.log('mustTake', mustTake);
     const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
         subjectName,
         mon: yoilBlocks.monBlock,

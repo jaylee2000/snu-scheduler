@@ -12,11 +12,11 @@
 
 function parseSubjectInput(mon, tue, wed, thur, fri) {
     return {
-        mon: mon.match(/\d+/g) || [],
-        tue: tue.match(/\d+/g) || [],
-        wed: wed.match(/\d+/g) || [],
-        thur: thur.match(/\d+/g) || [],
-        fri: fri.match(/\d+/g) || [],
+        mon: (mon && mon.length) ? mon.match(/\d+/g) : [],
+		tue: (tue && tue.length) ? tue.match(/\d+/g) : [],
+        wed: (wed && wed.length) ? wed.match(/\d+/g) : [],
+        thur: (thur && thur.length) ? thur.match(/\d+/g) : [],
+        fri: (fri && fri.length) ? fri.match(/\d+/g) : [],
     };
 }
 
