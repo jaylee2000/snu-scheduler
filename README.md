@@ -36,8 +36,10 @@ https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/
   * Can Select 'mustTake' Subjects
   * Can Create&Modify Restricted TimeBlocks
   
+- October 4th
+  * Added automated testing for everything I've implemented so far
+  
 - TODO (Coming up soon)
-  * Add automated testing
   * Can Select 'mustTake' by group (mustTake... one of the following)
   * Can Select 'incompatible' by group (canTake... maximum one of the following)
   * Add "Number of Credits" attribute to Subjects

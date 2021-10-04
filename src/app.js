@@ -21,7 +21,9 @@ app.set("view engine", "ejs");
 // other basic setup
 
 app.use(express.urlencoded({ extended: false })); // Accept x-www-form-urlencoded
-app.use(bodyParser.json())						  // Accept JSON
+if(process.env.MODE === 'TEST') {
+	app.use(bodyParser.json())						  // Accept JSON
+}
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 if(process.env.MODE === 'DEV') {
