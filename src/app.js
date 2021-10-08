@@ -12,6 +12,7 @@ const mongodbURL = process.env.MONGODB_URL
 
 const scheduleRoutes = require("./routes/schedule");
 const restrictionRoutes = require("./routes/restriction");
+const mustTakeGroupRoutes = require("./routes/mustTakeGroup");
 
 // view engine setup
 app.engine("ejs", engine);
@@ -45,6 +46,7 @@ mongoose
 // routers
 app.use("/restriction", restrictionRoutes);
 app.use("/", scheduleRoutes);
+app.use("/musttake", mustTakeGroupRoutes);
 
 // export app (for tests)
 module.exports = app;
