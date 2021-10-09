@@ -48,5 +48,12 @@ app.use("/restriction", restrictionRoutes);
 app.use("/", scheduleRoutes);
 app.use("/musttake", mustTakeGroupRoutes);
 
+// Handling errors
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('error', { err })
+})
+
 // export app (for tests)
 module.exports = app;

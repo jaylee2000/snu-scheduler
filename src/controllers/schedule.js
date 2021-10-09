@@ -7,6 +7,7 @@ const {
     convertNullToEmptyArray,
 } = require("../functions/convertNullToEmptyArray_Yoil");
 const { daysOfWeek } = require("../definitions/arrays");
+const { validateSubject } = require("../utils/validateJoiSchemas");
 
 // const daysOfWeek = [
 //     ["Monday", "mon"],
@@ -30,6 +31,7 @@ module.exports.createNewSubject = async (req, res) => {
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
+	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit);
     const newSubject = new Subject({
         subjectName,
         mon: yoilBlocks.monBlock,

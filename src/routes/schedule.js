@@ -2,13 +2,15 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 
 const { Subject } = require("../models/subject");
+const { validateSubject } = require("../utils/validateJoiSchemas.js");
+const catchAsync = require("../utils/catchAsync.js");
 
 const schedule = require("../controllers/schedule");
 
 router
     .route("/")
     .get(schedule.renderAllSubjects)
-    .post(schedule.createNewSubject);
+    .post(catchAsync(schedule.createNewSubject));
 
 router
     .route("/best")
