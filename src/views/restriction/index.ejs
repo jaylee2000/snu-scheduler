@@ -1,42 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>SNU Scheduler</title>
-</head>
-<body>
-	<h1>Welcome to restrictions page!</h1>
-	<%= restrictions %><br>
-	********************<br>
-	
-	
-	
-	<% for(let restriction of restrictions) { %>
-		<% if(restriction.restrictionName) { %>
-			<%= restriction.restrictionName %>
+<% layout('layouts/boilerplate') %>
+<h1>Welcome to restrictions page!</h1>
+<%= restrictions %><br>
+********************<br>
+
+
+
+<% for(let restriction of restrictions) { %>
+	<% if(restriction.restrictionName) { %>
+		<%= restriction.restrictionName %>
+	<% } %>
+  <div>
+	  <% for (let yoil of daysOfWeek ) { %>
+		<% if (restriction[yoil[1]].length !== 0) { %>
+			<%= yoil[0] %> : 
+			<% for (let i = 0; i < restriction[yoil[1]].length; i++) { %> 
+				<%= restriction[yoil[1]][i][0] %> ~ <%= restriction[yoil[1]][i][1] %>, 
+			<% } %>
+			<br>
 		<% } %>
-	  <div>
-		  <% for (let yoil of daysOfWeek ) { %>
-		  	<% if (restriction[yoil[1]].length !== 0) { %>
-				<%= yoil[0] %> : 
-				<% for (let i = 0; i < restriction[yoil[1]].length; i++) { %> 
-					<%= restriction[yoil[1]][i][0] %> ~ <%= restriction[yoil[1]][i][1] %>, 
-				<% } %>
-				<br>
-		  	<% } %>
-		<% } %>
-		  
-		  <form action="/restriction/<%= restriction._id %>/?_method=DELETE" method="POST">
-			  <button>Delete</button>
-		  </form>
-		  <form action="/restriction/update/<%= restriction._id %>">
-			  <button>Update</button>
-		  </form>
-	  </div>
-		<br>
-	 <% } %>
-	  
-	 <a href="/restriction/new">Add new custom restriction</a><br>
-	 <a href="/">Return to home page</a>
-</body>
-</html>
+	<% } %>
+
+	  <form action="/restriction/<%= restriction._id %>/?_method=DELETE" method="POST">
+		  <button>Delete</button>
+	  </form>
+	  <form action="/restriction/update/<%= restriction._id %>">
+		  <button>Update</button>
+	  </form>
+  </div>
+	<br>
+ <% } %>
+
+ <a href="/restriction/new">Add new custom restriction</a><br>
+ <a href="/">Return to home page</a>

@@ -1,43 +1,34 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-  </head>
-  <body>
-	
-	  <h1>Update <%= updateSubject.subjectName %> </h1>
+<% layout('layouts/boilerplate') %>
+<h1>Update <%= updateSubject.subjectName %> </h1>
 	 
-	  <div>
-		<form action="/<%= updateSubject._id %>?_method=PATCH" method="POST">
-			<label for="subjectName">Subject Name: </label>
-			<input type="text" id="subjectName" name="subjectName" value="<%= updateSubject.subjectName %>"><br>
-			
-			<% for(let yoil of daysOfWeek) { %>
-				<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
-				<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateSubject[yoil[1]]%>"><br>
-			<% } %>
-			
-			<div>
-			  <% if(updateSubject.mustTake) { %>
-			  	<input type="checkbox" id="mustTake" name="mustTake" value="true" checked>
-			  <% } else { %>
-			    <input type="checkbox" id="mustTake" name="mustTake" value="true">
-			  <% } %>
-			  <label for="mustTake">I must take this course.</label>
-			</div>
-			
-			<label for="weight">Importance: </label>
-			<input type="number" id="weight" name="weight" value="<%= updateSubject.weight %>">
-			
-			
-			<label for="credit">Credit: </label>
-			<input type="number" id="credit" name="credit" value="<%= updateSubject.credit %>">
-			
-			<button>Submit</button>
-		</form>
-	  </div>
-	  
-	 <a href="/">Return to main page</a>
-	  
-  </body>
-</html>
+  <div>
+	<form action="/<%= updateSubject._id %>?_method=PATCH" method="POST">
+		<label for="subjectName">Subject Name: </label>
+		<input type="text" id="subjectName" name="subjectName" value="<%= updateSubject.subjectName %>"><br>
+
+		<% for(let yoil of daysOfWeek) { %>
+			<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
+			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateSubject[yoil[1]]%>"><br>
+		<% } %>
+
+		<div>
+		  <% if(updateSubject.mustTake) { %>
+			<input type="checkbox" id="mustTake" name="mustTake" value="true" checked>
+		  <% } else { %>
+			<input type="checkbox" id="mustTake" name="mustTake" value="true">
+		  <% } %>
+		  <label for="mustTake">I must take this course.</label>
+		</div>
+
+		<label for="weight">Importance: </label>
+		<input type="number" id="weight" name="weight" value="<%= updateSubject.weight %>">
+
+
+		<label for="credit">Credit: </label>
+		<input type="number" id="credit" name="credit" value="<%= updateSubject.credit %>">
+
+		<button>Submit</button>
+	</form>
+  </div>
+
+ <a href="/">Return to main page</a>

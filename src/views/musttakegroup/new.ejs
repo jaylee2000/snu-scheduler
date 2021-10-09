@@ -1,26 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h2>Add custom subject</h2>
-	<form action="/musttake" method="POST">
-		<label for="name">mustTakeGroup Name: </label>
-		<input type="text" id="name" name="name"><br>
-		
-		<label for="members">Type IDs of member subjects (in the form of ""id1,id2,id3"" Note: No commas allowed):</label>
-		<input type="text" id="members" name="members"><br>
-		
-		<label for="minSelection">Type minSelect value:</label>
-		<input type="number" id="minSelection" name="minSelection"><br>
-		
-		<label for="maxSelection">Type minSelect value:</label>
-		<input type="number" id="maxSelection" name="maxSelection"><br>
-		<button>Submit</button>
-	</form>
-	
-	  <a href="/">Return to main page</a>
+<% layout('layouts/boilerplate') %>
+<h2>Add custom subject</h2>
+<form action="/musttake" method="POST">
+	<label for="name">mustTakeGroup Name: </label>
+	<input type="text" id="name" name="name"><br>
 
-  </body>
-</html>
+	<label for="members">Type IDs of member subjects (in the form of ""id1,id2,id3"" Note: No commas allowed):</label>
+	<input type="text" id="members" name="members"><br>
+
+	<label for="minSelection">Type minSelect value:</label>
+	<input type="number" id="minSelection" name="minSelection"><br>
+
+	<label for="maxSelection">Type minSelect value:</label>
+	<input type="number" id="maxSelection" name="maxSelection"><br>
+	<button>Submit</button>
+</form>
+
+  <a href="/">Return to main page</a>

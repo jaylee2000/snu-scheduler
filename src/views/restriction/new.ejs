@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>SNU Scheduler</title>
-</head>
-<body>
-	<h1>Add a restriction!</h1>
+<% layout('layouts/boilerplate') %>
+<h1>Add a restriction!</h1>
 	
-	<form action="/restriction" method="POST">
-		<label for="restrictionName">Restriction Name(Optional):</label>
-		<input type="text" name="restrictionName"><br>
-		<% for(let yoil of daysOfWeek) { %>
-			<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
-			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
-		<% } %>
-		<button>Submit</button>
-	</form>
-	<a href="/restriction">Go back</a>
-	
-</body>
-</html>
+<form action="/restriction" method="POST">
+	<label for="restrictionName">Restriction Name(Optional):</label>
+	<input type="text" name="restrictionName"><br>
+	<% for(let yoil of daysOfWeek) { %>
+		<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
+		<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
+	<% } %>
+	<button>Submit</button>
+</form>
+<a href="/restriction">Go back</a>

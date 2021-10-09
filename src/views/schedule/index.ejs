@@ -1,48 +1,37 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %>!</p>
-	  
-	 
-	 <% for(let subject of allSubjects) { %>
-	  <div>
-	  	<%= subject.subjectName %><br>
-		  <% for (let yoil of daysOfWeek ) { %>
-		  	<% if (subject[yoil[1]].length !== 0) { %>
-				<%= yoil[0] %> : 
-				<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
-					<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
-				<% } %>
-				<br>
-		  	<% } %>
+<% layout('layouts/boilerplate') %>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %>!</p>
+<% for(let subject of allSubjects) { %>
+  <div>
+	<%= subject.subjectName %><br>
+	  <% for (let yoil of daysOfWeek ) { %>
+		<% if (subject[yoil[1]].length !== 0) { %>
+			<%= yoil[0] %> : 
+			<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
+				<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
+			<% } %>
+			<br>
 		<% } %>
-		  
-		Required: <%= subject.mustTake %>
-	  	Weight: <%= subject.weight %>
-		Credit: <%= subject.credit %>
-		  <form action="/<%= subject._id %>/?_method=DELETE" method="POST">
-			  <button>Delete</button>
-		  </form>
-		  <form action="/update/<%= subject._id %>">
-			  <button>Update</button>
-		  </form>
-	  </div>
-		<br>
-	 <% } %>
-	  
-	 <a href="/new">Add new custom subject</a>
-	  <br>
-	  <form action="/best">
-	  	  <label for="maxCredit">Type max credit: </label>
-		  <input type="number" id="maxCredit" name="maxCredit" required>
-		  <button>View optimized schedule (</button>
+	<% } %>
+
+	Required: <%= subject.mustTake %>
+	Weight: <%= subject.weight %>
+	Credit: <%= subject.credit %>
+	  <form action="/<%= subject._id %>/?_method=DELETE" method="POST">
+		  <button>Delete</button>
 	  </form>
-	  <br>
-	 <a href="/restriction">To restrictions page</a>
+	  <form action="/update/<%= subject._id %>">
+		  <button>Update</button>
+	  </form>
+  </div>
+ <% } %>
 	  
-  </body>
-</html>
+ <a href="/new">Add new custom subject</a>
+  <br>
+  <form action="/best">
+	  <label for="maxCredit">Type max credit: </label>
+	  <input type="number" id="maxCredit" name="maxCredit" required>
+	  <button>View optimized schedule (</button>
+  </form>
+  <br>
+ <a href="/restriction">To restrictions page</a>

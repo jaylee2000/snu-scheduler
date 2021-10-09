@@ -1,33 +1,25 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h2>Add custom subject</h2>
-	<form action="/" method="POST">
-		<label for="subjectName">Subject Name: </label>
-		<input type="text" id="subjectName" name="subjectName"><br>
-		
-		<% for(let yoil of daysOfWeek) { %>
-			<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
-			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
-		<% } %>
-	
-		<div>
-		  <input type="checkbox" id="mustTake" name="mustTake" value="true">
-		  <label for="mustTake">I must take this course.</label>
-		</div>
-		
-		<label for="weight">Importance: </label>
-		<input type="number" id="weight" name="weight">
-		
-		<label for="credit">Credit: </label>
-		<input type="number" id="credit" name="credit">
-		<button>Submit</button>
-	</form>
-	
-	  <a href="/">Return to main page</a>
+<% layout('layouts/boilerplate') %>
+<h2>Add custom subject</h2>
+<form action="/" method="POST">
+	<label for="subjectName">Subject Name: </label>
+	<input type="text" id="subjectName" name="subjectName"><br>
 
-  </body>
-</html>
+	<% for(let yoil of daysOfWeek) { %>
+		<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
+		<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
+	<% } %>
+
+	<div>
+	  <input type="checkbox" id="mustTake" name="mustTake" value="true">
+	  <label for="mustTake">I must take this course.</label>
+	</div>
+
+	<label for="weight">Importance: </label>
+	<input type="number" id="weight" name="weight">
+
+	<label for="credit">Credit: </label>
+	<input type="number" id="credit" name="credit">
+	<button>Submit</button>
+</form>
+
+  <a href="/">Return to main page</a>

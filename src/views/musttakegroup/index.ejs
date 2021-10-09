@@ -1,33 +1,25 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %>!</p>
-	  
-	 
-	 <% for(let group of allGroups) { %>
-	  <div>
-	  	<%= group.name %><br>
-		<%= group.members %><br>
-		<%= group.minSelection %><br>
-		<%= group.maxSelection %><br>
-		  
-		  <form action="/musttake/<%= group._id %>/?_method=DELETE" method="POST">
-			  <button>Delete</button>
-		  </form>
-		  <form action="/musttake/update/<%= group._id %>">
-			  <button>Update</button>
-		  </form>
-	  </div>
-		<br>
-	 <% } %>
-	  
-	 <a href="/musttake/new">Add new custom mustTakeGroup</a>
-	  <br>
-	 <a href="/">Go to home page</a>
-	  
-  </body>
-</html>
+<% layout('layouts/boilerplate') %>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %>!</p>
+
+
+ <% for(let group of allGroups) { %>
+  <div>
+	<%= group.name %><br>
+	<%= group.members %><br>
+	<%= group.minSelection %><br>
+	<%= group.maxSelection %><br>
+
+	  <form action="/musttake/<%= group._id %>/?_method=DELETE" method="POST">
+		  <button>Delete</button>
+	  </form>
+	  <form action="/musttake/update/<%= group._id %>">
+		  <button>Update</button>
+	  </form>
+  </div>
+	<br>
+ <% } %>
+
+ <a href="/musttake/new">Add new custom mustTakeGroup</a>
+  <br>
+ <a href="/">Go to home page</a>

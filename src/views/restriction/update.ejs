@@ -1,33 +1,24 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>SNU Scheduler</title>
-  </head>
-  <body>
-	
-	  <h1>Update <%= updateRestriction.subjectName %> </h1>
+<% layout('layouts/boilerplate') %>
+<h1>Update <%= updateRestriction.subjectName %> </h1>
 	 
-	  <div>
-		<form action="/restriction/<%= updateRestriction._id %>?_method=PATCH" method="POST">
-			<% if(updateRestriction.restrictionName) { %>
-				<label for="restrictionName">Restriction Name(Optional):</label>
-				<input type="text" name="restrictionName" value="<%=updateRestriction.restrictionName%>"><br>
-			<% } else { %>
-				<label for="restrictionName">Restriction Name(Optional):</label>
-				<input type="text" name="restrictionName"><br>
-			<% } %>
-			
-			
-			<% for(let yoil of daysOfWeek) { %>
-				<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
-				<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateRestriction[yoil[1]]%>"><br>
-			<% } %>
-			
-			<button>Submit</button>
-		</form>
-	  </div>
-	  
-	 <a href="/restriction">Go back</a>
-	  
-  </body>
-</html>
+  <div>
+	<form action="/restriction/<%= updateRestriction._id %>?_method=PATCH" method="POST">
+		<% if(updateRestriction.restrictionName) { %>
+			<label for="restrictionName">Restriction Name(Optional):</label>
+			<input type="text" name="restrictionName" value="<%=updateRestriction.restrictionName%>"><br>
+		<% } else { %>
+			<label for="restrictionName">Restriction Name(Optional):</label>
+			<input type="text" name="restrictionName"><br>
+		<% } %>
+
+
+		<% for(let yoil of daysOfWeek) { %>
+			<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
+			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateRestriction[yoil[1]]%>"><br>
+		<% } %>
+
+		<button>Submit</button>
+	</form>
+  </div>
+
+ <a href="/restriction">Go back</a>
