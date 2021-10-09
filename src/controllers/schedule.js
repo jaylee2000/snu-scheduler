@@ -20,7 +20,7 @@ module.exports.renderCreate = (req, res) => {
     res.status(200).render("./schedule/new", { title: "SNU Scheduler", daysOfWeek });
 };
 module.exports.createNewSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake } = req.body;
+    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } = req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
 	convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
@@ -32,7 +32,8 @@ module.exports.createNewSubject = async (req, res) => {
         thur: yoilBlocks.thurBlock,
         fri: yoilBlocks.friBlock,
         weight,
-		mustTake: mustTake === 'true' ? true : false
+		mustTake: mustTake === 'true' ? true : false,
+		credit
     });
     await newSubject.save();
     res.redirect("/");
@@ -50,7 +51,7 @@ module.exports.renderUpdate = async (req, res) => {
     res.status(200).render("./schedule/update", { title: "SNU Scheduler", updateSubject, daysOfWeek });
 };
 module.exports.updateSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake } = req.body;
+    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } = req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
 	convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
@@ -62,7 +63,8 @@ module.exports.updateSubject = async (req, res) => {
         thur: yoilBlocks.thurBlock,
         fri: yoilBlocks.friBlock,
         weight: subject.weight,
-		mustTake: mustTake === 'true' ? true : false
+		mustTake: mustTake === 'true' ? true : false,
+		credit
     });
     await updateSubject.save();
     res.redirect("/");
@@ -83,7 +85,12 @@ module.exports.deleteSubject = async (req, res) => {
 /* Optimize Schedule */
 // Calculate
 module.exports.calculateBestSchedules = async (req, res, next) => {
-    const possibleSchedules = await calculateMaxIntervalSum();
+	// console.log(req.query.maxCredit);
+	// const maxCredit = 18;
+	const {maxCredit} = req.query;
+	
+	// validate that maxCredit is a number... between sth and sth...
+    const possibleSchedules = await calculateMaxIntervalSum(maxCredit);
     req.body.possibleSchedules = possibleSchedules;
     next();
 };

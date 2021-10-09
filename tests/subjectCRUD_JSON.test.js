@@ -6,7 +6,8 @@ const subjectA_input = {
 	subjectName: "A",
 	mon: "2-4",
 	tue: "",
-	weight: "3"
+	weight: "3",
+	credit: 1
 }
 
 const subjectA_stored = {
@@ -17,7 +18,8 @@ const subjectA_stored = {
 	thur: [],
 	fri: [],
 	weight: 3,
-	mustTake: false
+	mustTake: false,
+	credit: 1
 }
 
 
@@ -37,7 +39,8 @@ test('Read all subjects', async () => {
 		mon: "2-4, 11-16, 17-23",
 		tue: "4-5",
 		wed: "",
-		weight: "3"
+		weight: "3",
+		credit: 1
 	}
 	
 	await request(app).post("/").send(subjectB_input).expect(302); // redirect
@@ -66,7 +69,8 @@ test('Update a subject', async () => {
 		thur: [],
 		fri: [],
 		weight: 3,
-		mustTake: true
+		mustTake: true,
+		credit: 1
 	}
 	
 	await request(app).patch(`/${A._id}`).send(updateDetails).expect(302); // redirect

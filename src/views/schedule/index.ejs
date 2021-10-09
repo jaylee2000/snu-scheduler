@@ -21,7 +21,9 @@
 		  	<% } %>
 		<% } %>
 		  
+		Required: <%= subject.mustTake %>
 	  	Weight: <%= subject.weight %>
+		Credit: <%= subject.credit %>
 		  <form action="/<%= subject._id %>/?_method=DELETE" method="POST">
 			  <button>Delete</button>
 		  </form>
@@ -34,7 +36,11 @@
 	  
 	 <a href="/new">Add new custom subject</a>
 	  <br>
-	 <a href="/best">View optimized schedule</a>
+	  <form action="/best">
+	  	  <label for="maxCredit">Type max credit: </label>
+		  <input type="number" id="maxCredit" name="maxCredit" required>
+		  <button>View optimized schedule (</button>
+	  </form>
 	  <br>
 	 <a href="/restriction">To restrictions page</a>
 	  

@@ -43,9 +43,14 @@ const subjectSchema = new Schema({
 	mustTake: {
 		type: Boolean,
 		default: false
+	},
+	credit: {
+		type: Number,
+		required: true,
+		min: 0
 	}
 });
 
 const Subject = mongoose.model("Subject", subjectSchema);
 
-module.exports = { Subject };
+module.exports = { Subject, subjectSchema };

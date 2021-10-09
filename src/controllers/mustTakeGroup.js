@@ -8,7 +8,7 @@ module.exports.renderAllMustTakeGroups = async (req, res) => {
 
 module.exports.createNewMustTakeGroup = async (req, res) => {
 	const {name, members, minSelection, maxSelection} = req.body;
-	const membersIDList = members.split(',');
+	const membersIDList = members.split(','); // VERY Fragile! No validation going on AT ALL!!
 
 	const newGroup = new MustTakeGroup({
 		name,

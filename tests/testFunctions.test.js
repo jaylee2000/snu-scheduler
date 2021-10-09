@@ -207,7 +207,8 @@ test('doesFit_testOne', async () => {
 		thur: [],
 		fri: [],
 		weight: 5,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	};
 	const safetyZone = [
 		[ [minTime, maxTime] ],
@@ -229,7 +230,8 @@ test('doesFit_testTwo', async () => {
 		thur: [],
 		fri: [],
 		weight: 5,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	};
 	const safetyZoneOne = [
 		[ [minTime, 4], [6, 12], [14, 19] ],
@@ -269,7 +271,8 @@ test('isPossibleCombination_one', async () => {
 		thur: [ [5, 6] ],
 		fri: [ [7, 8] ],
 		weight: 1,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectOne.save();
 	const subjectTwo = new Subject({
@@ -280,7 +283,8 @@ test('isPossibleCombination_one', async () => {
 		thur: [ [7, 8] ],
 		fri: [ [9, 10] ],
 		weight: 1,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectTwo.save();
 	const allSubjects = await Subject.find({});
@@ -297,7 +301,8 @@ test('isPossibleCombination_two', async () => {
 		thur: [ [5, 6] ],
 		fri: [ [7, 14] ],
 		weight: 1,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectOne.save();
 	const subjectTwo = new Subject({
@@ -308,7 +313,8 @@ test('isPossibleCombination_two', async () => {
 		thur: [ [7, 8] ],
 		fri: [ [13, 16] ],
 		weight: 1,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectTwo.save();
 	const allSubjects = await Subject.find({});
@@ -325,7 +331,8 @@ test('isPossibleCombination_three', async () => {
 		thur: [ [5, 6] ],
 		fri: [ [7, 14] ],
 		weight: 1,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectOne.save();
 	const subjectTwo = new Subject({
@@ -336,7 +343,8 @@ test('isPossibleCombination_three', async () => {
 		thur: [ [6, 8] ],
 		fri: [ [14, 16] ],
 		weight: 1,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectTwo.save();
 	const allSubjects = await Subject.find({});
@@ -353,7 +361,8 @@ test('schedulize', async () => {
 		thur: [ ],
 		fri: [ ],
 		weight: 1,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectOne.save();
 	const subjectTwo = new Subject({
@@ -364,7 +373,8 @@ test('schedulize', async () => {
 		thur: [ ],
 		fri: [ ],
 		weight: 2,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectTwo.save();
 	const subjectThree = new Subject({
@@ -375,7 +385,8 @@ test('schedulize', async () => {
 		thur: [ [minTime, maxTime] ],
 		fri: [ ],
 		weight: 3,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectThree.save();
 	const subjectFour = new Subject({
@@ -386,7 +397,8 @@ test('schedulize', async () => {
 		thur: [ ],
 		fri: [ [minTime, maxTime] ],
 		weight: 4,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectFour.save();
 	const subjectFive = new Subject({
@@ -397,7 +409,8 @@ test('schedulize', async () => {
 		thur: [ ],
 		fri: [ ],
 		weight: 5,
-		mustTake: false
+		mustTake: false,
+		credit: 1
 	})
 	await subjectFive.save();
 	
@@ -428,7 +441,8 @@ test('calculateMaxIntervalSum', async () => {
 		wed: [ [2, 5] ],
 		thur: [],
 		fri: [ [2, 5] ],
-		weight: 10
+		weight: 10,
+		credit: 1
 	})
 	await subjectZero.save();
 	const subjectOne = new Subject({
@@ -438,7 +452,8 @@ test('calculateMaxIntervalSum', async () => {
 		wed: [  ],
 		thur: [ [3, 5] ],
 		fri: [ ],
-		weight: 4
+		weight: 4,
+		credit: 1
 	})
 	await subjectOne.save();
 	const subjectTwo = new Subject({
@@ -448,7 +463,8 @@ test('calculateMaxIntervalSum', async () => {
 		wed: [  ],
 		thur: [ [4, 6] ],
 		fri: [ [4, 6] ],
-		weight: 10
+		weight: 10,
+		credit: 1
 	})
 	await subjectTwo.save();
 	const subjectThree = new Subject({
@@ -458,7 +474,8 @@ test('calculateMaxIntervalSum', async () => {
 		wed: [ [5, 6] ],
 		thur: [],
 		fri: [ [5, 6] ],
-		weight: 7
+		weight: 7,
+		credit: 1
 	})
 	await subjectThree.save();
 	const subjectFour = new Subject({
@@ -468,10 +485,14 @@ test('calculateMaxIntervalSum', async () => {
 		wed: [ [5, 6] ],
 		thur: [],
 		fri: [  ],
-		weight: 2
+		weight: 2,
+		credit: 1
 	})
 	await subjectFour.save();
-	let possibleSchedules = await calculateMaxIntervalSum();
+	
+	
+	const maxCredit = 500;
+	let possibleSchedules = await calculateMaxIntervalSum(maxCredit);
 	
 	expect(possibleSchedules.length).toBe(7); // We don't have a schedule of no subjects, so not 8.
 	expect(possibleSchedules[0].sum).toBe(12);
@@ -486,7 +507,7 @@ test('calculateMaxIntervalSum', async () => {
 	
 	let allSubjects = await Subject.find({});
 	
-	possibleSchedules = await calculateMaxIntervalSum();
+	possibleSchedules = await calculateMaxIntervalSum(maxCredit);
 	
 	expect(possibleSchedules.length).toBe(2); // The [0, 0, ...] seed is discarded because 'c' is required. *It's not discarded because of candidateSchedule.selectedClasses.length check in calculateMaxIntervalSum() function*
 	expect(possibleSchedules[0].sum).toBe(11);

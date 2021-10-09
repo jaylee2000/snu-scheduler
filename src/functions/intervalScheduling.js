@@ -16,6 +16,14 @@ function getWeightSum(selectedClasses) {
     return sum;
 }
 
+function getCreditSum(selectedClasses) {
+	let sum = 0;
+	for (let i = 0; i < selectedClasses.length; i++) {
+        sum += selectedClasses[i].credit;
+    }
+    return sum;
+}
+
 function isPossibleCombination(selectedClasses) {
     const yoils = ["mon", "tue", "wed", "thur", "fri"];
     for (let i = 0; i < selectedClasses.length; i++) {
@@ -59,7 +67,8 @@ function schedulize(possibleClasses, selectedIndices) {
     }
     if (isPossibleCombination(selectedClasses)) {
         const sum = getWeightSum(selectedClasses);
-        return { selectedClasses, sum };
+		const creditSum = getCreditSum(selectedClasses);
+        return { selectedClasses, sum, creditSum };
     } else {
         return undefined;
     }
@@ -93,7 +102,7 @@ function doesFit(subject, safetyZone) {
 const cartesian = (...a) =>
     a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
-async function calculateMaxIntervalSum() {
+async function calculateMaxIntervalSum(maxCredit) {
     const candidates = await Subject.find({});
 	const safetyZone = await calculateSafetyZone();
 	
@@ -129,7 +138,8 @@ async function calculateMaxIntervalSum() {
             candidates,
             possibleCombinations[i]
         );
-        if (candidateSchedule && candidateSchedule.selectedClasses.length ) { // here by checking selectedClasses.length
+        if (candidateSchedule && candidateSchedule.selectedClasses.length && (candidateSchedule.creditSum <= maxCredit) ) { // here by checking selectedClasses.length
+			// console.log(candidateSchedule.creditSum);
             possibleSchedules.push(candidateSchedule);
         }
     }
