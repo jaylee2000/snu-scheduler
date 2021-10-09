@@ -4,11 +4,11 @@ const logger = require("morgan");
 const engine = require("ejs-mate");
 const methodOverride = require("method-override");
 const mongoose = require("mongoose");
-const bodyParser = require('body-parser')
+const bodyParser = require("body-parser");
 
 const app = express();
 
-const mongodbURL = process.env.MONGODB_URL 
+const mongodbURL = process.env.MONGODB_URL;
 
 const scheduleRoutes = require("./routes/schedule");
 const restrictionRoutes = require("./routes/restriction");
@@ -22,25 +22,25 @@ app.set("view engine", "ejs");
 // other basic setup
 
 app.use(express.urlencoded({ extended: false })); // Accept x-www-form-urlencoded
-if(process.env.MODE === 'TEST') {
-	app.use(bodyParser.json())						  // Accept JSON
+if (process.env.MODE === "TEST") {
+    app.use(bodyParser.json()); // Accept JSON
 }
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-if(process.env.MODE === 'DEV') {
-	app.use(logger("dev"));
+if (process.env.MODE === "DEV") {
+    app.use(logger("dev"));
 }
 
 // connect to mongoose
 mongoose
     .connect(mongodbURL)
     .then((result) => {
-		if(process.env.MODE === 'DEV')
-        	console.log("Mongoose connection success");
+        if (process.env.MODE === "DEV")
+            console.log("Mongoose connection success");
     })
     .catch((error) => {
-		if(process.env.MODE === 'DEV')
-			console.log("Mongoose connection failed", error);
+        if (process.env.MODE === "DEV")
+            console.log("Mongoose connection failed", error);
     });
 
 // routers

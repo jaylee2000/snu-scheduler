@@ -3,7 +3,9 @@ const { Restriction } = require("../models/restriction");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
 const { parseSubjectInput } = require("../functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
-const { convertNullToEmptyArray } = require("../functions/convertNullToEmptyArray_Yoil");
+const {
+    convertNullToEmptyArray,
+} = require("../functions/convertNullToEmptyArray_Yoil");
 const { daysOfWeek } = require("../definitions/arrays");
 
 // const daysOfWeek = [
@@ -17,12 +19,16 @@ const { daysOfWeek } = require("../definitions/arrays");
 /* CRUD Functionality for Subjects */
 // Create New Subject
 module.exports.renderCreate = (req, res) => {
-    res.status(200).render("./schedule/new", { title: "SNU Scheduler", daysOfWeek });
+    res.status(200).render("./schedule/new", {
+        title: "SNU Scheduler",
+        daysOfWeek,
+    });
 };
 module.exports.createNewSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } = req.body;
+    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } =
+        req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
-	convertNullToEmptyArray(subject);
+    convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
     const newSubject = new Subject({
         subjectName,
@@ -32,8 +38,8 @@ module.exports.createNewSubject = async (req, res) => {
         thur: yoilBlocks.thurBlock,
         fri: yoilBlocks.friBlock,
         weight,
-		mustTake: mustTake === 'true' ? true : false,
-		credit
+        mustTake: mustTake === "true" ? true : false,
+        credit,
     });
     await newSubject.save();
     res.redirect("/");
@@ -42,18 +48,27 @@ module.exports.createNewSubject = async (req, res) => {
 // Read All Subjects
 module.exports.renderAllSubjects = async (req, res) => {
     const allSubjects = await Subject.find({});
-    res.status(200).render("./schedule/index", { title: "SNU Scheduler", allSubjects, daysOfWeek });
+    res.status(200).render("./schedule/index", {
+        title: "SNU Scheduler",
+        allSubjects,
+        daysOfWeek,
+    });
 };
 
 // Update Subject
 module.exports.renderUpdate = async (req, res) => {
     const updateSubject = await Subject.findById(req.params.id);
-    res.status(200).render("./schedule/update", { title: "SNU Scheduler", updateSubject, daysOfWeek });
+    res.status(200).render("./schedule/update", {
+        title: "SNU Scheduler",
+        updateSubject,
+        daysOfWeek,
+    });
 };
 module.exports.updateSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } = req.body;
+    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } =
+        req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
-	convertNullToEmptyArray(subject);
+    convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
     const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
         subjectName,
@@ -63,8 +78,8 @@ module.exports.updateSubject = async (req, res) => {
         thur: yoilBlocks.thurBlock,
         fri: yoilBlocks.friBlock,
         weight: subject.weight,
-		mustTake: mustTake === 'true' ? true : false,
-		credit
+        mustTake: mustTake === "true" ? true : false,
+        credit,
     });
     await updateSubject.save();
     res.redirect("/");
@@ -78,18 +93,14 @@ module.exports.deleteSubject = async (req, res) => {
 
 /*********************************************************************************************************************/
 
-
-
 /*********************************************************************************************************************/
 
 /* Optimize Schedule */
 // Calculate
 module.exports.calculateBestSchedules = async (req, res, next) => {
-	// console.log(req.query.maxCredit);
-	// const maxCredit = 18;
-	const {maxCredit} = req.query;
-	
-	// validate that maxCredit is a number... between sth and sth...
+    const { maxCredit } = req.query;
+
+    // validate that maxCredit is a number... between sth and sth...
     const possibleSchedules = await calculateMaxIntervalSum(maxCredit);
     req.body.possibleSchedules = possibleSchedules;
     next();

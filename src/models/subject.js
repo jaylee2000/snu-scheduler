@@ -13,7 +13,6 @@ const Schema = mongoose.Schema;
 // }
 // Validation is currently not being done.
 
-
 const subjectSchema = new Schema({
     subjectName: {
         type: String,
@@ -40,15 +39,15 @@ const subjectSchema = new Schema({
         min: 1,
         max: 10,
     },
-	mustTake: {
-		type: Boolean,
-		default: false
-	},
-	credit: {
-		type: Number,
-		required: true,
-		min: 0
-	}
+    mustTake: {
+        type: Boolean,
+        default: false,
+    },
+    credit: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
 });
 
 const Subject = mongoose.model("Subject", subjectSchema);

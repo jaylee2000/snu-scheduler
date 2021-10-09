@@ -11,11 +11,11 @@ const restriction = require("../controllers/restriction");
 router
     .route("/")
     .get(restriction.renderAllRestrictions)
-	.post(restriction.createNewRestriction)
+    .post(restriction.createNewRestriction);
 
-router.route("/new").get(restriction.renderCreate)
+router.route("/new").get(restriction.renderCreate);
 
-router.route("/update/:id").get(restriction.renderUpdate)
+router.route("/update/:id").get(restriction.renderUpdate);
 
 router
     .route("/:id")

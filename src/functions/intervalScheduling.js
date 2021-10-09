@@ -6,79 +6,78 @@ const { daysOfWeek } = require("../definitions/arrays");
 const { calculateSafetyZone } = require("./calculateSafetyZone");
 
 function sortByWeight(candidateScheduleA, candidateScheduleB) {
-    return -candidateScheduleA.sum + candidateScheduleB.sum;
-}
-
-function getWeightSum(selectedClasses) {
-    let sum = 0;
-    for (let i = 0; i < selectedClasses.length; i++) {
-        sum += selectedClasses[i].weight;
-    }
-    return sum;
-}
-
-function getCreditSum(selectedClasses) {
-	let sum = 0;
-	for (let i = 0; i < selectedClasses.length; i++) {
-        sum += selectedClasses[i].credit;
-    }
-    return sum;
+    return -candidateScheduleA.weightSum + candidateScheduleB.weightSum;
 }
 
 function doesOverlap(class_i, class_j) {
-	for(let yoil of daysOfWeek) {
-		for(let blk_i = 0; blk_i < class_i[yoil[1]].length; blk_i++) {
-			for(let blk_j = 0; blk_j < class_j[yoil[1]].length; blk_j++) {
-				let s1 = class_i[yoil[1]][blk_i][0];
-				let e1 = class_i[yoil[1]][blk_i][1];
-				let s2 = class_j[yoil[1]][blk_j][0];
-				let e2 = class_j[yoil[1]][blk_j][1];
-				if(s1 > 0 && s2 > 0) {
-					// both subjects run on this yoil. We should be able to get rid of this condition.
-					if(e1 > s2 && e2 > s1) {
-						// overlap
-						return true;
-					}
-				}
-			}
-		}
-	}
-	return false;
+    for (let yoil of daysOfWeek) {
+        for (let blk_i = 0; blk_i < class_i[yoil[1]].length; blk_i++) {
+            for (let blk_j = 0; blk_j < class_j[yoil[1]].length; blk_j++) {
+                let s1 = class_i[yoil[1]][blk_i][0];
+                let e1 = class_i[yoil[1]][blk_i][1];
+                let s2 = class_j[yoil[1]][blk_j][0];
+                let e2 = class_j[yoil[1]][blk_j][1];
+                if (s1 > 0 && s2 > 0) {
+                    // both subjects run on this yoil. We should be able to get rid of this condition.
+                    if (e1 > s2 && e2 > s1) {
+                        // overlap
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 async function satisfyGroupConditions(selectedClasses) {
-	const allGroups = await MustTakeGroup.find({});
-	for(let group of allGroups) {
-		let cntClasses = 0;
-		for(let memberSubject of group.members) {
-			if(selectedClasses.some(e => e._id.toString() === memberSubject.toString())) {
-				cntClasses++;
-			}
-		}
-		if(group.minSelection > cntClasses || cntClasses > group.maxSelection) {
-			return false;
-		}
-	}
-	return true;
+    const allGroups = await MustTakeGroup.find({});
+    for (let group of allGroups) {
+        let cntClasses = 0;
+        for (let memberSubject of group.members) {
+            if (
+                selectedClasses.some(
+                    (e) => e._id.toString() === memberSubject.toString()
+                )
+            ) {
+                cntClasses++;
+            }
+        }
+        if (
+            group.minSelection > cntClasses ||
+            cntClasses > group.maxSelection
+        ) {
+            return false;
+        }
+    }
+    return true;
 }
-
 
 async function isPossibleCombination(selectedClasses) {
     for (let i = 0; i < selectedClasses.length; i++) {
         for (let j = i + 1; j < selectedClasses.length; j++) {
-			if(doesOverlap(selectedClasses[i], selectedClasses[j])) {
-				return false;
-			}
-			if(selectedClasses[i].subjectName === selectedClasses[j].subjectName) {
-				return false; 
-			}
+            if (doesOverlap(selectedClasses[i], selectedClasses[j])) {
+                return false;
+            }
+            if (
+                selectedClasses[i].subjectName ===
+                selectedClasses[j].subjectName
+            ) {
+                return false;
+            }
         }
     }
-	
-	if(! await satisfyGroupConditions(selectedClasses)) {
-		return false;
-	}
+
+    if (!(await satisfyGroupConditions(selectedClasses))) {
+        return false;
+    }
     return true;
+}
+
+function getSum(selectedClasses, property) {
+	return selectedClasses.reduce(function(a, b) {
+		return a + b[property];
+	}, 0)
 }
 
 async function schedulize(possibleClasses, selectedIndices) {
@@ -89,90 +88,119 @@ async function schedulize(possibleClasses, selectedIndices) {
         }
     }
     if (await isPossibleCombination(selectedClasses)) {
-        const sum = getWeightSum(selectedClasses);
-		const creditSum = getCreditSum(selectedClasses);
-        return { selectedClasses, sum, creditSum };
+        const weightSum= getSum(selectedClasses, 'weight');
+		const creditSum = getSum(selectedClasses, 'credit');
+		return { selectedClasses, weightSum, creditSum };
     } else {
         return undefined;
     }
 }
 
-function doesOneBlockFitIn(oneTimeBlock, safeTimeBlocks) {
-	const start = oneTimeBlock[0];
-	const end = oneTimeBlock[1];
-	for(let block of safeTimeBlocks) {
-		if(block[0] <= start && end <= block[1]) {
-			return true;
-		}
-	}
-	return false;
-}
 
-function doesFit(subject, safetyZone) {
-	for(let i = 0; i < daysOfWeek.length; i++) {
-		const subjectTimeBlocks = subject[daysOfWeek[i][1]];
-		const safeTimeBlocks = safetyZone[i];
-		for(let j = 0; j < subjectTimeBlocks.length; j++) {
-			if (!doesOneBlockFitIn(subjectTimeBlocks[j], safeTimeBlocks)) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-// https://stackoverflow.com/questions/12152409/find-all-combinations-of-options-in-a-loop
-const cartesian = (...a) =>
-    a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
-
-function generateSeed(candidates, safetyZone) {
-	// generate [ [0, 0, 0, 0, 0, ..., 0], [0, 0, 0, 0, 0, ..., 1] ... [1, 1, 1, 1, 1, ..., 1] ]
-	const seed = [];
-	for(let i = 0; i < candidates.length; i++) {
-		if(candidates[i].mustTake) {
-			if(!doesFit(candidates[i], safetyZone)) {
-				return [];
-			}
-			seed.push([1]);
-		}
-		else if(!doesFit(candidates[i], safetyZone)) {
-			seed.push([0]);
-		}
-		else {
-			seed.push([0, 1]);
-		}
-	}
-	return seed;
-}
-
-async function generatePossibleSchedules(candidates, possibleCombinations, maxCredit) {
-	const possibleSchedules = [];
+async function generatePossibleSchedules(
+    candidates,
+    possibleCombinations,
+    maxCredit
+) {
+    const possibleSchedules = [];
     for (let i = 0; i < possibleCombinations.length; i++) {
-        const candidateSchedule = await schedulize(candidates, possibleCombinations[i]);
-		// discard schedule generated by [0, 0, 0, ..., 0] (NoSchedule Schedule)
-		if(candidateSchedule && candidateSchedule.selectedClasses.length) { 
-			if(candidateSchedule.creditSum <= maxCredit) {
-				possibleSchedules.push(candidateSchedule);
-			}
+        const candidateSchedule = await schedulize(
+            candidates,
+            possibleCombinations[i]
+        );
+        if (candidateSchedule && candidateSchedule.selectedClasses.length) { // discard schedule generated by seed [0, 0, 0, ..., 0]
+            if (candidateSchedule.creditSum <= maxCredit) {
+                possibleSchedules.push(candidateSchedule);
+            }
         }
     }
 
     // sort possibleSchedules by weight sum (in descending order)
     possibleSchedules.sort(sortByWeight);
-	return possibleSchedules;
+    return possibleSchedules;
 }
+
+/*******************************************************************************************************/
+/*********************************************** Seeding ***********************************************/
+// Given seed: [ [0], [0, 1], [0, 1], [1] ],
+// Generates: [ [0, 0, 0, 1], [0, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1] ]
+// https://stackoverflow.com/questions/12152409/find-all-combinations-of-options-in-a-loop
+const cartesian = (...a) =>
+    a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
+
+function doesOneBlockFitIn(oneTimeBlock, safeTimeBlocks) {
+    const start = oneTimeBlock[0];
+    const end = oneTimeBlock[1];
+    for (let block of safeTimeBlocks) {
+        if (block[0] <= start && end <= block[1]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function doesFit(subject, safetyZone) {
+    for (let i = 0; i < daysOfWeek.length; i++) {
+        const subjectTimeBlocks = subject[daysOfWeek[i][1]];
+        const safeTimeBlocks = safetyZone[i];
+        for (let j = 0; j < subjectTimeBlocks.length; j++) {
+            if (!doesOneBlockFitIn(subjectTimeBlocks[j], safeTimeBlocks)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function generateSeed(candidates, safetyZone) {
+	// Generates seed in form of: [ [0], [0, 1], [0, 1], [1], [0, 1], [1] ]
+    // Exclude seeds that didn't include mustTake-courses
+    // Exclude seeds that overlap with 'SafetyZone'
+    const seed = [];
+    for (let i = 0; i < candidates.length; i++) {
+        if (candidates[i].mustTake) {
+            if (!doesFit(candidates[i], safetyZone)) {
+                return [];
+            }
+            seed.push([1]);
+        } else if (!doesFit(candidates[i], safetyZone)) {
+            seed.push([0]);
+        } else {
+            seed.push([0, 1]);
+        }
+    }
+    return seed;
+}
+/*********************************************** Seeding ***********************************************/
+/*******************************************************************************************************/
+
 
 async function calculateMaxIntervalSum(maxCredit) {
     const candidates = await Subject.find({});
-	const safetyZone = await calculateSafetyZone();
-	
+    const safetyZone = await calculateSafetyZone();
+
     if (!candidates || !candidates.length) {
         return [];
     }
-	
-	const cartesianSeed = generateSeed(candidates, safetyZone);
+
+    // Exclude seeds that didn't include mustTake-courses
+    // Exclude seeds that overlap with 'SafetyZone'
+    const cartesianSeed = generateSeed(candidates, safetyZone);
     const possibleCombinations = cartesian(...cartesianSeed);
-	return await generatePossibleSchedules(candidates, possibleCombinations, maxCredit);
+
+    // Exclude schedules that don't satisfy mustTakeGroup restrictions
+    // Exclude schedules whose credit sum exceeds maxCredit
+    // Sort by weight in descending order
+    return await generatePossibleSchedules(
+        candidates,
+        possibleCombinations,
+        maxCredit
+    );
 }
 
-module.exports = { calculateMaxIntervalSum, isPossibleCombination, schedulize, doesFit };
+module.exports = {
+    calculateMaxIntervalSum,
+    isPossibleCombination,
+    schedulize,
+    doesFit,
+};

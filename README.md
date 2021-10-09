@@ -30,24 +30,23 @@ https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/
 
 ## 🔧 Updates
 
-- October 3rd
-  * Expanded to 5 daysOfWeek
-  * Allowed Several Intervals Within One Day
-  * Can Select 'mustTake' Subjects
-  * Can Create&Modify Restricted TimeBlocks
-  
-- October 4th
-  * Added automated testing for everything I've implemented so far
-  
-- TODO (Coming up soon)
-  * Can Select 'mustTake' by group (mustTake... one of the following)
-  * Can Select 'incompatible' by group (canTake... maximum one of the following)
-  * Add "Number of Credits" attribute to Subjects
-  * Can Select "Maximum Credit"
+-   October 3rd
+    -   Expanded to 5 daysOfWeek
+    -   Allowed Several Intervals Within One Day
+    -   Can Select 'mustTake' Subjects
+    -   Can Create&Modify Restricted TimeBlocks
+-   October 4th
+    -   Added automated testing for everything I've implemented so far
+-   TODO (Coming up soon)
 
-- TODO (Long-term) // 5단계
-  * Get data from sugang.snu.ac.kr
-  * Don't manually add subjects by default - select some from the prepared database.
+    -   Can Select 'mustTake' by group (mustTake... one of the following)
+    -   Can Select 'incompatible' by group (canTake... maximum one of the following)
+    -   Add "Number of Credits" attribute to Subjects
+    -   Can Select "Maximum Credit"
+
+-   TODO (Long-term) // 5단계
+    -   Get data from sugang.snu.ac.kr
+    -   Don't manually add subjects by default - select some from the prepared database.
 
 ## 💬 Support & Documentation
 

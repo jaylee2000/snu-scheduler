@@ -18,24 +18,25 @@ const { Schedule } = require("./subject");
 // Validation is currently not being done.
 
 const mustTakeGroupSchema = new Schema({
-	name: {
-	   type: String,
-	   required: true
+    name: {
+        type: String,
+        required: true,
     },
-	members: [{
-		type: Schema.Types.ObjectId,
-		ref: "Subject"
-	}],
-	minSelection: {
-	   type: Number,
-	   required: true
-	},
-	maxSelection: {
-	   type: Number,
-	   required: true
-	}
+    members: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Subject",
+        },
+    ],
+    minSelection: {
+        type: Number,
+        required: true,
+    },
+    maxSelection: {
+        type: Number,
+        required: true,
+    },
 });
-
 
 const MustTakeGroup = mongoose.model("MustTakeGroup", mustTakeGroupSchema);
 
