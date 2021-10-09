@@ -72,6 +72,7 @@ module.exports.updateSubject = async (req, res) => {
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
+	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit);
     const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
         subjectName,
         mon: yoilBlocks.monBlock,

@@ -22,7 +22,7 @@ router.route("/update/:id").get(schedule.renderUpdate);
 
 router
     .route("/:id")
-    .patch(schedule.updateSubject)
+    .patch(catchAsync(schedule.updateSubject))
     .delete(schedule.deleteSubject);
 
 module.exports = router;

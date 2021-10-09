@@ -52,6 +52,9 @@ app.use("/musttake", mustTakeGroupRoutes);
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+	if(err.message.includes('duplicate')) {
+		err.message = err.message.replace('duplicate', 'duplicate and/or non-ascending');
+	}
     res.status(statusCode).render('error', { err })
 })
 

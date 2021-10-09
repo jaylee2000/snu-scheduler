@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { subjectSchema } = require("./joiSchema.js");
+const { subjectSchema, restrictionSchema } = require("./joiSchema.js");
 const { ExpressError } = require("./ExpressError.js");
 
 // Not middleware
@@ -13,4 +13,14 @@ const validateSubject = (subjectName, mon, tue, wed, thur, fri, weight, mustTake
 	}
 }
 
-module.exports = { validateSubject };
+const validateRestriction = (restrictionName, mon, tue, wed, thur, fri) => {
+	const { error } = restrictionSchema.validate({
+		restrictionName, mon, tue, wed, thur, fri
+	})
+	if(error) {
+		const msg = error.details.map(el => el.message).join(',');
+		throw new ExpressError(msg, 400);
+	}
+}
+
+module.exports = { validateSubject, validateRestriction };

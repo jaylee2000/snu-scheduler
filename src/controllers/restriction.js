@@ -5,6 +5,7 @@ const { daysOfWeek } = require("../definitions/arrays");
 const {
     convertNullToEmptyArray,
 } = require("../functions/convertNullToEmptyArray_Yoil");
+const { validateRestriction } = require("../utils/validateJoiSchemas");
 
 module.exports.renderAllRestrictions = async (req, res) => {
     const restrictions = await Restriction.find({});
@@ -16,6 +17,7 @@ module.exports.createNewRestriction = async (req, res) => {
     const blockedTimes = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(blockedTimes);
     const yoilBlocks = generateYoilBlocks(blockedTimes);
+	validateRestriction(restrictionName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock);
     if (restrictionName) {
         const newRestriction = new Restriction({
             restrictionName,
@@ -53,6 +55,7 @@ module.exports.updateRestriction = async (req, res) => {
     const blockedTimes = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(blockedTimes);
     const yoilBlocks = generateYoilBlocks(blockedTimes);
+	validateRestriction(restrictionName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock);
     if (restrictionName) {
         const updateRestriction = await Restriction.findByIdAndUpdate(
             req.params.id,
