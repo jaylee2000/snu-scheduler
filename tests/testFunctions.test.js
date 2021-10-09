@@ -288,7 +288,7 @@ test('isPossibleCombination_one', async () => {
 	})
 	await subjectTwo.save();
 	const allSubjects = await Subject.find({});
-	const iPCResult = isPossibleCombination(allSubjects);
+	const iPCResult = await isPossibleCombination(allSubjects);
 	expect(iPCResult).toBe(true);
 })
 
@@ -318,7 +318,7 @@ test('isPossibleCombination_two', async () => {
 	})
 	await subjectTwo.save();
 	const allSubjects = await Subject.find({});
-	const iPCResult = isPossibleCombination(allSubjects);
+	const iPCResult = await isPossibleCombination(allSubjects);
 	expect(iPCResult).toBe(false);
 })
 
@@ -348,7 +348,7 @@ test('isPossibleCombination_three', async () => {
 	})
 	await subjectTwo.save();
 	const allSubjects = await Subject.find({});
-	const iPCResult = isPossibleCombination(allSubjects);
+	const iPCResult = await isPossibleCombination(allSubjects);
 	expect(iPCResult).toBe(true);
 })
 
@@ -416,15 +416,15 @@ test('schedulize', async () => {
 	
 	const possibleClasses = await Subject.find({});
 	
-	const oneThreeFive = schedulize(possibleClasses, [1, 0, 1, 0, 1]);
+	const oneThreeFive = await schedulize(possibleClasses, [1, 0, 1, 0, 1]);
 	expect(oneThreeFive.selectedClasses.length).toBe(3);
 	expect(oneThreeFive.sum).toBe(9);
-	const twoFour = schedulize(possibleClasses, [0, 1, 0, 1, 0]);
+	const twoFour = await schedulize(possibleClasses, [0, 1, 0, 1, 0]);
 	expect(twoFour.selectedClasses.length).toBe(2);
 	expect(twoFour.sum).toBe(6);
-	const twoFourFive = schedulize(possibleClasses, [0, 1, 0, 1, 1]);
+	const twoFourFive = await schedulize(possibleClasses, [0, 1, 0, 1, 1]);
 	expect(twoFourFive).toBe(undefined);
-	const twoThree = schedulize(possibleClasses, [0, 1, 1, 0, 0]);
+	const twoThree = await schedulize(possibleClasses, [0, 1, 1, 0, 0]);
 	expect(twoThree).toBe(undefined);
 })
 
