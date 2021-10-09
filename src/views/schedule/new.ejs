@@ -1,25 +1,43 @@
 <% layout('layouts/boilerplate') %>
 <h2>Add custom subject</h2>
-<form action="/" method="POST">
-	<label for="subjectName">Subject Name: </label>
-	<input type="text" id="subjectName" name="subjectName"><br>
-
-	<% for(let yoil of daysOfWeek) { %>
-		<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
-		<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
-	<% } %>
-
-	<div>
-	  <input type="checkbox" id="mustTake" name="mustTake" value="true">
-	  <label for="mustTake">I must take this course.</label>
+<form action="/" method="POST" class="row g-3 needs-validation" novalidate>
+	<div class="col-md-4">
+		<label for="subjectName" class="form-label">Subject Name: </label>
+		<input type="text" class="form-control" id="subjectName" name="subjectName" required><br>
+		<div class="valid-feedback">
+      		Looks good!
+    	</div>
 	</div>
 
-	<label for="weight">Importance: </label>
-	<input type="number" id="weight" name="weight">
+	<% for(let yoil of daysOfWeek) { %>
+		<div class="col-md-6">
+			<label for="<%= yoil[1]%>" class="form-label"><%= yoil[0] %> Time:</label>
+			<input type="text" class="form-control" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
+		</div>
+	<% } %>
 
-	<label for="credit">Credit: </label>
-	<input type="number" id="credit" name="credit">
-	<button>Submit</button>
+	<div class="col-md-4">
+	    <input type="checkbox" id="mustTake" name="mustTake" value="true" required>
+	    <label for="mustTake">I must take this course.</label>
+	</div>
+	
+	<div class="col-md-4">
+		<label for="weight" class="form-label">Importance: </label>
+		<input type="number" class="form-control" id="weight" name="weight" required>
+		<div class="valid-feedback">
+      		Looks good!
+    	</div>
+	</div>
+
+	<div class="col-md-4">
+		<label for="credit" class="form-label">Credit: </label>
+		<input type="number" class="form-control" id="credit" name="credit" required>
+		<div class="valid-feedback">
+      		Looks good!
+    	</div>
+	</div>
+	
+	<button class="btn btn-primary" type="submit">Submit</button>
 </form>
 
   <a href="/">Return to main page</a>

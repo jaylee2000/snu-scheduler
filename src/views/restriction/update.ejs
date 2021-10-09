@@ -3,21 +3,25 @@
 	 
   <div>
 	<form action="/restriction/<%= updateRestriction._id %>?_method=PATCH" method="POST">
-		<% if(updateRestriction.restrictionName) { %>
-			<label for="restrictionName">Restriction Name(Optional):</label>
-			<input type="text" name="restrictionName" value="<%=updateRestriction.restrictionName%>"><br>
-		<% } else { %>
-			<label for="restrictionName">Restriction Name(Optional):</label>
-			<input type="text" name="restrictionName"><br>
-		<% } %>
-
+		<div class="col-md-12">
+			<% if(updateRestriction.restrictionName) { %>
+				<label for="restrictionName" class="form-label">Restriction Name(Optional):</label>
+				<input type="text" class="form-control" name="restrictionName" value="<%=updateRestriction.restrictionName%>"><br>
+			<% } else { %>
+				<label for="restrictionName" class="form-label">Restriction Name(Optional):</label>
+				<input type="text" class="form-control" name="restrictionName"><br>
+			<% } %>
+		</div>
 
 		<% for(let yoil of daysOfWeek) { %>
-			<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
-			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateRestriction[yoil[1]]%>"><br>
+			<div class="col-md-4">
+				<label for="<%= yoil[1]%>" class="form-label"><%= yoil[0] %> Time:</label>
+				<input type="text" class="form-control" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateRestriction[yoil[1]]%>"><br>
+			</div>
 		<% } %>
-
-		<button>Submit</button>
+		<div class="col-md-8">
+			<button class="btn btn-primary" type="submit">Submit form</button>
+		</div>
 	</form>
   </div>
 

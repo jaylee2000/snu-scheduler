@@ -4,18 +4,31 @@
 
 
  <% for(let group of allGroups) { %>
-  <div>
-	<%= group.name %><br>
-	<%= group.members %><br>
-	<%= group.minSelection %><br>
-	<%= group.maxSelection %><br>
-
-	  <form action="/musttake/<%= group._id %>/?_method=DELETE" method="POST">
-		  <button>Delete</button>
-	  </form>
-	  <form action="/musttake/update/<%= group._id %>">
-		  <button>Update</button>
-	  </form>
+  <div class="row g-3">
+	<div>
+		<%= group.name %>
+	</div>
+	<div>
+		List of Members
+		<% for(let member of group.members){ %>
+			name: <%= member.subjectName %><br>
+			_id: <%= member._id %><br>
+		<% } %>
+	</div>
+	<div>
+		minSelection: <%= group.minSelection %><br>
+	</div>
+	<div>
+		maxSelection: <%= group.maxSelection %><br>
+	</div>
+	<div>
+		<form action="/musttake/<%= group._id %>/?_method=DELETE" method="POST">
+			<button class="btn btn-danger">Delete</button>
+		</form>
+		<form action="/musttake/update/<%= group._id %>">
+			<button class="btn btn-info">Update</button>
+		</form>
+	</div>
   </div>
 	<br>
  <% } %>

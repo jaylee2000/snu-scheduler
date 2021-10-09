@@ -2,12 +2,19 @@
 <h1>Add a restriction!</h1>
 	
 <form action="/restriction" method="POST">
-	<label for="restrictionName">Restriction Name(Optional):</label>
-	<input type="text" name="restrictionName"><br>
+	<div class="col-md-12">
+		<label for="restrictionName" class="form-label">Restriction Name(Optional):</label>
+		<input type="text" name="restrictionName" class="form-control"><br>
+	</div>
+	
 	<% for(let yoil of daysOfWeek) { %>
-		<label for="<%= yoil[1]%>"><%= yoil[0] %> Time:</label>
-		<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
+		<div class="col-md-4">
+			<label for="<%= yoil[1]%>" class="form-label"><%= yoil[0] %> Time:</label>
+			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" class="form-control"><br>
+		</div>
 	<% } %>
-	<button>Submit</button>
+	<div class="col-md-8">
+		<button class="btn btn-primary" type="submit">Submit form</button>
+	</div>
 </form>
 <a href="/restriction">Go back</a>

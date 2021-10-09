@@ -1,9 +1,5 @@
 <% layout('layouts/boilerplate') %>
 <h1>Welcome to restrictions page!</h1>
-<%= restrictions %><br>
-********************<br>
-
-
 
 <% for(let restriction of restrictions) { %>
 	<% if(restriction.restrictionName) { %>
@@ -21,10 +17,10 @@
 	<% } %>
 
 	  <form action="/restriction/<%= restriction._id %>/?_method=DELETE" method="POST">
-		  <button>Delete</button>
+		  <button class="btn btn-danger">Delete</button>
 	  </form>
 	  <form action="/restriction/update/<%= restriction._id %>">
-		  <button>Update</button>
+		  <button class="btn btn-info">Update</button>
 	  </form>
   </div>
 	<br>

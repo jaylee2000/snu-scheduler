@@ -2,22 +2,36 @@
 <h1>Update <%= updateGroup.name %> </h1>
 	 
   <div>
-	<form action="/musttake/<%= updateGroup._id %>?_method=PATCH" method="POST">
-		<label for="name">mustTakeGroup Name: </label>
-		<input type="text" id="name" name="name" value="<%= updateGroup.name %>"><br>
-
-
-		<label for="members">mustTakeGroup members (in the form of ""id1,id2,id3"" Note: No commas allowed):</label>
-		<input type="text" id="members" name="members" value="<%= updateGroup.members %>"><br>
-
-
-		<label for="minSelection">minSelection: </label>
-		<input type="text" id="minSelection" name="minSelection" value="<%= updateGroup.minSelection %>"><br>
-
-		<label for="maxSelection">maxSelection: </label>
-		<input type="text" id="maxSelection" name="maxSelection" value="<%= updateGroup.maxSelection %>"><br>
-
-		<button>Submit</button>
+	<form action="/musttake/<%= updateGroup._id %>?_method=PATCH" method="POST" class="row g-3 needs-validation" novalidate>
+		<div class="col-md-4">
+			<label for="name" class="form-label">mustTakeGroup Name: </label>
+			<input type="text" class="form-control" id="name" name="name" value="<%= updateGroup.name %>" required><br>
+			<div class="valid-feedback">
+				Looks good!
+			</div>
+		</div>
+		<div class="col-md-8">
+			<label for="members" class="form-label">IDs of member subjects (""id1,id2,id3"" No commas allowed):</label>
+			<input type="text" class="form-control" id="members" name="members" value="<%= updateGroup.members %>" required><br>
+			<div class="valid-feedback">
+				Looks good!
+			</div>
+		</div>
+		<div class="col-md-6">
+			<label for="minSelection" class="form-label">Type minSelect value:</label>
+			<input type="number" class="form-control" id="minSelection" name="minSelection" value="<%= updateGroup.minSelection %>" required><br>
+			<div class="valid-feedback">
+				Looks good!
+			</div>
+		</div>
+		<div class="col-md-6">
+			<label for="maxSelection" class="form-label">Type minSelect value:</label>
+			<input type="number" class="form-control" id="maxSelection" name="maxSelection" value="<%= updateGroup.maxSelection %>" required><br>
+			<div class="valid-feedback">
+				Looks good!
+			</div>
+		</div>
+		<button class="btn btn-primary" type="submit">Submit</button>
 	</form>
   </div>
 

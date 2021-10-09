@@ -4,18 +4,21 @@
 
 
  <% for(let i = 0; i < numDisplay; i++) { %>
-   <% for (let j = 0; j < possibleSchedules[i].selectedClasses.length; j++) { %>
-		<%= possibleSchedules[i].selectedClasses[j].subjectName %><br>
+	<div class="row g-3">
+		<% for (let j = 0; j < possibleSchedules[i].selectedClasses.length; j++) { %>
+			<%= possibleSchedules[i].selectedClasses[j].subjectName %><br>
 
-		<% for(let yoil of daysOfWeek) { %>
-			<% if(possibleSchedules[i].selectedClasses[j][yoil[1]][0]) { %>
-				<%= yoil[0] %>: <%= possibleSchedules[i].selectedClasses[j][ yoil[1] ] %><br>
+			<% for(let yoil of daysOfWeek) { %>
+				<% if(possibleSchedules[i].selectedClasses[j][yoil[1]][0]) { %>
+					<%= yoil[0] %>: <%= possibleSchedules[i].selectedClasses[j][ yoil[1] ] %><br>
+				<% } %>
 			<% } %>
-		<% } %>
-		<br>
-   <% } %>
-	Weight Sum: <%= possibleSchedules[i].weightSum %><br>
-	Credit Sum: <%= possibleSchedules[i].creditSum %><br><br><br>
+			<br>
+	   <% } %>
+	   Weight Sum: <%= possibleSchedules[i].weightSum %><br>
+	   Credit Sum: <%= possibleSchedules[i].creditSum %><br><br><br>
+	</div>
+   
 
  <% } %>
 

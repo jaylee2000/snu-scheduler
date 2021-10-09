@@ -1,18 +1,35 @@
 <% layout('layouts/boilerplate') %>
 <h2>Add custom subject</h2>
-<form action="/musttake" method="POST">
-	<label for="name">mustTakeGroup Name: </label>
-	<input type="text" id="name" name="name"><br>
-
-	<label for="members">Type IDs of member subjects (in the form of ""id1,id2,id3"" Note: No commas allowed):</label>
-	<input type="text" id="members" name="members"><br>
-
-	<label for="minSelection">Type minSelect value:</label>
-	<input type="number" id="minSelection" name="minSelection"><br>
-
-	<label for="maxSelection">Type minSelect value:</label>
-	<input type="number" id="maxSelection" name="maxSelection"><br>
-	<button>Submit</button>
+<form action="/musttake" method="POST" class="row g-3 needs-validation" novalidate>
+	<div class="col-md-4">
+		<label for="name" class="form-label">mustTakeGroup Name: </label>
+		<input type="text" class="form-control" id="name" name="name" required><br>
+		<div class="valid-feedback">
+			Looks good!
+		</div>
+	</div>
+	<div class="col-md-8">
+		<label for="members" class="form-label">IDs of member subjects (""id1,id2,id3"" No commas allowed):</label>
+		<input type="text" class="form-control" id="members" name="members" required><br>
+		<div class="valid-feedback">
+			Looks good!
+		</div>
+	</div>
+	<div class="col-md-6">
+		<label for="minSelection" class="form-label">Type minSelect value:</label>
+		<input type="number" class="form-control" id="minSelection" name="minSelection" required><br>
+		<div class="valid-feedback">
+			Looks good!
+		</div>
+	</div>
+	<div class="col-md-6">
+		<label for="maxSelection" class="form-label">Type minSelect value:</label>
+		<input type="number" class="form-control" id="maxSelection" name="maxSelection" required><br>
+		<div class="valid-feedback">
+			Looks good!
+		</div>
+	</div>
+	<button class="btn btn-primary" type="submit">Submit</button>
 </form>
 
   <a href="/">Return to main page</a>
