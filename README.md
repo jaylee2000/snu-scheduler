@@ -2,27 +2,36 @@
 
 Welcome to SNU Scheduler!  
 SNU Scheduler is a project aiming to automate the process of generating a schedule.  
-For now, we have got the very basics.  
-You can add several subjects you would like to take.
 
-The input should be like:
+1) You can add several subjects you would like to take.
+	Example input:  
+	-   Subject Name: Math 101  
+	-   Monday Time: 3-4, 5-6, 7-8  
+	-   Tuesday Time:  
+	-   Wednesday Time: 4-5  
+	-   Thursday Time:  
+	-   Friday Time:  
+	-   Importance: 7  
+	-   Credit: 3  
 
--   Subject Name: Math 101
--   Monday Time: 3-4, 5-6, 7-8 (Any regular expression that goes like [Number, Other Characters, Number] as one set for each interval.)
--   Tuesday Time:
--   Wednesday Time: 4-5
--   Thursday Time:
--   Friday Time:
--   Weight: 7 (This value must be between 1 and 10)
+2) You can add several restricted time blocks.
+	Example input:  
+	-   Restriction Name: Tutoring  
+	-   Monday Time: 9-11  
+	-   Tuesday Time:  
+	-   Wednesday Time:  
+	-   Thursday Time:  
+	-   Friday Time: 6-12, 13-18  
 
-Then, we take all of your subjects and generate the top 6 schedules that maximize weight sum.
+3) You can add several 'mustTakeGroups'. In the calculated schedule, a number in the range of [minSelect, maxSelect] subjects will be selected from each mustTakeGroup.
+   We plan on providing a better input method for selecting member subjects.  
+    Example input:  
+	-   mustTakeGroup Name: Core Selectives  
+	-   IDs of member subjects: 6159531309f7f95df0089a1d,6159532309f7f95df0089a20,6159533009f7f95df0089a23  
+	-   minSelect Value: 2  
+	-   maxSelect Value: 3  
 
-The values for time are stored like
-
--   Monday Time: 3,4,5,6,7,8  
-    We don't provide a neat frontend yet.
-
-https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/
+Then, we take all of the input subjects & restrictions and generate the top 6 schedules that maximize importance(weight) sum.
 
 **DEVELOP WITH EXCELLENCE**
 
@@ -30,25 +39,25 @@ https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/
 
 ## 🔧 Updates
 
--   October 3rd
-    -   Expanded to 5 daysOfWeek
-    -   Allowed Several Intervals Within One Day
-    -   Can Select 'mustTake' Subjects
-    -   Can Create&Modify Restricted TimeBlocks
--   October 4th
-    -   Added automated testing for everything I've implemented so far
--   TODO (Coming up soon)
+-   October 9 ~ 10
+    -   Can select 'maxCredit' to limit number of credits to take
+    -   Added basic styling using Bootstrap  
+	-	Added client-side, server-side validation for inputs
+	
+-   TODO (Coming up soon) // 5단계
+    -   Can choose subject from prepared databse from sugang.snu.ac.kr
+	-   Can choose subjects for mustTakeGroups by searching through 'shopping cart'
 
-    -   Can Select 'mustTake' by group (mustTake... one of the following)
-    -   Can Select 'incompatible' by group (canTake... maximum one of the following)
-    -   Add "Number of Credits" attribute to Subjects
-    -   Can Select "Maximum Credit"
-
--   TODO (Long-term) // 5단계
-    -   Get data from sugang.snu.ac.kr
-    -   Don't manually add subjects by default - select some from the prepared database.
+-   TODO (Long-term)
+    -   Add authorization & authentication
+	-   Recommendation system (교양 X학점 들으실래요?)
+	-   Take more parameters than just 'importance(=weight)' to provide better recommendations
+	    * Load(로드), Honey(당도), Lecture Quality(강의력), Easy-Grade(학점 잘 주는 정도)
+		* For each lecture, these parameters are given by default via Everytime/Snulife Lecture Reviews. However, the user can change the values manually.
+		* Wanted range of credits(원하는 학점 수), Honey-bias/quality-bias/easy-grade-bias(당도 우선, 강의력 우선, 학점뿌리개 우선)
+	-   Improve search engine
+	    * When adding to shopping cart, if someone typed '기전실', we should be able to find '기초전자기학 이론 및 실습' just like SNUTT does.
+		* Moreover, if someone types '기절실', it would be great if we could display "Did you mean... 기전실?" With a link that searches for 기전실.
 
 ## 💬 Support & Documentation
-
-Visit [https://ide.goorm.io](https://ide.goorm.io) to support and learn more about using goormIDE.  
-To watch some usage guides, visit [https://help.goorm.io/en/goormide]
+//TODO
