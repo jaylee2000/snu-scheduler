@@ -44,20 +44,41 @@ Then, we take all of the input subjects & restrictions and generate the top 6 sc
     -   Added basic styling using Bootstrap  
 	-	Added client-side, server-side validation for inputs
 	
--   TODO (Coming up soon) // 5단계
-    -   Can choose subject from prepared databse from sugang.snu.ac.kr
-	-   Can choose subjects for mustTakeGroups by searching through 'shopping cart'
+-   TODO [5단계]: Making It Real (Comint Up Soon)
+	-   실제 수강편람 데이터 sugang.snu.ac.kr에서 가져오기
+	-   검색 후 장바구니에 담는 시스템 추가하기 (Will be default, although adding custom subjects will be allowed) For now: must type exact name or shortened version of exact name  
+        ex: 심리학개론, 심개 (OK) / 수안개 (Not Found)
+    -   Add Authorization & Authentication: Cannot alter shopping cart, restrictions/mustTakeGroups list of other users
+    -   Deploy
 
--   TODO (Long-term)
-    -   Add authorization & authentication
-	-   Recommendation system (교양 X학점 들으실래요?)
-	-   Take more parameters than just 'importance(=weight)' to provide better recommendations
-	    * Load(로드), Honey(당도), Lecture Quality(강의력), Easy-Grade(학점 잘 주는 정도)
-		* For each lecture, these parameters are given by default via Everytime/Snulife Lecture Reviews. However, the user can change the values manually.
-		* Wanted range of credits(원하는 학점 수), Honey-bias/quality-bias/easy-grade-bias(당도 우선, 강의력 우선, 학점뿌리개 우선)
-	-   Improve search engine
-	    * When adding to shopping cart, if someone typed '기전실', we should be able to find '기초전자기학 이론 및 실습' just like SNUTT does.
-		* Moreover, if someone types '기절실', it would be great if we could display "Did you mean... 기전실?" With a link that searches for 기전실.
 
-## 💬 Support & Documentation
-//TODO
+-   TODO [6단계] Better Experience: Powered by more parameters
+	-   Instead of taking ‘weight(Importance)’ take more parameters:  
+	 	Load(로드), Lecture Quality(강의력), Easy-Grade(학점 잘 주는 정도)  
+	-   Provide default parameter values based on Everytime, SNULife (need web-crawler)
+	    User can still alter their parameters manually
+	-   Preference of user
+		Desired range of credits (원하는 학점 수)  
+		Low-load-bias/High-load-bias/Lecture-quality-bias/Easy-grade-bias
+		(낮은 로드 우선, 높은 로드 우선, 강의력 우선, 학점뿌리기 우선)  
+	    	* Default preference provided (some rational value)  
+		금공강 선호도, 점심시간 확보 중요도, 아침시간 기피도  
+		(인기 강좌의 경우) 예상 픽순 표시해주기
+
+-   TODO [7단계] Better search engine
+	- Did you mean (this subject)? (오타 교정 및 다른 검색어 제안)  
+		* ex: 기외실 → 기회실, 수안개 → 심개  
+	- Search by group (전기과 3학년 과목, 인문과사회 분류 교양 교과목 등)
+
+
+## 💬 Ambitions
+- 	[8단계] Add recommendations / Auto-selections
+-	[9단계] Track data (For improving recommendation algorithm, default parameters)
+-	[10단계]
+	- Improve Frontend UX/UI (Just Bootstrap; ReactJS is another huge world)
+	- Use SweetJS to use macros
+	- Use some sort of ejs auto-formatting tool to make styles consistent (even for .ejs files)
+	- Optimize JavaScript Code (in matter of time, space complexity etc.)
+	- Clean up error-handling / edge-case-handling code (especially, for src/functions.)
+	- Add community for users to share custom groups (search groups, mustTakeGroups, Restrictions, popular preference parameters)
+	- OAuth Switcher (you can decide to switch from Facebook Login to Kakao Login etc.)
