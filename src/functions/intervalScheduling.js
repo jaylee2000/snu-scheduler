@@ -186,6 +186,9 @@ async function calculateMaxIntervalSum(maxCredit) {
     // Exclude seeds that didn't include mustTake-courses
     // Exclude seeds that overlap with 'SafetyZone'
     const cartesianSeed = generateSeed(candidates, safetyZone);
+	if(!cartesianSeed || !cartesianSeed.length) {
+		return [];
+	}
     const possibleCombinations = cartesian(...cartesianSeed);
 
     // Exclude schedules that don't satisfy mustTakeGroup restrictions

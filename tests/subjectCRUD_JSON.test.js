@@ -57,6 +57,7 @@ test("Update a subject", async () => {
         tue: "6-11, 13-17",
         weight: 3,
         mustTake: true,
+		credit: 1
     };
 
     const updateDetailsStored = {
