@@ -53,7 +53,7 @@ module.exports.createNewSubject = async (req, res) => {
 
 // Read All Subjects
 module.exports.renderAllSubjects = async (req, res) => {
-    const allSubjects = await Subject.find({});
+    const allSubjects = await Subject.find({owner: req.user._id}); // Show only MY shopping cart.
     res.status(200).render("./schedule/index", {
         title: "SNU Scheduler",
         allSubjects,
@@ -64,6 +64,9 @@ module.exports.renderAllSubjects = async (req, res) => {
 // Update Subject
 module.exports.renderUpdate = async (req, res) => {
     const updateSubject = await Subject.findById(req.params.id);
+	// if(updateSubject.owner.id === req.user._id) {
+		
+	// }
     res.status(200).render("./schedule/update", {
         title: "SNU Scheduler",
         updateSubject,
