@@ -8,6 +8,7 @@ const {
 } = require("../functions/convertNullToEmptyArray_Yoil");
 const { daysOfWeek } = require("../definitions/arrays");
 const { validateSubject } = require("../utils/validateJoiSchemas");
+const thisIsASubjectCreatedByUser = "dskjahgjh328478935daghjghjdf045902304asdfgjadgkljg435dasgghdfg348ghdjfsgh9458asdfhkgjadsd";
 
 // const daysOfWeek = [
 //     ["Monday", "mon"],
@@ -26,7 +27,7 @@ module.exports.renderCreate = (req, res) => {
     });
 };
 module.exports.createNewSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } =
+    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark } =
         req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(subject);
@@ -42,6 +43,8 @@ module.exports.createNewSubject = async (req, res) => {
         weight,
         mustTake: mustTake === "true" ? true : false,
         credit,
+		roomNum,
+		remark
     });
     await newSubject.save();
     res.redirect("/");
@@ -67,24 +70,46 @@ module.exports.renderUpdate = async (req, res) => {
     });
 };
 module.exports.updateSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit } =
+    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, 
+		   roomNum, remark,
+		   classification = thisIsASubjectCreatedByUser, college, department, degree, grade,
+		   subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language
+		  } =
         req.body;
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
 	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit);
-    const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
-        subjectName,
-        mon: yoilBlocks.monBlock,
-        tue: yoilBlocks.tueBlock,
-        wed: yoilBlocks.wedBlock,
-        thur: yoilBlocks.thurBlock,
-        fri: yoilBlocks.friBlock,
-        weight: subject.weight,
-        mustTake: mustTake === "true" ? true : false,
-        credit,
-    });
-    await updateSubject.save();
+	if(classification === thisIsASubjectCreatedByUser) {
+		const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
+			subjectName,
+			mon: yoilBlocks.monBlock,
+			tue: yoilBlocks.tueBlock,
+			wed: yoilBlocks.wedBlock,
+			thur: yoilBlocks.thurBlock,
+			fri: yoilBlocks.friBlock,
+			weight: subject.weight,
+			mustTake: mustTake === "true" ? true : false,
+			credit,
+			roomNum, remark
+		});
+		await updateSubject.save();
+	} else {
+		const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
+			subjectName,
+			mon: yoilBlocks.monBlock,
+			tue: yoilBlocks.tueBlock,
+			wed: yoilBlocks.wedBlock,
+			thur: yoilBlocks.thurBlock,
+			fri: yoilBlocks.friBlock,
+			weight: subject.weight,
+			mustTake: mustTake === "true" ? true : false,
+			credit,
+			roomNum, remark,
+			classification, college, department, degree, grade, subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language
+		});
+		await updateSubject.save();
+	}
     res.redirect("/");
 };
 

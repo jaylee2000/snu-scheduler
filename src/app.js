@@ -13,6 +13,7 @@ const mongodbURL = process.env.MONGODB_URL;
 const scheduleRoutes = require("./routes/schedule");
 const restrictionRoutes = require("./routes/restriction");
 const mustTakeGroupRoutes = require("./routes/mustTakeGroup");
+const addFromDatabaseRoutes = require("./routes/addFromDatabase");
 
 // view engine setup
 app.engine("ejs", engine);
@@ -47,6 +48,7 @@ mongoose
 app.use("/restriction", restrictionRoutes);
 app.use("/", scheduleRoutes);
 app.use("/musttake", mustTakeGroupRoutes);
+app.use("/database", addFromDatabaseRoutes);
 
 // Handling errors
 app.use((err, req, res, next) => {

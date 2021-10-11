@@ -1,0 +1,55 @@
+<% layout('layouts/boilerplate') %>
+	<h1>Search Results</h1>
+	<% for(let candidate of candidates) { %>
+		<div class="card" style="width: 18rem;">
+		  <div class="card-body">
+			<h5 class="card-title"><%= candidate.subjectName %></h5>
+			<p class="card-text">
+				ID: <%= candidate._id %> <br>
+				Professor: <%= candidate.prof%> <br>
+				Credit: <%= candidate.credit%>
+			</p>
+		  </div>
+		  <ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				<% if(candidate.mon.length) { %> Mon: <%= candidate.mon %> <% } %>
+				<% if(candidate.tue.length) { %> Tue: <%= candidate.tue %> <% } %>
+				<% if(candidate.wed.length) { %> Wed: <%= candidate.wed %> <% } %>
+				<% if(candidate.thur.length) { %> Thur: <%= candidate.thur %> <% } %>
+				<% if(candidate.fri.length) { %> Fri: <%= candidate.fri %> <% } %>
+			</li>
+			<li class="list-group-item">
+			  <p>
+				  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+					Show Details
+				  </button>
+			  </p>
+			  <div class="collapse" id="collapseExample">
+			    <div class="card card-body">
+				    <%= candidate.roomNum%><br>
+					<%= candidate.remark%><br>
+					<%= candidate.classification%><br>
+					<%= candidate.college%><br>
+					<%= candidate.department%><br>
+					<%= candidate.degree%><br>
+					<%= candidate.grade%><br>
+					<%= candidate.subjectNum%><br>
+					<%= candidate.classNum%><br>
+					<%= candidate.lectureHours%><br>
+					<%= candidate.labHours%><br>
+					<%= candidate.formOfClass%><br>
+					<%= candidate.capacity%><br>
+					<%= candidate.language%><br>
+			    </div>
+			  </div>
+			</li>
+			<li class="list-group-item">
+				<form action="/database/add/<%= candidate._id %>?_method=POST" method="POST">
+					Weight: <input type="number" name="weight">
+					MustTake: <input type="boolean" name="mustTake">
+					<button>Add to cart</button>
+				</form>	
+			</li>
+		  </ul>
+		</div>
+	<% } %>

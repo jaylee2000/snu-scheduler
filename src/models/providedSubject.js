@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const subjectSchema = new Schema({
+const providedsubjectSchema = new Schema({
 	classification: String, 
 	college: String, 
 	department: String, 
 	degree: {
 		  type: String,
-		  enum: ['박사', '석박사통합', '석사', '학사', '학석사통합']
+		  enum: ['박사','석박사통합','석사','학사','학석사통합']
 	},
 	grade: String,
 	subjectNum: String,
@@ -21,10 +21,12 @@ const subjectSchema = new Schema({
         required: true
     },
 	lectureHours: {
-		 type: Number
+		 type: Number,
+		 required: true
 	},
 	labHours: {
-		 type: Number
+		 type: Number,
+		 required: true
 	},
     mon: {
         type: [[Number]],
@@ -59,7 +61,6 @@ const subjectSchema = new Schema({
     }
 });
 
+const ProvidedSubject = mongoose.model("ProvidedSubject", providedsubjectSchema);
 
-const Subject = mongoose.model("Subject", subjectSchema);
-
-module.exports = { Subject, subjectSchema };
+module.exports = {providedsubjectSchema, ProvidedSubject};

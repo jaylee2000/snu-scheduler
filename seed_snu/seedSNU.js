@@ -10,6 +10,7 @@ let data = xlsx.utils.sheet_to_json(worksheet);
 
 const { validateSubject } = require("../src/utils/validateJoiSchemas.js");
 const { ExpressError } = require("../src/utils/ExpressError.js");
+const { providedsubjectSchema, ProvidedSubject } = require("../src/models/providedSubject.js");
 
 function parseGrade(str) {
 	if(!str) return str;
@@ -140,14 +141,14 @@ const subjectSchemaFull = Joi.object({
 		classification: Joi.string().allow(''),
 		college : Joi.string().allow(''),
 		department : Joi.string().allow(''),
-		degree: Joi.string().valid('박사', '석박사통합', '석사', '학석사통합', '학사').required(),
+		degree: Joi.string().valid('박사', '석박사통합', '석사', '학석사통합', '학사').required(), // required for seeds only
 		grade: Joi.string().allow(''),
 		subjectNum : Joi.string().allow(''),
 		classNum: Joi.string().allow(''),
 		subjectName: Joi.string(),
 		credit: Joi.number().integer().min(0).max(10).required(),
-		lectureHours: Joi.number().required(),
-		labHours: Joi.number().required(),
+		lectureHours: Joi.number().required(), // required for seeds only
+		labHours: Joi.number().required(), // required for seeds only
 		classTime: Joi.string().allow(''),
 		mon: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
 		tue: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
@@ -165,67 +166,7 @@ const subjectSchemaFull = Joi.object({
 	}).required()
 }).required();
 
-const providedsubjectSchema = new Schema({
-	classification: String, 
-	college: String, 
-	department: String, 
-	degree: {
-		  type: String,
-		  enum: ['박사','석박사통합','석사','학사','학석사통합']
-	},
-	grade: String,
-	subjectNum: String,
-	classNum: String,
-    subjectName: {
-        type: String,
-        default: "Unknown",
-    },
-    credit: {
-        type: Number,
-        required: true
-    },
-	lectureHours: {
-		 type: Number,
-		 required: true
-	},
-	labHours: {
-		 type: Number,
-		 required: true
-	},
-    mon: {
-        type: [[Number]],
-    },
-    tue: {
-        type: [[Number]],
-    },
-    wed: {
-        type: [[Number]],
-    },
-    thur: {
-        type: [[Number]],
-    },
-    fri: {
-        type: [[Number]],
-    },
-	formOfClass: String,
-	roomNum: String,
-	prof: String,
-	capacity: Number,
-	remark: String,
-	language: String,
-    weight: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 10,
-    },
-    mustTake: {
-        type: Boolean,
-        default: false
-    }
-});
 
-const ProvidedSubject = mongoose.model("ProvidedSubject", providedsubjectSchema);
 
 const validateSubjectFull = (subject) => {
 	const { error } = subjectSchemaFull.validate({subject})

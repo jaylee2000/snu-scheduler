@@ -9,7 +9,39 @@ module.exports.subjectSchema = Joi.object({
 	fri: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
 	weight: Joi.number().integer().min(1).max(10).required(),
 	mustTake: Joi.boolean(),
-	credit: Joi.number().integer().min(0).max(10).required()
+	credit: Joi.number().integer().min(0).max(10).required(),
+	roomNum: Joi.string().allow(''),
+	remark: Joi.string().allow('')
+})
+
+module.exports.subjectSchemaExtended = Joi.object({
+	subject: Joi.object({
+		classification: Joi.string().allow(''),
+		college : Joi.string().allow(''),
+		department : Joi.string().allow(''),
+		degree: Joi.string().allow(''), // required for seeds only
+		grade: Joi.string().allow(''),
+		subjectNum : Joi.string().allow(''),
+		classNum: Joi.string().allow(''),
+		subjectName: Joi.string(),
+		credit: Joi.number().integer().min(0).max(10).required(),
+		lectureHours: Joi.number().allow(''), // required for seeds only
+		labHours: Joi.number().allow(''), // required for seeds only
+		classTime: Joi.string().allow(''),
+		mon: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+		tue: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+		wed: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+		thur: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+		fri: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+		formOfClass : Joi.string().allow(''),
+		roomNum : Joi.string().allow(''),
+		prof: Joi.string().allow(''),
+		capacity: Joi.number().allow(''),
+		remark: Joi.string().allow(''),
+		language : Joi.string().allow(''),
+		weight: Joi.number().integer().min(1).max(10).required(),
+		mustTake: Joi.boolean()
+	}).required()
 })
 
 module.exports.restrictionSchema = Joi.object({

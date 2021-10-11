@@ -178,6 +178,7 @@ function generateSeed(candidates, safetyZone) {
 async function calculateMaxIntervalSum(maxCredit) {
     const candidates = await Subject.find({});
     const safetyZone = await calculateSafetyZone();
+	
 
     if (!candidates || !candidates.length) {
         return [];
@@ -190,6 +191,26 @@ async function calculateMaxIntervalSum(maxCredit) {
 		return [];
 	}
     const possibleCombinations = cartesian(...cartesianSeed);
+	
+	
+	// In case there is only one subject... just a quick bandage
+	if(typeof(possibleCombinations[0]) === "number") {
+		if(possibleCombinations.length === 1) {
+			return await generatePossibleSchedules(
+				candidates,
+				[possibleCombinations],
+				maxCredit
+			);
+		}
+		else if(possibleCombinations.length === 2) {
+			return await generatePossibleSchedules(
+				candidates,
+				[ [ possibleCombinations[0] ], [ possibleCombinations[1] ] ],
+				maxCredit
+			);
+		}
+		
+	}
 
     // Exclude schedules that don't satisfy mustTakeGroup restrictions
     // Exclude schedules whose credit sum exceeds maxCredit

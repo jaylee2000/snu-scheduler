@@ -43,6 +43,80 @@
 				Looks good!
 			</div>
 		</div>
+		
+		<p>
+		  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+			More information (Optional)
+		  </button>
+		</p>
+		
+		
+		<div class="collapse" id="collapseExample">
+		  <div class="card card-body">
+			  <div class="col-md-4">
+				  <label for="roomNum" class="form-label">Room Number: </label>
+				  <input type="text" class="form-control" id="roomNum" name="roomNum">
+			  </div>
+			  <div class="col-md-4">
+				  <label for="remark" class="form-label">Remark: </label>
+				  <input type="text" class="form-control" id="remark" name="remark">
+			  </div>
+			  <% if(updateSubject.classification) { %>
+				  <div class="col-md-4">
+					  <label for="classification" class="form-label">classification: </label>
+					  <input type="text" class="form-control" id="classification" name="classification">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="college" class="form-label">college </label>
+					  <input type="text" class="form-control" id="college" name="college">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="department" class="form-label">department: </label>
+					  <input type="text" class="form-control" id="department" name="department">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="degree" class="form-label">degree: </label>
+					  <input type="text" class="form-control" id="degree" name="degree">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="grade" class="form-label">grade: </label>
+					  <input type="text" class="form-control" id="grade" name="grade">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="subjectNum" class="form-label">subjectNum: </label>
+					  <input type="text" class="form-control" id="subjectNum" name="subjectNum">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="classNum" class="form-label">classNum </label>
+					  <input type="text" class="form-control" id="classNum" name="classNum">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="lectureHours" class="form-label">lectureHours: </label>
+					  <input type="number" class="form-control" id="lectureHours" name="lectureHours">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="labHours" class="form-label">labHours: </label>
+					  <input type="number" class="form-control" id="labHours" name="labHours">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="formOfClass" class="form-label">formOfClass: </label>
+					  <input type="text" class="form-control" id="formOfClass" name="formOfClass">
+				  </div>
+			  	  <div class="col-md-4">
+					  <label for="prof" class="form-label">prof: </label>
+					  <input type="text" class="form-control" id="prof" name="prof">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="capacity" class="form-label">capacity: </label>
+					  <input type="number" class="form-control" id="capacity" name="capacity">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="formOfClass" class="form-label">formOfClass: </label>
+					  <input type="text" class="form-control" id="formOfClass" name="formOfClass">
+				  </div>
+			  <% } %>
+		  </div>
+		</div>
 
 		<button class="btn btn-primary" type="submit">Submit</button>
 	</form>

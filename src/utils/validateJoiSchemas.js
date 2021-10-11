@@ -1,12 +1,22 @@
 const Joi = require('joi');
-const { subjectSchema, restrictionSchema, mustTakeGroupSchema } = require("./joiSchema.js");
+const { subjectSchema, subjectSchemaExtended, restrictionSchema, mustTakeGroupSchema } = require("./joiSchema.js");
 const { ExpressError } = require("./ExpressError.js");
 const { Subject } = require("../models/subject");
 
 // Not middleware
-const validateSubject = (subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit) => {
+const validateSubject = (subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark) => {
 	const { error } = subjectSchema.validate({
-		subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit
+		subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark
+	})
+	if(error) {
+		const msg = error.details.map(el => el.message).join(',');
+		throw new ExpressError(msg, 400);
+	}
+}
+
+const validateSubjectExtended = (subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, classification, college, department, degree, grade, subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language) => {
+	const { error } = subjectSchemaExtended.validate({
+		subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, classification, college, department, degree, grade, subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language
 	})
 	if(error) {
 		const msg = error.details.map(el => el.message).join(',');
