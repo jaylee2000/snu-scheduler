@@ -20,6 +20,7 @@ const scheduleRoutes = require("./routes/schedule");
 const restrictionRoutes = require("./routes/restriction");
 const mustTakeGroupRoutes = require("./routes/mustTakeGroup");
 const addFromDatabaseRoutes = require("./routes/addFromDatabase");
+const userRoutes = require("./routes/user");
 
 // view engine setup
 app.engine("ejs", engine);
@@ -77,6 +78,7 @@ app.use("/restriction", restrictionRoutes);
 app.use("/", scheduleRoutes);
 app.use("/musttake", mustTakeGroupRoutes);
 app.use("/database", addFromDatabaseRoutes);
+app.use("/", userRoutes);
 
 // Handling errors
 app.use((err, req, res, next) => {
