@@ -7,6 +7,7 @@ const { Subject } = require("../models/subject");
 const { ProvidedSubject } = require("../models/providedSubject");
 const { validateSubjectExtended } = require("../utils/validateJoiSchemas.js");
 const catchAsync = require("../utils/catchAsync.js");
+const { isLoggedIn } = require("../utils/loginMiddleware");
 
 router.route("/")
 	.get( async (req, res) => {
@@ -21,15 +22,16 @@ router.route("/search")
 	})
 
 router.route("/add/:id")
-	.post( async (req, res) => {
+	.post( isLoggedIn, async (req, res) => {
 		const { weight = 1, mustTake = false } = req.body;
 		const selectedSubject = await ProvidedSubject.findById(req.params.id);
 		if(weight) selectedSubject.weight = weight;
 		if(mustTake) selectedSubject.mustTake = mustTake;
 	
 		// remove _id, __v ?
-	
+		
 		const saveSubject = new Subject(selectedSubject);
+		saveSubject.owner = req.user._id;
 		saveSubject._id = mongoose.Types.ObjectId();
 		saveSubject.isNew = true;
 		await saveSubject.save();

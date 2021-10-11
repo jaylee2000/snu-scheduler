@@ -46,6 +46,7 @@ module.exports.createNewSubject = async (req, res) => {
 		roomNum,
 		remark
     });
+	newSubject.owner = req.user._id;
     await newSubject.save();
     res.redirect("/");
 };
@@ -93,6 +94,7 @@ module.exports.updateSubject = async (req, res) => {
 			credit,
 			roomNum, remark
 		});
+		updateSubject.owner = req.user._id;
 		await updateSubject.save();
 	} else {
 		const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
@@ -108,6 +110,7 @@ module.exports.updateSubject = async (req, res) => {
 			roomNum, remark,
 			classification, college, department, degree, grade, subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language
 		});
+		updateSubject.owner = req.user._id;
 		await updateSubject.save();
 	}
     res.redirect("/");
