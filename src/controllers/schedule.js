@@ -10,14 +10,6 @@ const { daysOfWeek } = require("../definitions/arrays");
 const { validateSubject } = require("../utils/validateJoiSchemas");
 const thisIsASubjectCreatedByUser = "dskjahgjh328478935daghjghjdf045902304asdfgjadgkljg435dasgghdfg348ghdjfsgh9458asdfhkgjadsd";
 
-// const daysOfWeek = [
-//     ["Monday", "mon"],
-//     ["Tuesday", "tue"],
-//     ["Wednesday", "wed"],
-//     ["Thursday", "thur"],
-//     ["Friday", "fri"],
-// ];
-
 /* CRUD Functionality for Subjects */
 // Create New Subject
 module.exports.renderCreate = (req, res) => {
@@ -64,9 +56,6 @@ module.exports.renderAllSubjects = async (req, res) => {
 // Update Subject
 module.exports.renderUpdate = async (req, res) => {
     const updateSubject = await Subject.findById(req.params.id);
-	// if(updateSubject.owner.id === req.user._id) {
-		
-	// }
     res.status(200).render("./schedule/update", {
         title: "SNU Scheduler",
         updateSubject,

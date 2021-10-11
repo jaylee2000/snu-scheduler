@@ -16,3 +16,13 @@ module.exports.isOwner = async (req, res, next) => {
     }
     next();
 }
+
+module.exports.isRestrictionOwner = async (req, res, next) => {
+    const { id } = req.params;
+    const restriction = await Restriction.findById(id);
+    if (!subject.owner.equals(req.user._id)) {
+        console.log('Error: You do not have permission to do that!');
+        return res.redirect("/");
+    }
+    next();
+}

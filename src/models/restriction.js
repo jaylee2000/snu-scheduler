@@ -1,15 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
-// Typically looks like
-// {
-// 	mon: [ [2, 3], [5, 7], [10, 11] ],
-// 	tue: [ [1, 4] ],
-// 	wed: [ ],
-// 	thur: [ ],
-// 	fri: [ ]
-// }
-// Validation is currently not being done.
+const { User } = require("./user");
 
 const restrictionSchema = new Schema({
     restrictionName: {
@@ -31,6 +22,11 @@ const restrictionSchema = new Schema({
     fri: {
         type: [[Number]],
     },
+	owner: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+		required: true
+	}
 });
 
 const Restriction = mongoose.model("Restriction", restrictionSchema);
