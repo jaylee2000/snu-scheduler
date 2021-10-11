@@ -6,19 +6,20 @@ const { MustTakeGroup } = require("../models/mustTakeGroup");
 
 const musttakegroup = require("../controllers/mustTakeGroup");
 const catchAsync = require("../utils/catchAsync");
+const { isLoggedIn, isMustTakeGroupOwner } = require("../utils/loginMiddleware");
 
 router
     .route("/")
-    .get(musttakegroup.renderAllMustTakeGroups)
-    .post(catchAsync(musttakegroup.createNewMustTakeGroup));
+    .get(isLoggedIn, musttakegroup.renderAllMustTakeGroups)
+    .post(isLoggedIn, catchAsync(musttakegroup.createNewMustTakeGroup));
 
-router.route("/new").get(musttakegroup.renderCreate);
+router.route("/new").get(isLoggedIn, musttakegroup.renderCreate);
 
-router.route("/update/:id").get(musttakegroup.renderUpdate);
+router.route("/update/:id").get(isLoggedIn, isMustTakeGroupOwner, musttakegroup.renderUpdate);
 
 router
     .route("/:id")
-    .patch(catchAsync(musttakegroup.updateMustTakeGroup))
-    .delete(musttakegroup.deleteMustTakeGroup);
+    .patch(isLoggedIn, isMustTakeGroupOwner, catchAsync(musttakegroup.updateMustTakeGroup))
+    .delete(isLoggedIn, isMustTakeGroupOwner, musttakegroup.deleteMustTakeGroup);
 
 module.exports = router;

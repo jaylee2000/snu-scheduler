@@ -4,7 +4,7 @@ const { ExpressError } = require("../utils/ExpressError");
 const { validateMustTakeGroup, verifyMemberIDs } = require("../utils/validateJoiSchemas");
 
 module.exports.renderAllMustTakeGroups = async (req, res) => {
-    const allGroups = await MustTakeGroup.find({}).populate("members");
+    const allGroups = await MustTakeGroup.find({owner: req.user._id}).populate("members");
     res.render("musttakegroup/index.ejs", {
         title: "SNU Scheduler",
         allGroups,
@@ -22,6 +22,7 @@ module.exports.createNewMustTakeGroup = async (req, res) => {
         minSelection,
         maxSelection,
     });
+	newGroup.owner = req.user._id;
     await newGroup.save();
 
     res.redirect("/musttake");
@@ -50,6 +51,7 @@ module.exports.updateMustTakeGroup = async (req, res) => {
         minSelection,
         maxSelection,
     });
+	updateGroup.owner = req.user._id;
     await updateGroup.save();
     res.redirect("/musttake");
 };
