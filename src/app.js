@@ -5,6 +5,12 @@ const engine = require("ejs-mate");
 const methodOverride = require("method-override");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const session = require('express-session');
+
+// Auth
+const { User, UserSchema } = require("./models/user.js");
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
 
 const app = express();
 
@@ -43,6 +49,28 @@ mongoose
         if (process.env.MODE === "DEV")
             console.log("Mongoose connection failed", error);
     });
+
+
+// Sessions
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig));
+
+// Auth
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 // routers
 app.use("/restriction", restrictionRoutes);
