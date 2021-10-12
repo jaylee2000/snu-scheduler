@@ -14,7 +14,8 @@ module.exports.renderAllMustTakeGroups = async (req, res) => {
 module.exports.createNewMustTakeGroup = async (req, res) => {
     const { name, members, minSelection, maxSelection } = req.body;
     const membersIDList = members.split(","); // Spaces not allowed... let's fix this using trim
-	validateMustTakeGroup(name, membersIDList, minSelection, maxSelection);
+	const ownerstr = req.user._id.toString();
+	validateMustTakeGroup(name, membersIDList, minSelection, maxSelection, ownerstr);
 	await verifyMemberIDs(membersIDList);
     const newGroup = new MustTakeGroup({
         name,
@@ -43,11 +44,12 @@ module.exports.renderUpdate = async (req, res) => {
 module.exports.updateMustTakeGroup = async (req, res) => {
     const { name, members, minSelection, maxSelection } = req.body;
     const membersIDList = members.split(",");
-	validateMustTakeGroup(name, membersIDList, minSelection, maxSelection);
+	const ownerstr = req.user._id.toString();
+	validateMustTakeGroup(name, membersIDList, minSelection, maxSelection, ownerstr);
 	await verifyMemberIDs(membersIDList);
     const updateGroup = await MustTakeGroup.findByIdAndUpdate(req.params.id, {
         name,
-        members: membersIDList, // Is it OK to do this? It's asymmetric with createNewMustTakeGroup
+        members: membersIDList,
         minSelection,
         maxSelection,
     });

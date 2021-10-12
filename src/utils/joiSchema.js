@@ -1,5 +1,12 @@
 const Joi = require('joi');
 
+// owner should match regex
+// ObjectID("
+// length-24-alphanumeric-string
+// ")
+
+
+
 module.exports.subjectSchema = Joi.object({
 	subjectName: Joi.string(),
 	mon: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
@@ -11,7 +18,9 @@ module.exports.subjectSchema = Joi.object({
 	mustTake: Joi.boolean(),
 	credit: Joi.number().integer().min(0).max(10).required(),
 	roomNum: Joi.string().allow(''),
-	remark: Joi.string().allow('')
+	remark: Joi.string().allow(''),
+	// owner: Joi.string().pattern(new RegExp('^[O][b][j][e][c][t][I][D][(]["][a-zA-Z0-9]{24}["][)]$'))
+	ownerstr: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24}$'))
 })
 
 module.exports.subjectSchemaExtended = Joi.object({
@@ -50,14 +59,16 @@ module.exports.restrictionSchema = Joi.object({
 	tue: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
 	wed: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
 	thur: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	fri: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0])
+	fri: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	ownerstr: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24}$'))
 })
 
 module.exports.mustTakeGroupSchema = Joi.object({
 	name: Joi.string(),
 	members: Joi.array().unique((a, b) => a === b),
 	minSelection: Joi.number().integer().min(0).max(10),
-	maxSelection: Joi.number().integer().min(0).max(10)
+	maxSelection: Joi.number().integer().min(0).max(10),
+	ownerstr: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24}$'))
 }).custom( (value, helper) => {
 	if(value.minSelection > value.maxSelection) {
 		return helper.message('minSelection cannot be larger than maxSelection');

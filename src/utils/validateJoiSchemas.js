@@ -4,9 +4,9 @@ const { ExpressError } = require("./ExpressError.js");
 const { Subject } = require("../models/subject");
 
 // Not middleware
-const validateSubject = (subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark) => {
+const validateSubject = (subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, ownerstr) => {
 	const { error } = subjectSchema.validate({
-		subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark
+		subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, ownerstr
 	})
 	if(error) {
 		const msg = error.details.map(el => el.message).join(',');
@@ -24,9 +24,9 @@ const validateSubjectExtended = (subjectName, mon, tue, wed, thur, fri, weight, 
 	}
 }
 
-const validateRestriction = (restrictionName, mon, tue, wed, thur, fri) => {
+const validateRestriction = (restrictionName, mon, tue, wed, thur, fri, ownerstr) => {
 	const { error } = restrictionSchema.validate({
-		restrictionName, mon, tue, wed, thur, fri
+		restrictionName, mon, tue, wed, thur, fri, ownerstr
 	})
 	if(error) {
 		const msg = error.details.map(el => el.message).join(',');
@@ -34,9 +34,9 @@ const validateRestriction = (restrictionName, mon, tue, wed, thur, fri) => {
 	}
 }
 
-const validateMustTakeGroup = (name, members, minSelection, maxSelection) => {
+const validateMustTakeGroup = (name, members, minSelection, maxSelection, ownerstr) => {
 	const { error } = mustTakeGroupSchema.validate({
-		name, members, minSelection, maxSelection
+		name, members, minSelection, maxSelection, ownerstr
 	})
 	if(error) {
 		console.log("Uh-oh");

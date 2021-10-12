@@ -24,7 +24,9 @@ module.exports.createNewSubject = async (req, res) => {
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
-	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit);
+	const ownerstr = req.user._id.toString();
+	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit,
+				   roomNum, remark, ownerstr);
     const newSubject = new Subject({
         subjectName,
         mon: yoilBlocks.monBlock,
@@ -72,7 +74,9 @@ module.exports.updateSubject = async (req, res) => {
     const subject = parseSubjectInput(mon, tue, wed, thur, fri);
     convertNullToEmptyArray(subject);
     const yoilBlocks = generateYoilBlocks(subject);
-	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit);
+	const ownerstr = req.user._id.toString();
+	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit,
+				   roomNum, remark, ownerstr);
 	if(classification === thisIsASubjectCreatedByUser) {
 		const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
 			subjectName,
