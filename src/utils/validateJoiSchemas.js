@@ -4,20 +4,16 @@ const { ExpressError } = require("./ExpressError.js");
 const { Subject } = require("../models/subject");
 
 // Not middleware
-const validateSubject = (subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, ownerstr) => {
-	const { error } = subjectSchema.validate({
-		subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, ownerstr
-	})
+const validateSubject = (subjectObj) => {
+	const { error } = subjectSchema.validate(subjectObj)
 	if(error) {
 		const msg = error.details.map(el => el.message).join(',');
 		throw new ExpressError(msg, 400);
 	}
 }
 
-const validateSubjectExtended = (subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, classification, college, department, degree, grade, subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language) => {
-	const { error } = subjectSchemaExtended.validate({
-		subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark, classification, college, department, degree, grade, subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language
-	})
+const validateSubjectExtended = (providedSubjectObj) => {
+	const { error } = subjectSchemaExtended.validate(providedSubjectObj)
 	if(error) {
 		const msg = error.details.map(el => el.message).join(',');
 		throw new ExpressError(msg, 400);
@@ -54,4 +50,4 @@ const verifyMemberIDs = async (membersIDList) => {
 	}
 }
 
-module.exports = { validateSubject, validateRestriction, validateMustTakeGroup, verifyMemberIDs };
+module.exports = { validateSubject, validateSubjectExtended, validateRestriction, validateMustTakeGroup, verifyMemberIDs };

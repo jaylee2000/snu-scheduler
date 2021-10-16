@@ -5,39 +5,39 @@ const { parseSubjectInput } = require("../functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
 const { convertNullToEmptyArray } = require("../functions/convertNullToEmptyArray_Yoil");
 const { daysOfWeek } = require("../definitions/arrays");
-const { validateSubject } = require("../utils/validateJoiSchemas");
+const { title } = require("../definitions/strings");
+const { validateSubject, validateSubjectExtended } = require("../utils/validateJoiSchemas");
 const thisIsASubjectCreatedByUser = "dskjahgjh328478935daghjghjdf045902304asdfgjadgkljg435dasgghdfg348ghdjfsgh9458asdfhkgjadsd";
 
 /* CRUD Functionality for Subjects */
 // Create New Subject
 module.exports.renderCreate = (req, res) => {
-    res.status(200).render("./schedule/new", {
-        title: "SNU Scheduler",
-        daysOfWeek,
-    });
+    res.status(200).render("./schedule/new", { title, daysOfWeek });
 };
+
+module.exports.parseInput = (req, res, next) => {
+	const { mon, tue, wed, thur, fri } = req.body;
+	const subject = parseSubjectInput(mon, tue, wed, thur, fri);
+	convertNullToEmptyArray(subject);
+	const yoilBlocks = generateYoilBlocks(subject);
+	console.log(yoilBlocks);
+	
+	req.body.mon = yoilBlocks.monBlock;
+	req.body.tue = yoilBlocks.tueBlock;
+	req.body.wed = yoilBlocks.wedBlock;
+	req.body.thur = yoilBlocks.thurBlock;
+	req.body.fri = yoilBlocks.friBlock;
+	
+	req.body.mustTake = req.body.mustTake === "true" ? true : false;
+	
+	next();
+}
+
 module.exports.createNewSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, roomNum, remark } =
-        req.body;
-    const subject = parseSubjectInput(mon, tue, wed, thur, fri);
-    convertNullToEmptyArray(subject);
-    const yoilBlocks = generateYoilBlocks(subject);
-	const ownerstr = req.user._id.toString();
-	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit,
-				   roomNum, remark, ownerstr);
-    const newSubject = new Subject({
-        subjectName,
-        mon: yoilBlocks.monBlock,
-        tue: yoilBlocks.tueBlock,
-        wed: yoilBlocks.wedBlock,
-        thur: yoilBlocks.thurBlock,
-        fri: yoilBlocks.friBlock,
-        weight,
-        mustTake: mustTake === "true" ? true : false,
-        credit,
-		roomNum,
-		remark
-    });
+	req.body.ownerstr = req.user._id.toString();
+	validateSubject(req.body);
+	
+    const newSubject = new Subject(req.body);
 	newSubject.owner = req.user._id;
     await newSubject.save();
     res.redirect("/");
@@ -46,67 +46,28 @@ module.exports.createNewSubject = async (req, res) => {
 // Read All Subjects
 module.exports.renderAllSubjects = async (req, res) => {
     const allSubjects = await Subject.find({owner: req.user._id}); // Show only MY shopping cart.
-    res.status(200).render("./schedule/index", {
-        title: "SNU Scheduler",
-        allSubjects,
-        daysOfWeek,
-    });
+    res.status(200).render("./schedule/index", { title, allSubjects, daysOfWeek });
 };
 
 // Update Subject
 module.exports.renderUpdate = async (req, res) => {
     const updateSubject = await Subject.findById(req.params.id);
-    res.status(200).render("./schedule/update", {
-        title: "SNU Scheduler",
-        updateSubject,
-        daysOfWeek,
-    });
+    res.status(200).render("./schedule/update", { title, updateSubject, daysOfWeek });
 };
 module.exports.updateSubject = async (req, res) => {
-    const { subjectName, mon, tue, wed, thur, fri, weight, mustTake, credit, 
-		   roomNum, remark,
-		   classification = thisIsASubjectCreatedByUser, college, department, degree, grade,
-		   subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language
-		  } =
-        req.body;
-    const subject = parseSubjectInput(mon, tue, wed, thur, fri);
-    convertNullToEmptyArray(subject);
-    const yoilBlocks = generateYoilBlocks(subject);
-	const ownerstr = req.user._id.toString();
-	validateSubject(subjectName, yoilBlocks.monBlock, yoilBlocks.tueBlock, yoilBlocks.wedBlock, yoilBlocks.thurBlock, yoilBlocks.friBlock, weight, mustTake, credit,
-				   roomNum, remark, ownerstr);
-	if(classification === thisIsASubjectCreatedByUser) {
-		const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
-			subjectName,
-			mon: yoilBlocks.monBlock,
-			tue: yoilBlocks.tueBlock,
-			wed: yoilBlocks.wedBlock,
-			thur: yoilBlocks.thurBlock,
-			fri: yoilBlocks.friBlock,
-			weight: subject.weight,
-			mustTake: mustTake === "true" ? true : false,
-			credit,
-			roomNum, remark
-		});
-		updateSubject.owner = req.user._id;
-		await updateSubject.save();
+	console.log(req.body);
+	
+    req.body.ownerstr = req.user._id.toString();
+	if(req.body.classification) { // from providedSubject
+		console.log(req.body.mon);
+		validateSubjectExtended(req.body);
 	} else {
-		const updateSubject = await Subject.findByIdAndUpdate(req.params.id, {
-			subjectName,
-			mon: yoilBlocks.monBlock,
-			tue: yoilBlocks.tueBlock,
-			wed: yoilBlocks.wedBlock,
-			thur: yoilBlocks.thurBlock,
-			fri: yoilBlocks.friBlock,
-			weight: subject.weight,
-			mustTake: mustTake === "true" ? true : false,
-			credit,
-			roomNum, remark,
-			classification, college, department, degree, grade, subjectNum, classNum, lectureHours, labHours, formOfClass, prof, capacity, language
-		});
-		updateSubject.owner = req.user._id;
-		await updateSubject.save();
+		validateSubject(req.body);
 	}
+	
+	req.body.owner = req.user._id;
+	await Subject.findByIdAndUpdate(req.params.id, req.body);
+	
     res.redirect("/");
 };
 

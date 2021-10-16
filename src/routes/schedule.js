@@ -11,7 +11,7 @@ const { isLoggedIn, isOwner } = require("../utils/loginMiddleware");
 router
     .route("/")
     .get(isLoggedIn, schedule.renderAllSubjects)
-    .post(isLoggedIn, catchAsync(schedule.createNewSubject));
+    .post(isLoggedIn, schedule.parseInput, catchAsync(schedule.createNewSubject));
 
 router
     .route("/best")
@@ -23,7 +23,7 @@ router.route("/update/:id").get(isLoggedIn, isOwner, schedule.renderUpdate);
 
 router
     .route("/:id")
-    .patch(isLoggedIn, isOwner, catchAsync(schedule.updateSubject))
+    .patch(isLoggedIn, isOwner, schedule.parseInput, catchAsync(schedule.updateSubject))
     .delete(isLoggedIn, isOwner, schedule.deleteSubject);
 
 module.exports = router;
