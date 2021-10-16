@@ -12,9 +12,9 @@ function max(a, b) {
     return a > b ? a : b;
 }
 
-async function calculateSafetyZone() {
+async function calculateSafetyZone(userId) {
     const safetyZone = [];
-    const allRestrictions = await Restriction.find({});
+    const allRestrictions = await Restriction.find({owner: userId});
     for (let yoil of daysOfWeek) {
         const dayBlock = [];
         for (let restriction of allRestrictions) {
@@ -50,6 +50,7 @@ async function calculateSafetyZone() {
         }
         safetyZone.push(safe);
     }
+	
     return safetyZone; // contains safe_mon, safe_tue, ..., safe_fri in order.
 }
 

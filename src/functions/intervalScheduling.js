@@ -127,6 +127,8 @@ const cartesian = (...a) =>
     a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
 function doesOneBlockFitIn(oneTimeBlock, safeTimeBlocks) {
+	if(!safeTimeBlocks.length) return false;
+	
     const start = oneTimeBlock[0];
     const end = oneTimeBlock[1];
     for (let block of safeTimeBlocks) {
@@ -138,9 +140,10 @@ function doesOneBlockFitIn(oneTimeBlock, safeTimeBlocks) {
 }
 
 function doesFit(subject, safetyZone) {
-    for (let i = 0; i < mondayToFriday.length; i++) {
+	 for (let i = 0; i < mondayToFriday.length; i++) {
         const subjectTimeBlocks = subject[mondayToFriday[i]];
-        const safeTimeBlocks = safetyZone[i];
+        const safeTimeBlocks = safetyZone[i]; // this has length 0 --> return true
+		 
         for (let j = 0; j < subjectTimeBlocks.length; j++) {
             if (!doesOneBlockFitIn(subjectTimeBlocks[j], safeTimeBlocks)) {
                 return false;
@@ -175,8 +178,7 @@ function generateSeed(candidates, safetyZone) {
 
 async function calculateMaxIntervalSum(maxCredit, userId) {
     const candidates = await Subject.find({owner: userId});
-    const safetyZone = await calculateSafetyZone();
-	
+    const safetyZone = await calculateSafetyZone(userId);
 
     if (!candidates || !candidates.length) {
         return [];
@@ -184,7 +186,8 @@ async function calculateMaxIntervalSum(maxCredit, userId) {
 
     // Exclude seeds that didn't include mustTake-courses
     // Exclude seeds that overlap with 'SafetyZone'
-    const cartesianSeed = generateSeed(candidates, safetyZone);
+    const cartesianSeed = generateSeed(candidates, safetyZone); // Buggy
+	
 	if(!cartesianSeed || !cartesianSeed.length) {
 		return [];
 	}
