@@ -3,9 +3,7 @@ const { Restriction } = require("../models/restriction");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
 const { parseSubjectInput } = require("../functions/parseSubjectInput");
 const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
-const {
-    convertNullToEmptyArray,
-} = require("../functions/convertNullToEmptyArray_Yoil");
+const { convertNullToEmptyArray } = require("../functions/convertNullToEmptyArray_Yoil");
 const { daysOfWeek } = require("../definitions/arrays");
 const { validateSubject } = require("../utils/validateJoiSchemas");
 const thisIsASubjectCreatedByUser = "dskjahgjh328478935daghjghjdf045902304asdfgjadgkljg435dasgghdfg348ghdjfsgh9458asdfhkgjadsd";

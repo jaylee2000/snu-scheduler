@@ -28,7 +28,6 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // other basic setup
-
 app.use(express.urlencoded({ extended: false })); // Accept x-www-form-urlencoded
 if (process.env.MODE === "TEST") {
     app.use(bodyParser.json()); // Accept JSON
@@ -39,7 +38,7 @@ if (process.env.MODE === "DEV") {
     app.use(logger("dev"));
 }
 
-// connect to mongoose
+// connect to mongoDB via mongoose
 mongoose
     .connect(mongodbURL)
     .then((result) => {
@@ -54,7 +53,7 @@ mongoose
 
 // Sessions
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {

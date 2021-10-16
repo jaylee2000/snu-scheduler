@@ -3,7 +3,7 @@ const app = require("../src/app.js");
 const server = request.agent(app);
 const { User } = require("../src/models/user");
 const { Subject } = require("../src/models/subject");
-
+const { ProvidedSubject } = require("../src/models/providedSubject");
 
 
 // User A
@@ -117,9 +117,33 @@ describe('Success CRUD Subjects with login', function() {
 		theSubject = await Subject.findOne({});
 		expect(theSubject).toBe(null);
 	})
+	it('Create subject from providedSubject', async () => {
+		const user = await User.findOne({username: 'mysnu'});
+		const userId = user._id.toString();
+		
+		const providedSubject = await ProvidedSubject.findOne({subjectName: "반도체소자특강"});
+		const providedSubjectId = providedSubject._id.toString();
+		const response = await server.post(`/database/add/${providedSubjectId}`).expect(302);
+		expect(response.header.location).toBe('/');
+		const subjects = await Subject.find({owner: userId});
+		expect(subjects.length).toBe(1);
+		expect(subjects[0].lectureHours).toBe(3);
+	})
+	it('Update / Delete subject from providedSubject', async () => {
+		let theSubject = await Subject.findOne({subjectName: "반도체소자특강"});
+		const subjectId = theSubject._id.toString();
+		let response = await server.patch(`/${subjectId}`).send({
+			subjectName: "C",
+			fri: "4-11",
+			credit: 4,
+			weight: "3",
+			roomNum: "23",
+			classification: "Yay!"
+		}).expect(302); // Not sure when this turns to 400 Bad Request... Need to clean up code for subject CRUD, model
+	})
 })
 
-// Subject Created By User
+Subject Created By User
 describe('Cannot UD Subjects of other users', function() {
 	beforeAll(async () => {
 		await User.deleteMany({});
