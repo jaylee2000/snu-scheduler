@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Subject } = require("../models/subject");
 const { Restriction } = require("../models/restriction");
 const { MustTakeGroup } = require("../models/mustTakeGroup");
-const { daysOfWeek } = require("../definitions/arrays");
+const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
 const { calculateSafetyZone } = require("./calculateSafetyZone");
 
 function sortByWeight(candidateScheduleA, candidateScheduleB) {
@@ -10,17 +10,15 @@ function sortByWeight(candidateScheduleA, candidateScheduleB) {
 }
 
 function doesOverlap(class_i, class_j) {
-    for (let yoil of daysOfWeek) {
-        for (let blk_i = 0; blk_i < class_i[yoil[1]].length; blk_i++) {
-            for (let blk_j = 0; blk_j < class_j[yoil[1]].length; blk_j++) {
-                let s1 = class_i[yoil[1]][blk_i][0];
-                let e1 = class_i[yoil[1]][blk_i][1];
-                let s2 = class_j[yoil[1]][blk_j][0];
-                let e2 = class_j[yoil[1]][blk_j][1];
-                if (s1 > 0 && s2 > 0) {
-                    // both subjects run on this yoil. We should be able to get rid of this condition.
-                    if (e1 > s2 && e2 > s1) {
-                        // overlap
+    for (let day of mondayToFriday) {
+        for (let i = 0; i < class_i[day].length; i++) {
+            for (let j = 0; j < class_j[day].length; j++) {
+                let start1 = class_i[day][i][0];
+                let end1 = class_i[day][i][1];
+                let start2 = class_j[day][j][0];
+                let end2 = class_j[day][j][1];
+                if (start1 > 0 && start2 > 0) { // Both subjects run on this day-of-week
+                    if (end1 > start2 && end2 > start1) { // The two subjects overlap
                         return true;
                     }
                 }
@@ -140,8 +138,8 @@ function doesOneBlockFitIn(oneTimeBlock, safeTimeBlocks) {
 }
 
 function doesFit(subject, safetyZone) {
-    for (let i = 0; i < daysOfWeek.length; i++) {
-        const subjectTimeBlocks = subject[daysOfWeek[i][1]];
+    for (let i = 0; i < mondayToFriday.length; i++) {
+        const subjectTimeBlocks = subject[mondayToFriday[i]];
         const safeTimeBlocks = safetyZone[i];
         for (let j = 0; j < subjectTimeBlocks.length; j++) {
             if (!doesOneBlockFitIn(subjectTimeBlocks[j], safeTimeBlocks)) {
@@ -175,8 +173,8 @@ function generateSeed(candidates, safetyZone) {
 /*******************************************************************************************************/
 
 
-async function calculateMaxIntervalSum(maxCredit) {
-    const candidates = await Subject.find({});
+async function calculateMaxIntervalSum(maxCredit, userId) {
+    const candidates = await Subject.find({owner: userId});
     const safetyZone = await calculateSafetyZone();
 	
 

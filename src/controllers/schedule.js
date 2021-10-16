@@ -1,45 +1,38 @@
 const { Subject } = require("../models/subject");
-const { Restriction } = require("../models/restriction");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
-const { parseSubjectInput } = require("../functions/parseSubjectInput");
-const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
-const { convertNullToEmptyArray } = require("../functions/convertNullToEmptyArray_Yoil");
-const { daysOfWeek } = require("../definitions/arrays");
+const { subjectParse } = require("../functions/subjectParse.js");
+
+const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
 const { title } = require("../definitions/strings");
 const { validateSubject, validateSubjectExtended } = require("../utils/validateJoiSchemas");
-const thisIsASubjectCreatedByUser = "dskjahgjh328478935daghjghjdf045902304asdfgjadgkljg435dasgghdfg348ghdjfsgh9458asdfhkgjadsd";
 
 /* CRUD Functionality for Subjects */
 // Create New Subject
 module.exports.renderCreate = (req, res) => {
     res.status(200).render("./schedule/new", { title, daysOfWeek });
 };
-
 module.exports.parseInput = (req, res, next) => {
 	const { mon, tue, wed, thur, fri } = req.body;
-	const subject = parseSubjectInput(mon, tue, wed, thur, fri);
-	convertNullToEmptyArray(subject);
-	const yoilBlocks = generateYoilBlocks(subject);
-	console.log(yoilBlocks);
 	
-	req.body.mon = yoilBlocks.monBlock;
-	req.body.tue = yoilBlocks.tueBlock;
-	req.body.wed = yoilBlocks.wedBlock;
-	req.body.thur = yoilBlocks.thurBlock;
-	req.body.fri = yoilBlocks.friBlock;
+	const timeIntervals = subjectParse(mon, tue, wed, thur, fri);
+	
+	for(let day of mondayToFriday) {
+		req.body[day] = timeIntervals[day];
+	}
 	
 	req.body.mustTake = req.body.mustTake === "true" ? true : false;
 	
 	next();
 }
-
 module.exports.createNewSubject = async (req, res) => {
 	req.body.ownerstr = req.user._id.toString();
+	
 	validateSubject(req.body);
 	
     const newSubject = new Subject(req.body);
 	newSubject.owner = req.user._id;
     await newSubject.save();
+	
     res.redirect("/");
 };
 
@@ -55,11 +48,9 @@ module.exports.renderUpdate = async (req, res) => {
     res.status(200).render("./schedule/update", { title, updateSubject, daysOfWeek });
 };
 module.exports.updateSubject = async (req, res) => {
-	console.log(req.body);
-	
     req.body.ownerstr = req.user._id.toString();
+	
 	if(req.body.classification) { // from providedSubject
-		console.log(req.body.mon);
 		validateSubjectExtended(req.body);
 	} else {
 		validateSubject(req.body);
@@ -85,11 +76,17 @@ module.exports.deleteSubject = async (req, res) => {
 // Calculate
 module.exports.calculateBestSchedules = async (req, res, next) => {
     const { maxCredit } = req.query;
-
-    // validate that maxCredit is a number... between sth and sth...
-    const possibleSchedules = await calculateMaxIntervalSum(maxCredit);
-    req.body.possibleSchedules = possibleSchedules;
-    next();
+	
+	if(typeof Number(maxCredit) == 'number' && Number(maxCredit) != NaN) {
+		if(0 <= maxCredit && maxCredit <= 30) {
+			const possibleSchedules = await calculateMaxIntervalSum(maxCredit, req.user._id);
+			req.body.possibleSchedules = possibleSchedules;
+			next();
+		}
+	}
+	else {
+		next(new Error('Invalid input for maxCredit. maxCredit must be between 0 and 30.'));
+	}
 };
 // Render
 module.exports.displayBestSchedules = (req, res) => {

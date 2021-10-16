@@ -1,3 +1,6 @@
+// To be deprecated
+
+
 // A typical subject object contains
 // {
 // 	mon: [n1, n2, n3, n4],
@@ -44,7 +47,6 @@ function generateYoilBlocks(subject) {
             }
         }
 
-        // console.log(monBlock);
         const tueBlock = [];
         if (subject.tue) {
             for (let i = 0; i < subject.tue.length; i += 2) {
@@ -52,7 +54,6 @@ function generateYoilBlocks(subject) {
             }
         }
 
-        // console.log(tueBlock);
         const wedBlock = [];
         if (subject.wed) {
             for (let i = 0; i < subject.wed.length; i += 2) {
@@ -60,7 +61,6 @@ function generateYoilBlocks(subject) {
             }
         }
 
-        // console.log(wedBlock);
         const thurBlock = [];
         if (subject.thur) {
             for (let i = 0; i < subject.thur.length; i += 2) {
@@ -68,7 +68,6 @@ function generateYoilBlocks(subject) {
             }
         }
 
-        // console.log(thurBlock);
         const friBlock = [];
         if (subject.fri) {
             for (let i = 0; i < subject.fri.length; i += 2) {
@@ -76,7 +75,6 @@ function generateYoilBlocks(subject) {
             }
         }
 
-        // console.log(friBlock);
         return { monBlock, tueBlock, wedBlock, thurBlock, friBlock };
     }
 }

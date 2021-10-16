@@ -20,10 +20,8 @@ const validateSubjectExtended = (providedSubjectObj) => {
 	}
 }
 
-const validateRestriction = (restrictionName, mon, tue, wed, thur, fri, ownerstr) => {
-	const { error } = restrictionSchema.validate({
-		restrictionName, mon, tue, wed, thur, fri, ownerstr
-	})
+const validateRestriction = (restrictionObj) => {
+	const { error } = restrictionSchema.validate(restrictionObj)
 	if(error) {
 		const msg = error.details.map(el => el.message).join(',');
 		throw new ExpressError(msg, 400);

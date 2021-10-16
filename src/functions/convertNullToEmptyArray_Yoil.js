@@ -1,3 +1,6 @@
+// To be deprecated
+
+
 const { daysOfWeek } = require("../definitions/arrays");
 
 function convertNullToEmptyArray(subject) {

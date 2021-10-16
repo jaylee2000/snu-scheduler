@@ -13,7 +13,7 @@ const { isLoggedIn, isRestrictionOwner } = require("../utils/loginMiddleware");
 router
     .route("/")
     .get(isLoggedIn, restriction.renderAllRestrictions)
-    .post(isLoggedIn, catchAsync(restriction.createNewRestriction));
+    .post(isLoggedIn, restriction.parseInput, catchAsync(restriction.createNewRestriction));
 
 router.route("/new").get(isLoggedIn, restriction.renderCreate);
 
@@ -21,7 +21,7 @@ router.route("/update/:id").get(isLoggedIn, isRestrictionOwner, restriction.rend
 
 router
     .route("/:id")
-    .patch(isLoggedIn, isRestrictionOwner, catchAsync(restriction.updateRestriction))
+    .patch(isLoggedIn, isRestrictionOwner, restriction.parseInput, catchAsync(restriction.updateRestriction))
     .delete(isLoggedIn, isRestrictionOwner, restriction.deleteRestriction);
 
 module.exports = router;

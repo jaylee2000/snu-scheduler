@@ -1,3 +1,6 @@
+// To be deprecated
+
+
 // Refer to README.me for a lenghty explanation.
 // Parameters mon, tue, ..., fri are initially all strings.
 // If mon = "2-3, 5/7, 14 18", tue="", wed="", thur="", fri="2-3"
