@@ -16,11 +16,11 @@ router.post('/register', catchAsync(async (req, res, next) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-			console.log("Register success!");
+			// console.log("Register success!");
             res.redirect('/');
         })
     } catch (e) {
-		console.log("Register failure!");
+		// console.log("Register failure!");
         res.redirect('/register');
     }
 }));
@@ -30,15 +30,16 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
-    console.log("Login success!");
+    // console.log("Login success!");
     const redirectUrl = req.session.returnTo || '/';
-    delete req.session.returnTo;
+    // console.log(`Redirect URL is: ${redirectUrl}`);
+	delete req.session.returnTo;
     res.redirect(redirectUrl);
 })
 
 router.get('/logout', (req, res) => {
     req.logout();
-    console.log("Logout success!");
+    // console.log("Logout success!");
     res.redirect('/');
 })
 

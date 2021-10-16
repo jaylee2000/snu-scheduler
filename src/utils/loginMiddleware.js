@@ -1,7 +1,11 @@
+const { Subject } = require("../models/subject");
+const { Restriction } = require("../models/restriction");
+const { MustTakeGroup } = require("../models/mustTakeGroup");
+
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
-        req.session.returnTo = req.originalUrl
-        console.log("Error: You must be logged in first!")
+        // req.session.returnTo = req.originalUrl		// Causes bugs in tests/subject.test.js 87th line
+        // console.log("Error: You must be logged in first!")
         return res.redirect('/login');
     }
     next();
