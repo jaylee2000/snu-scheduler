@@ -28,12 +28,9 @@ const validateRestriction = (restrictionObj) => {
 	}
 }
 
-const validateMustTakeGroup = (name, members, minSelection, maxSelection, ownerstr) => {
-	const { error } = mustTakeGroupSchema.validate({
-		name, members, minSelection, maxSelection, ownerstr
-	})
+const validateMustTakeGroup = (groupObj) => {
+	const { error } = mustTakeGroupSchema.validate(groupObj)
 	if(error) {
-		console.log("Uh-oh");
 		const msg = error.details.map(el => el.message).join(',');
 		throw new ExpressError(msg, 400);
 	}

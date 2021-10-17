@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+
 <h2>Add custom subject</h2>
 <form action="/musttake" method="POST" class="row g-3 needs-validation" novalidate>
 	<div class="col-md-4">
@@ -8,26 +9,45 @@
 			Looks good!
 		</div>
 	</div>
-	<div class="col-md-8">
-		<label for="members" class="form-label">IDs of member subjects (""id1,id2,id3"" No spaces allowed):</label>
-		<input type="text" class="form-control" id="members" name="members" required><br>
-		<div class="valid-feedback">
-			Looks good!
-		</div>
-	</div>
-	<div class="col-md-6">
+	
+	<div class="col-md-4">
 		<label for="minSelection" class="form-label">Type minSelect value:</label>
 		<input type="number" class="form-control" id="minSelection" name="minSelection" required><br>
 		<div class="valid-feedback">
 			Looks good!
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-4">
 		<label for="maxSelection" class="form-label">Type maxSelect value:</label>
 		<input type="number" class="form-control" id="maxSelection" name="maxSelection" required><br>
 		<div class="valid-feedback">
 			Looks good!
 		</div>
+	</div>
+	
+	<div class="col-md-8">
+		<% for(let subject of mySubjects) { %>
+			<div class="col-md-4">
+				<%= subject.subjectName %><br>
+				  <% for (let yoil of daysOfWeek ) { %>
+					<% if (subject[yoil[1]].length !== 0) { %>
+						<%= yoil[0] %> : 
+						<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
+							<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
+						<% } %>
+						<br>
+					<% } %>
+				<% } %>
+
+				Required: <%= subject.mustTake %>
+				Weight: <%= subject.weight %>
+				Credit: <%= subject.credit %>
+				<div>
+					<label for="<%= subject.subjectName%>" class="form-label">Select</label>
+					<input type="checkbox" id="<%= subject.subjectName%>" name="members" value=<%= subject._id %>>
+				</div>
+		  	</div>
+		<% } %>
 	</div>
 	<button class="btn btn-primary" type="submit">Submit</button>
 </form>
