@@ -10,13 +10,13 @@ const { isLoggedIn, isOwner } = require("../utils/loginMiddleware");
 router
     .route("/")
     .get(isLoggedIn, schedule.renderAllSubjects)
-    .post(isLoggedIn, schedule.parseInput, catchAsync(schedule.createNewSubject));
+    .post(isLoggedIn, schedule.checkMaxSubjectCount, schedule.parseInput, catchAsync(schedule.createNewSubject));
 
 router
     .route("/best")
-    .get(isLoggedIn, schedule.calculateBestSchedules, schedule.displayBestSchedules);
+    .get(isLoggedIn, schedule.checkMaxSubjectCount, schedule.calculateBestSchedules, schedule.displayBestSchedules);
 
-router.route("/new").get(isLoggedIn, schedule.renderCreate);
+router.route("/new").get(isLoggedIn, schedule.checkMaxSubjectCount, schedule.renderCreate);
 
 router.route("/update/:id").get(isLoggedIn, isOwner, schedule.renderUpdate);
 

@@ -1,4 +1,8 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
 const { Subject } = require("../models/subject");
+const { ProvidedSubject } = require("../models/providedSubject");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
 const { subjectParse } = require("../functions/subjectParse.js");
 
@@ -6,9 +10,11 @@ const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
 const { title } = require("../definitions/strings");
 const { validateSubject, validateSubjectExtended } = require("../utils/validateJoiSchemas");
 
+const maxSubjectCount = 15;
+
 /* CRUD Functionality for Subjects */
 // Create New Subject
-module.exports.renderCreate = (req, res) => {
+module.exports.renderCreate = async (req, res) => {
     res.status(200).render("./schedule/new", { title, daysOfWeek });
 };
 module.exports.parseInput = (req, res, next) => {
@@ -35,6 +41,14 @@ module.exports.createNewSubject = async (req, res) => {
 	
     res.redirect("/");
 };
+module.exports.checkMaxSubjectCount = async (req, res, next) => {
+	const mySubjects = await Subject.find({owner: req.user._id});
+	if(mySubjects.length >= 15) {
+		return res.status(400).send("Maximum 15 subjects can be added to your cart.");
+	} else {
+		next();
+	}
+}
 
 // Read All Subjects
 module.exports.renderAllSubjects = async (req, res) => {
@@ -69,6 +83,31 @@ module.exports.deleteSubject = async (req, res) => {
 };
 
 /*********************************************************************************************************************/
+
+/* Add from Database */
+module.exports.renderAddFromDatabase = async (req, res) => {
+	res.render("./database/index.ejs");
+}
+
+module.exports.renderDatabaseSearchResults = async (req, res) => {
+	const {name} = req.query;
+	const candidates = await ProvidedSubject.find({subjectName: name});
+	res.render("./database/searchResult.ejs", {candidates});
+}
+
+module.exports.addSubjectFromDatabase = async (req, res) => {
+	const { weight = 1, mustTake = false } = req.body;
+	const selectedSubject = await ProvidedSubject.findById(req.params.id);
+	if(weight) selectedSubject.weight = weight;
+	if(mustTake) selectedSubject.mustTake = mustTake;
+
+	const saveSubject = new Subject(selectedSubject);
+	saveSubject.owner = req.user._id;
+	saveSubject._id = mongoose.Types.ObjectId();
+	saveSubject.isNew = true;
+	await saveSubject.save();
+	res.redirect("/");
+}
 
 /*********************************************************************************************************************/
 

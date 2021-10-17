@@ -9,33 +9,15 @@ const { validateSubjectExtended } = require("../utils/validateJoiSchemas.js");
 const catchAsync = require("../utils/catchAsync.js");
 const { isLoggedIn } = require("../utils/loginMiddleware");
 
+const schedule = require("../controllers/schedule");
+
 router.route("/")
-	.get( async (req, res) => {
-		res.render("./database/index.ejs");
-	})
+	.get(isLoggedIn, schedule.checkMaxSubjectCount, schedule.renderAddFromDatabase);
 
 router.route("/search")
-	.get( async (req, res) => {
-		const {name} = req.query;
-		const candidates = await ProvidedSubject.find({subjectName: name});
-		res.render("./database/searchResult.ejs", {candidates});
-	})
+	.get(isLoggedIn, schedule.checkMaxSubjectCount, schedule.renderDatabaseSearchResults);
 
 router.route("/add/:id")
-	.post( isLoggedIn, async (req, res) => {
-		const { weight = 1, mustTake = false } = req.body;
-		const selectedSubject = await ProvidedSubject.findById(req.params.id);
-		if(weight) selectedSubject.weight = weight;
-		if(mustTake) selectedSubject.mustTake = mustTake;
-	
-		// remove _id, __v ?
-		
-		const saveSubject = new Subject(selectedSubject);
-		saveSubject.owner = req.user._id;
-		saveSubject._id = mongoose.Types.ObjectId();
-		saveSubject.isNew = true;
-		await saveSubject.save();
-		res.redirect("/");
-	})
+	.post(isLoggedIn, schedule.checkMaxSubjectCount, schedule.addSubjectFromDatabase);
 
 module.exports = router;
