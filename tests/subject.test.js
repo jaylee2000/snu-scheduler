@@ -12,6 +12,8 @@ const password = 'nodejs1234!';
 const email = 'mysnu@snu.ac.kr';
 const userA_signup = { username, password, email };
 const userA_login = { username,	password };
+
+// User B
 const userB_signup = { username: 'myyonsei', password: 'nodejs5678@', email: 'myyonsei@yonsei.ac.kr' };
 const userB_login = { username: 'myyonsei', email: 'myyonsei@yonsei.ac.kr' };
 
@@ -31,14 +33,14 @@ describe('Fail CRUD Subjects without login', function() {
 	});
 	
 	it('Create fail', async () => {
-		const response = await server.post("/").send(subjectA_input).expect(302);
+		const response = await server.post("/subject").send(subjectA_input).expect(302);
 		expect(response.header.location).toBe('/login');
 		
 		const allSubjects = await Subject.find({});
 		expect(allSubjects.length).toBe(0);
 	})
 	it('Read fail', async () => {
-		const response = await server.get("/").expect(302);
+		const response = await server.get("/subject").expect(302);
 		expect(response.header.location).toBe('/login');
 	})
 	it('Update/Delete fail', async () => {
@@ -48,7 +50,7 @@ describe('Fail CRUD Subjects without login', function() {
 		const userId = user._id.toString();
 		
 		// Create a subject
-		await server.post("/").send(subjectA_input);
+		await server.post("/subject").send(subjectA_input);
 		const aSubjects = await Subject.find({owner: userId});
 		expect(aSubjects.length).toBe(1);
 		const subjectId = aSubjects[0]._id.toString();
@@ -59,11 +61,11 @@ describe('Fail CRUD Subjects without login', function() {
 		await server.get("/logout");
 		
 		// Try to update subject
-		const updateResponse = await server.patch(`/${subjectId}`).expect(302);
+		const updateResponse = await server.patch(`/subject/${subjectId}`).expect(302);
 		expect(updateResponse.header.location).toBe('/login');
 		
 		// Try to delete subject
-		const deleteResponse = await server.patch(`/${subjectId}`).expect(302);
+		const deleteResponse = await server.delete(`/subject/${subjectId}`).expect(302);
 		expect(deleteResponse.header.location).toBe('/login');
 	})
 })
@@ -90,17 +92,17 @@ describe('Success CRUD Subjects with login', function() {
 		await server.get(`${response.header.location}`).expect(200); // We're getting 404.
 	});
 	it('Create subject', async () => {
-		const response = await server.post("/").send(subjectA_input).expect(302);
-		expect(response.header.location).toBe('/');
+		const response = await server.post("/subject").send(subjectA_input).expect(302);
+		expect(response.header.location).toBe('/subject');
 	});
 	it('Read subjects', async () => {
-		const response = await server.get("/").expect(200);
-		expect(response.header.location == '/' || response.header.location == undefined).toBeTruthy();
+		const response = await server.get("/subject").expect(200);
+		expect(response.header.location == '/subject' || response.header.location == undefined).toBeTruthy();
 	});
 	it('Update / Delete subjects', async () => {
 		let theSubject = await Subject.findOne({});
 		const subjectId = theSubject._id.toString();
-		let response = await server.patch(`/${subjectId}`).send({
+		let response = await server.patch(`/subject/${subjectId}`).send({
 			subjectName: "C",
 			fri: "4-11",
 			credit: 4,
@@ -108,12 +110,12 @@ describe('Success CRUD Subjects with login', function() {
 			roomNum: "23"
 		}).expect(302);
 		
-		expect(response.header.location).toBe('/');
+		expect(response.header.location).toBe('/subject');
 		theSubject = await Subject.findOne({});
 		expect(theSubject.fri).toEqual([[4, 11]]);
 		
-		response = await server.delete(`/${subjectId}`).expect(302);
-		expect(response.header.location).toBe('/');
+		response = await server.delete(`/subject/${subjectId}`).expect(302);
+		expect(response.header.location).toBe('/subject');
 		theSubject = await Subject.findOne({});
 		expect(theSubject).toBe(null);
 	})
@@ -124,7 +126,7 @@ describe('Success CRUD Subjects with login', function() {
 		const providedSubject = await ProvidedSubject.findOne({subjectName: "반도체소자특강"});
 		const providedSubjectId = providedSubject._id.toString();
 		const response = await server.post(`/database/add/${providedSubjectId}`).expect(302);
-		expect(response.header.location).toBe('/');
+		expect(response.header.location).toBe('/subject');
 		const subjects = await Subject.find({owner: userId});
 		expect(subjects.length).toBe(1);
 		expect(subjects[0].lectureHours).toBe(3);
@@ -132,7 +134,7 @@ describe('Success CRUD Subjects with login', function() {
 	it('Update / Delete subject from providedSubject', async () => {
 		let theSubject = await Subject.findOne({subjectName: "반도체소자특강"});
 		const subjectId = theSubject._id.toString();
-		let response = await server.patch(`/${subjectId}`).send({
+		let response = await server.patch(`/subject/${subjectId}`).send({
 			subjectName: "C",
 			fri: "4-11",
 			credit: 4,
@@ -153,7 +155,7 @@ describe('Cannot UD Subjects of other users', function() {
 		await server.post("/register").send(userA_signup);
 		
 		// Add a Subject
-		await server.post("/").send(subjectA_input);
+		await server.post("/subject").send(subjectA_input);
 		
 		// Logout
 		await server.get("/logout");
@@ -162,10 +164,10 @@ describe('Cannot UD Subjects of other users', function() {
 		await server.post("/register").send(userB_signup);
 	});
 	it('Attempt Update / Delete', async () => {
-		let subjectOfA = await Subject.findOne({username});
+		let subjectOfA = await Subject.findOne({});
 		const subjectId = subjectOfA._id.toString();
 		
-		let response = await server.patch(`/${subjectId}`).send({
+		let response = await server.patch(`/subject/${subjectId}`).send({
 			subjectName: "C",
 			fri: "4-11",
 			credit: 4,
@@ -174,12 +176,12 @@ describe('Cannot UD Subjects of other users', function() {
 		}).expect(302);
 		
 		expect(response.header.location).toBe('/');
-		subjectOfA = await Subject.findOne({username});
+		subjectOfA = await Subject.findOne({});
 		expect(subjectOfA.subjectName).toBe('A');
 		
-		response = await server.delete(`/${subjectId}`).expect(302);
+		response = await server.delete(`/subject/${subjectId}`).expect(302);
 		expect(response.header.location).toBe('/');
-		subjectOfA = await Subject.findOne({username});
+		subjectOfA = await Subject.findOne({});
 		expect(subjectOfA).not.toEqual(undefined);
 	});
 })
