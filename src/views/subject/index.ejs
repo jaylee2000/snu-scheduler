@@ -20,10 +20,10 @@
 		Required: <%= subject.mustTake %>
 		Weight: <%= subject.weight %>
 		Credit: <%= subject.credit %>
-		  <form action="/<%= subject._id %>/?_method=DELETE" method="POST">
+		  <form action="/subject/<%= subject._id %>/?_method=DELETE" method="POST">
 			  <button class="btn btn-danger">Delete</button>
 		  </form>
-		  <form action="/update/<%= subject._id %>">
+		  <form action="/subject/update/<%= subject._id %>">
 			  <button class="btn btn-info">Update</button>
 		  </form>
 	  </div>
@@ -31,9 +31,9 @@
 </div>
 
 	  
- <a href="/new">Add new custom subject</a>
+ <a href="/subject/new">Add new custom subject</a>
   <br>
-  <form action="/best">
+  <form action="/subject/best">
 	  <label for="maxCredit">Type max credit: </label>
 	  <input type="number" id="maxCredit" name="maxCredit" required>
 	  <button>View optimized schedule </button>

@@ -15,13 +15,13 @@
 						Subjects
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="/">View subjects</a></li>
+						<li><a class="dropdown-item" href="/subject">View subjects</a></li>
 						<li><hr class="dropdown-divider" /></li>
 						<li><a class="dropdown-item" href="/database">Add subject from database</a></li>
-						<li><a class="dropdown-item" href="/new">Add custom subject</a></li>
+						<li><a class="dropdown-item" href="/subject/new">Add custom subject</a></li>
 						<li><hr class="dropdown-divider" /></li>
 						<li>
-							<form action="/best" class="dropdown-item">
+							<form action="/subject/best" class="dropdown-item">
 							    <label for="maxCredit">Type max credit: </label>
 							    <input type="number" id="maxCredit" name="maxCredit" required><br>
 							    <button class="btn btn-primary">View optimized schedule </button>
@@ -35,6 +35,21 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/musttake">Must-Take Groups</a>
 				</li>
+			</ul>
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+				<% if(!currentUser) { %>
+				<li class="nav-item">
+					<a class="nav-link" href="/login">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/register">Register</a>
+				</li>
+				<% } else { %>
+				<li class="nav-item">
+					<a class="nav-link" href="/logout">Logout</a>
+				</li>
+				<% } %>
+				
 			</ul>
 		</div>
 	</div>

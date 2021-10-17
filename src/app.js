@@ -71,10 +71,16 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Flash, currentUser
+app.use((req, res, next) => {
+	res.locals.currentUser = req.user;
+	next();
+})
+
 
 // routers
 app.use("/restriction", restrictionRoutes);
-app.use("/", subjectRoutes);
+app.use("/subject", subjectRoutes);
 app.use("/musttake", mustTakeGroupRoutes);
 app.use("/database", addFromDatabaseRoutes);
 app.use("/", userRoutes);

@@ -6,6 +6,11 @@ const { User } = require('../models/user');
 const { isLoggedIn } = require("../utils/loginMiddleware");
 const user = require("../controllers/user");
 
+router.route("/")
+	.get( (req, res) => {
+		res.render('main.ejs');
+	})
+
 router.route("/register")
 	.get(user.renderRegisterForm)
 	.post(catchAsync(user.registerUser));
