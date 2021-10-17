@@ -16,7 +16,7 @@ const app = express();
 
 const mongodbURL = process.env.MONGODB_URL;
 
-const scheduleRoutes = require("./routes/schedule");
+const subjectRoutes = require("./routes/subject");
 const restrictionRoutes = require("./routes/restriction");
 const mustTakeGroupRoutes = require("./routes/mustTakeGroup");
 const addFromDatabaseRoutes = require("./routes/addFromDatabase");
@@ -74,7 +74,7 @@ passport.deserializeUser(User.deserializeUser());
 
 // routers
 app.use("/restriction", restrictionRoutes);
-app.use("/", scheduleRoutes);
+app.use("/", subjectRoutes);
 app.use("/musttake", mustTakeGroupRoutes);
 app.use("/database", addFromDatabaseRoutes);
 app.use("/", userRoutes);

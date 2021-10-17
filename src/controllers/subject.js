@@ -15,7 +15,7 @@ const maxSubjectCount = 15;
 /* CRUD Functionality for Subjects */
 // Create New Subject
 module.exports.renderCreate = async (req, res) => {
-    res.status(200).render("./schedule/new", { title, daysOfWeek });
+    res.status(200).render("./subject/new", { title, daysOfWeek });
 };
 module.exports.parseInput = (req, res, next) => {
 	const { mon, tue, wed, thur, fri } = req.body;
@@ -53,13 +53,13 @@ module.exports.checkMaxSubjectCount = async (req, res, next) => {
 // Read All Subjects
 module.exports.renderAllSubjects = async (req, res) => {
     const allSubjects = await Subject.find({owner: req.user._id}); // Show only MY shopping cart.
-    res.status(200).render("./schedule/index", { title, allSubjects, daysOfWeek });
+    res.status(200).render("./subject/index", { title, allSubjects, daysOfWeek });
 };
 
 // Update Subject
 module.exports.renderUpdate = async (req, res) => {
     const updateSubject = await Subject.findById(req.params.id);
-    res.status(200).render("./schedule/update", { title, updateSubject, daysOfWeek });
+    res.status(200).render("./subject/update", { title, updateSubject, daysOfWeek });
 };
 module.exports.updateSubject = async (req, res) => {
     req.body.ownerstr = req.user._id.toString();

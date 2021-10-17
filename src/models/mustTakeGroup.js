@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { Schedule } = require("./subject");
 const { User } = require("./user");
 
 const mustTakeGroupSchema = new Schema({

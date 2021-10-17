@@ -9,15 +9,15 @@ const { validateSubjectExtended } = require("../utils/validateJoiSchemas.js");
 const catchAsync = require("../utils/catchAsync.js");
 const { isLoggedIn } = require("../utils/loginMiddleware");
 
-const schedule = require("../controllers/schedule");
+const subject = require("../controllers/subject");
 
 router.route("/")
-	.get(isLoggedIn, schedule.checkMaxSubjectCount, schedule.renderAddFromDatabase);
+	.get(isLoggedIn, subject.checkMaxSubjectCount, subject.renderAddFromDatabase);
 
 router.route("/search")
-	.get(isLoggedIn, schedule.checkMaxSubjectCount, schedule.renderDatabaseSearchResults);
+	.get(isLoggedIn, subject.checkMaxSubjectCount, subject.renderDatabaseSearchResults);
 
 router.route("/add/:id")
-	.post(isLoggedIn, schedule.checkMaxSubjectCount, schedule.addSubjectFromDatabase);
+	.post(isLoggedIn, subject.checkMaxSubjectCount, subject.addSubjectFromDatabase);
 
 module.exports = router;
