@@ -2,9 +2,6 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 
 const { Restriction } = require("../models/restriction");
-const { daysOfWeek } = require("../definitions/arrays");
-const { parseSubjectInput } = require("../functions/parseSubjectInput");
-const { generateYoilBlocks } = require("../functions/generateYoilBlocks");
 const catchAsync = require("../utils/catchAsync.js");
 
 const restriction = require("../controllers/restriction");
