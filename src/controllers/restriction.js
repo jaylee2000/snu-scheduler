@@ -1,6 +1,6 @@
 const { Restriction } = require("../models/restriction");
 const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
-const { subjectParse } = require("../functions/subjectParse.js");
+const { parseTimeIntervals } = require("../functions/parseTimeIntervals.js");
 const { validateRestriction } = require("../utils/validateJoiSchemas");
 
 // Read Restrictions
@@ -13,7 +13,7 @@ module.exports.renderAllRestrictions = async (req, res) => {
 module.exports.parseInput = (req, res, next) => {
 	const { mon, tue, wed, thur, fri } = req.body;
 	
-	const timeIntervals = subjectParse(mon, tue, wed, thur, fri);
+	const timeIntervals = parseTimeIntervals(mon, tue, wed, thur, fri);
 	
 	for(let day of mondayToFriday) {
 		req.body[day] = timeIntervals[day];

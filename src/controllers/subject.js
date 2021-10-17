@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const { Subject } = require("../models/subject");
 const { ProvidedSubject } = require("../models/providedSubject");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
-const { subjectParse } = require("../functions/subjectParse.js");
+const { parseTimeIntervals } = require("../functions/parseTimeIntervals.js");
 
 const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
 const { title } = require("../definitions/strings");
@@ -20,7 +20,7 @@ module.exports.renderCreate = async (req, res) => {
 module.exports.parseInput = (req, res, next) => {
 	const { mon, tue, wed, thur, fri } = req.body;
 	
-	const timeIntervals = subjectParse(mon, tue, wed, thur, fri);
+	const timeIntervals = parseTimeIntervals(mon, tue, wed, thur, fri);
 	
 	for(let day of mondayToFriday) {
 		req.body[day] = timeIntervals[day];

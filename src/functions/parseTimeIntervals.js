@@ -49,7 +49,7 @@ function stringToArrays(mon, tue, wed, thur, fri) {
 }
 
 
-function subjectParse(mon, tue, wed, thur, fri) {
+function parseTimeIntervals(mon, tue, wed, thur, fri) {
 	const subjectTime = stringToArrays(mon, tue, wed, thur, fri);
 	// Input:  "2-3, 4-7", "4-5", "", "", ""
 	// Output: { mon: [2, 3, 4, 7], tue: [4, 5], wed: [], thur: [], fri: [] }
@@ -61,4 +61,4 @@ function subjectParse(mon, tue, wed, thur, fri) {
 	return timeIntervals;
 }
 
-module.exports = { subjectParse }
+module.exports = { parseTimeIntervals }
