@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { Subject } = require("../models/subject");
-const { Restriction } = require("../models/restriction");
 const { MustTakeGroup } = require("../models/mustTakeGroup");
 const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
 const { calculateSafetyZone } = require("./calculateSafetyZone");
@@ -28,8 +27,8 @@ function doesOverlap(class_i, class_j) {
     return false;
 }
 
-async function satisfyGroupConditions(selectedClasses) {
-    const allGroups = await MustTakeGroup.find({});
+async function satisfyGroupConditions(selectedClasses, userId) {
+    const allGroups = await MustTakeGroup.find({owner: userId});
     for (let group of allGroups) {
         let cntClasses = 0;
         for (let memberSubject of group.members) {
@@ -51,7 +50,7 @@ async function satisfyGroupConditions(selectedClasses) {
     return true;
 }
 
-async function isPossibleCombination(selectedClasses) {
+async function isPossibleCombination(selectedClasses, userId) {
     for (let i = 0; i < selectedClasses.length; i++) {
         for (let j = i + 1; j < selectedClasses.length; j++) {
             if (doesOverlap(selectedClasses[i], selectedClasses[j])) {
@@ -66,7 +65,7 @@ async function isPossibleCombination(selectedClasses) {
         }
     }
 
-    if (!(await satisfyGroupConditions(selectedClasses))) {
+    if (!(await satisfyGroupConditions(selectedClasses, userId))) {
         return false;
     }
     return true;
@@ -78,14 +77,14 @@ function getSum(selectedClasses, property) {
 	}, 0)
 }
 
-async function schedulize(possibleClasses, selectedIndices) {
+async function schedulize(possibleClasses, selectedIndices, userId) {
     const selectedClasses = [];
     for (let i = 0; i < selectedIndices.length; i++) {
         if (selectedIndices[i]) {
             selectedClasses.push(possibleClasses[i]);
         }
     }
-    if (await isPossibleCombination(selectedClasses)) {
+    if (await isPossibleCombination(selectedClasses, userId)) {
         const weightSum= getSum(selectedClasses, 'weight');
 		const creditSum = getSum(selectedClasses, 'credit');
 		return { selectedClasses, weightSum, creditSum };
@@ -98,7 +97,8 @@ async function schedulize(possibleClasses, selectedIndices) {
 async function generatePossibleSchedules(
     candidates,
     possibleCombinations,
-    maxCredit
+    maxCredit,
+	userId
 ) {
     const possibleSchedules = [];
     for (let i = 0; i < possibleCombinations.length; i++) {
@@ -200,14 +200,16 @@ async function calculateMaxIntervalSum(maxCredit, userId) {
 			return await generatePossibleSchedules(
 				candidates,
 				[possibleCombinations],
-				maxCredit
+				maxCredit,
+				userId
 			);
 		}
 		else if(possibleCombinations.length === 2) {
 			return await generatePossibleSchedules(
 				candidates,
 				[ [ possibleCombinations[0] ], [ possibleCombinations[1] ] ],
-				maxCredit
+				maxCredit,
+				userId
 			);
 		}
 		
@@ -219,7 +221,8 @@ async function calculateMaxIntervalSum(maxCredit, userId) {
     return await generatePossibleSchedules(
         candidates,
         possibleCombinations,
-        maxCredit
+        maxCredit,
+		userId
     );
 }
 
