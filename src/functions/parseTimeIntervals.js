@@ -61,4 +61,4 @@ function parseTimeIntervals(mon, tue, wed, thur, fri) {
 	return timeIntervals;
 }
 
-module.exports = { parseTimeIntervals }
+module.exports = { parseTimeIntervals, stringToArrays, generateIntervals };

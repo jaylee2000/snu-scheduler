@@ -71,7 +71,8 @@ module.exports.updateSubject = async (req, res) => {
 	}
 	
 	req.body.owner = req.user._id;
-	await Subject.findByIdAndUpdate(req.params.id, req.body);
+	
+	await Subject.findByIdAndUpdate(req.params.id, req.body); // Failing here (functions.test.js)
 	
     res.redirect("/subject");
 };
