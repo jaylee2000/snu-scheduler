@@ -177,10 +177,23 @@ function generateSeed(candidates, safetyZone) {
 /*********************************************** Seeding ***********************************************/
 /*******************************************************************************************************/
 
+// function printTime(msg) {
+	// Get time in ms
+// 	let loadTimeInMS = Date.now();
+// 	let performanceNow = require("performance-now");
+	
+// 	const timeinMS = performanceNow()
+	
+	
+// 	console.log(`${msg}: Current time is ${timeinMS}`);
+// }
 
 async function calculateMaxIntervalSum(maxCredit, userId) {
+	// printTime('function calculateMaxIntervalSum called');
     const candidates = await Subject.find({owner: userId});
+	// printTime('retrieved subjects');
     const safetyZone = await calculateSafetyZone(userId);
+	// printTime('calculated safety zone');
 
     if (!candidates || !candidates.length) {
         return [];
@@ -188,12 +201,14 @@ async function calculateMaxIntervalSum(maxCredit, userId) {
 
     // Exclude seeds that didn't include mustTake-courses
     // Exclude seeds that overlap with 'SafetyZone'
-    const cartesianSeed = generateSeed(candidates, safetyZone); // Buggy
+    const cartesianSeed = generateSeed(candidates, safetyZone);
+	// printTime('generated seed');
 	
 	if(!cartesianSeed || !cartesianSeed.length) {
 		return [];
 	}
     const possibleCombinations = cartesian(...cartesianSeed);
+	// printTime('generated possible combinations');
 	
 	
 	// In case there is only one subject... just a quick bandage

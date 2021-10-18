@@ -92,7 +92,15 @@ module.exports.renderAddFromDatabase = async (req, res) => {
 
 module.exports.renderDatabaseSearchResults = async (req, res) => {
 	const {name} = req.query;
-	const candidates = await ProvidedSubject.find({subjectName: name});
+	
+	// Generate regex that contains name
+	const Kor_Eng_Num_Whitespace_Dash = '([\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]|[\w]|[\-]|[\s]|[ ])*';
+	let regex = Kor_Eng_Num_Whitespace_Dash;
+	for(let letter of name) {
+		regex += `[${letter}]`;
+    	regex += Kor_Eng_Num_Whitespace_Dash;
+	}
+	const candidates = await ProvidedSubject.find({subjectName: {$regex: regex, $options: 'i'}});
 	res.render("./database/searchResult.ejs", {candidates});
 }
 
@@ -115,11 +123,13 @@ module.exports.addSubjectFromDatabase = async (req, res) => {
 /* Optimize Schedule */
 // Calculate
 module.exports.calculateBestSchedules = async (req, res, next) => {
+	// printTime('Middleware calculateBestSchedules called');
     const { maxCredit } = req.query;
 	
 	if(typeof Number(maxCredit) == 'number' && Number(maxCredit) != NaN) {
 		if(0 <= maxCredit && maxCredit <= 30) {
 			const possibleSchedules = await calculateMaxIntervalSum(maxCredit, req.user._id);
+			// printTime('Calculated possibleSchedules');
 			req.body.possibleSchedules = possibleSchedules;
 			next();
 		}
@@ -130,6 +140,7 @@ module.exports.calculateBestSchedules = async (req, res, next) => {
 };
 // Render
 module.exports.displayBestSchedules = (req, res) => {
+	// printTime('Middleware displayBestSchedules called');
     const numDisplay =
         req.body.possibleSchedules.length >= 6
             ? 6
@@ -140,4 +151,16 @@ module.exports.displayBestSchedules = (req, res) => {
         numDisplay,
         daysOfWeek,
     });
+	// printTime('Rendered page');
 };
+
+// function printTime(msg) {
+	// Get time in ms
+	// let loadTimeInMS = Date.now();
+// 	let performanceNow = require("performance-now");
+	
+// 	const timeinMS = performanceNow()
+	
+	
+// 	console.log(`${msg}: Current time is ${timeinMS}`);
+// }

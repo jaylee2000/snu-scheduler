@@ -6,7 +6,8 @@
         "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
         "pretty": "prettier --write . --tab-width 4",
         "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
-        "seed": "env-cmd -f ./config/seed.env node seed_snu/seedSNU.js"
+        "seed": "env-cmd -f ./config/seed.env node seed_snu/seedSNU.js",
+        "profile": "NODE_ENV=production env-cmd -f ./config/test.env node -prof src/index.js"
     },
     "jest": {
         "testEnvironment": "node"
@@ -29,9 +30,10 @@
         "morgan": "^1.10.0",
         "nodemon": "^2.0.13",
         "passport-mock-strategy": "^2.0.0",
+        "performance-now": "^2.1.0",
         "prettier": "^2.4.1",
-        "xlsx": "^0.17.2",
         "superagent": "^6.1.0",
-        "supertest": "^6.1.6"
+        "supertest": "^6.1.6",
+        "xlsx": "^0.17.2"
     }
 }
