@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>SNU Scheduler</title>
-</head>
-<body>
-	<h1>Hi</h1>
-	<form action="/database/search" method="GET">
-		<input type="text" name="name">
-		<button>Submit</button>
-	</form>
-</body>
-</html>
+<% layout('layouts/boilerplate') %>
+<h1>Hi</h1>
+<form action="/database/search" method="GET">
+	<input type="text" name="name">
+	<button class="btn btn-outline-dark btn-sm">Submit</button>
+</form>
