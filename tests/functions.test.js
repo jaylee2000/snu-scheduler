@@ -52,7 +52,7 @@ describe('parseTimeIntervals.js', function() {
 	test("stringToArrays", () => {
 		const mon = "     ",
         	tue = "234-23452345-23423",
-        	wed = "14;-134;-43..23.4",
+        	wed = "14;-134;-43;23;4",
         	thur = "1&#$@%-1",
         	fri = undefined;
 		const result = stringToArrays(mon, tue, wed, thur, fri);

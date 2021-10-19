@@ -9,11 +9,11 @@ const Joi = require('joi');
 
 module.exports.subjectSchema = Joi.object({
 	subjectName: Joi.string(),
-	mon: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	tue: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	wed: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	thur: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	fri: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	mon: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	tue: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	wed: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	thur: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	fri: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
 	weight: Joi.number().integer().min(1).max(10).required(),
 	mustTake: Joi.boolean(),
 	credit: Joi.number().integer().min(0).max(10).required(),
@@ -24,11 +24,11 @@ module.exports.subjectSchema = Joi.object({
 
 module.exports.subjectSchemaExtended = Joi.object({
 	subjectName: Joi.string(),
-	mon: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	tue: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	wed: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	thur: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	fri: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	mon: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	tue: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	wed: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	thur: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	fri: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
 	weight: Joi.number().integer().min(1).max(10).required(),
 	mustTake: Joi.boolean(),
 	credit: Joi.number().integer().min(0).max(10).required(),
@@ -55,11 +55,11 @@ module.exports.subjectSchemaExtended = Joi.object({
 
 module.exports.restrictionSchema = Joi.object({
 	restrictionName: Joi.string().allow(''),
-	mon: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	tue: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	wed: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	thur: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
-	fri: Joi.array().items(Joi.array().items(Joi.number().integer()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	mon: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	tue: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	wed: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	thur: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
+	fri: Joi.array().items(Joi.array().items(Joi.number()).length(2).unique((a, b) => a >= b)).unique((a, b) => a[1] >= b[0]),
 	ownerstr: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{24}$'))
 })
 

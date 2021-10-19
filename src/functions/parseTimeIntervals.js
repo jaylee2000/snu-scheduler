@@ -31,11 +31,11 @@ function generateIntervals(subject) {
 function stringToArrays(mon, tue, wed, thur, fri) {
 	// convert "2-3, 4-7" --> [2, 3, 4, 7]
 	const subjectTimes = {
-		mon: mon && mon.length ? mon.match(/\d+/g) : [],
-        tue: tue && tue.length ? tue.match(/\d+/g) : [],
-        wed: wed && wed.length ? wed.match(/\d+/g) : [],
-        thur: thur && thur.length ? thur.match(/\d+/g) : [],
-        fri: fri && fri.length ? fri.match(/\d+/g) : []
+		mon: mon && mon.length ? mon.match(/([+]?([0-9]+\.?[0-9]*|\.[0-9]+))+/g) : [],
+        tue: tue && tue.length ? tue.match(/([+]?([0-9]+\.?[0-9]*|\.[0-9]+))+/g) : [],
+        wed: wed && wed.length ? wed.match(/([+]?([0-9]+\.?[0-9]*|\.[0-9]+))+/g) : [],
+        thur: thur && thur.length ? thur.match(/([+]?([0-9]+\.?[0-9]*|\.[0-9]+))+/g) : [],
+        fri: fri && fri.length ? fri.match(/([+]?([0-9]+\.?[0-9]*|\.[0-9]+))+/g) : []
 	}
 	
 	// convert null --> []
