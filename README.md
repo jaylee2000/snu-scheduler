@@ -27,7 +27,7 @@ SNU Scheduler is a project aiming to automate the process of generating a schedu
    We plan on providing a better input method for selecting member subjects.  
     Example input:  
 	-   mustTakeGroup Name: Core Selectives  
-	-   IDs of member subjects: 6159531309f7f95df0089a1d,6159532309f7f95df0089a20,6159533009f7f95df0089a23  
+	-   (Select subjects by clicking checkboxes)
 	-   minSelect Value: 2  
 	-   maxSelect Value: 3  
 
