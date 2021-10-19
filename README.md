@@ -33,24 +33,15 @@ SNU Scheduler is a project aiming to automate the process of generating a schedu
 
 Then, we take all of the input subjects & restrictions and generate the top 6 schedules that maximize importance(weight) sum.
 
-**DEVELOP WITH EXCELLENCE**
-
-`Happy coding!`
-
-## 🔧 Updates
-
--   October 9 ~ 10
-    -   Can select 'maxCredit' to limit number of credits to take
-    -   Added basic styling using Bootstrap  
-	-	Added client-side, server-side validation for inputs
+## DEVELOP WITH EXCELLENCE
 	
--   TODO [5단계]: Making It Real (Comint Up Soon)
-	-   실제 수강편람 데이터 sugang.snu.ac.kr에서 가져오기
-	-   검색 후 장바구니에 담는 시스템 추가하기 (Will be default, although adding custom subjects will be allowed) For now: must type exact name or shortened version of exact name  
-        ex: 심리학개론, 심개 (OK) / 수안개 (Not Found)
-    -   Add Authorization & Authentication: Cannot alter shopping cart, restrictions/mustTakeGroups list of other users
-    -   Deploy
-
+-   TODO : Make the website look nicer (~ October 22)
+	- Form update → Retain original values (if they existed)
+	- Better view of restrictions/musttakegroups (3 in a row)
+	- Schedule visualization
+	- Deploy (via heroku)
+	
+## Future updates (After developing <<Everytime, Snulife API>>)
 
 -   TODO [6단계] Better Experience: Powered by more parameters
 	-   Instead of taking ‘weight(Importance)’ take more parameters:  
@@ -71,7 +62,7 @@ Then, we take all of the input subjects & restrictions and generate the top 6 sc
 	- Search by group (전기과 3학년 과목, 인문과사회 분류 교양 교과목 등)
 
 
-## 💬 Ambitions
+## Ambitions
 - 	[8단계] Add recommendations / Auto-selections
 -	[9단계] Track data (For improving recommendation algorithm, default parameters)
 -	[10단계]
