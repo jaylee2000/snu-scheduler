@@ -19,7 +19,8 @@ module.exports.createNewMustTakeGroup = async (req, res) => {
     const newGroup = new MustTakeGroup(req.body);
 	newGroup.owner = req.user._id;
     await newGroup.save();
-
+	
+	req.flash('success', 'Created new group!');
     res.redirect("/musttake");
 };
 
@@ -45,10 +46,12 @@ module.exports.updateMustTakeGroup = async (req, res) => {
     const updateGroup = await MustTakeGroup.findByIdAndUpdate(req.params.id, req.body);
     await updateGroup.save();
 	
+	req.flash('success', 'Updated group!');
     res.redirect("/musttake");
 };
 
 module.exports.deleteMustTakeGroup = async (req, res) => {
     await MustTakeGroup.findByIdAndDelete(req.params.id);
+	req.flash('success', 'Deleted group!');
     res.redirect("/musttake");
 };

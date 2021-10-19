@@ -6,6 +6,7 @@ const methodOverride = require("method-override");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require('cookie-session');
+const flash = require('connect-flash');
 
 // Auth
 const { User, UserSchema } = require("./models/user.js");
@@ -72,7 +73,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // Flash, currentUser
+app.use(flash());
 app.use((req, res, next) => {
+	res.locals.success = req.flash('success');
+	res.locals.error = req.flash('error');
 	res.locals.currentUser = req.user;
 	next();
 })
@@ -92,6 +96,7 @@ app.use((err, req, res, next) => {
 	if(err.message.includes('duplicate')) {
 		err.message = err.message.replace('duplicate', 'duplicate and/or non-ascending');
 	}
+	req.flash('error', 'An error occurred!');
     res.status(statusCode).render('error', { err })
 })
 

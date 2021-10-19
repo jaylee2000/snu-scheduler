@@ -11,11 +11,11 @@ module.exports.registerUser = async (req, res, next) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-			// console.log("Register success!");
+			req.flash('success', 'Register success!');
             res.redirect('/');
         })
     } catch (e) {
-		// console.log("Register failure!");
+		req.flash('error', 'Register failure!');
         res.redirect('/register');
     }
 }
@@ -25,15 +25,14 @@ module.exports.renderLoginForm = (req, res) => {
 }
 
 module.exports.loginUser = (req, res) => {
-    // console.log("Login success!");
     const redirectUrl = req.session.returnTo || '/';
-    // console.log(`Redirect URL is: ${redirectUrl}`);
 	delete req.session.returnTo;
+	req.flash('success', 'Welcome back!');
     res.redirect(redirectUrl);
 }
 
 module.exports.logoutUser = (req, res) => {
     req.logout();
-    // console.log("Logout success!");
+    req.flash('success', 'Farewell!');
     res.redirect('/');
 }

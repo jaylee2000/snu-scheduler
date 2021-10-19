@@ -38,7 +38,7 @@ module.exports.createNewSubject = async (req, res) => {
     const newSubject = new Subject(req.body);
 	newSubject.owner = req.user._id;
     await newSubject.save();
-	
+	req.flash('success', 'Added new subject!');
     res.redirect("/subject");
 };
 module.exports.checkMaxSubjectCount = async (req, res, next) => {
@@ -72,7 +72,9 @@ module.exports.updateSubject = async (req, res) => {
 	
 	req.body.owner = req.user._id;
 	
-	await Subject.findByIdAndUpdate(req.params.id, req.body); // Failing here (functions.test.js)
+	await Subject.findByIdAndUpdate(req.params.id, req.body);
+	
+	req.flash('success', 'Updated subject!');
 	
     res.redirect("/subject");
 };
@@ -80,6 +82,7 @@ module.exports.updateSubject = async (req, res) => {
 // Delete Subject
 module.exports.deleteSubject = async (req, res) => {
     const removeSubject = await Subject.findByIdAndDelete(req.params.id);
+	req.flash('success', 'Removed subject!');
     res.redirect("/subject");
 };
 
@@ -115,6 +118,9 @@ module.exports.addSubjectFromDatabase = async (req, res) => {
 	saveSubject._id = mongoose.Types.ObjectId();
 	saveSubject.isNew = true;
 	await saveSubject.save();
+	
+	req.flash('success', 'Added new subject!');
+	
 	res.redirect("/subject");
 }
 

@@ -30,6 +30,7 @@ module.exports.createNewRestriction = async (req, res) => {
 	newRestriction.owner = req.user._id;
 	await newRestriction.save();
     
+	req.flash('success', 'Added new restriction!');
     res.redirect("/restriction");
 };
 module.exports.renderCreate = (req, res) => {
@@ -48,6 +49,7 @@ module.exports.updateRestriction = async (req, res) => {
 	req.body.owner = req.user._id;
 	await Restriction.findByIdAndUpdate(req.params.id, req.body);
 	
+	req.flash('success', 'Updated restriction!');
     res.redirect("/restriction");
 };
 
@@ -56,5 +58,6 @@ module.exports.deleteRestriction = async (req, res) => {
     const removeRestriction = await Restriction.findByIdAndDelete(
         req.params.id
     );
+	req.flash('success', 'Deleted restriction!');
     res.redirect("/restriction");
 };
