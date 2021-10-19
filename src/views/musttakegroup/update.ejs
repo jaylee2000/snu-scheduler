@@ -26,54 +26,51 @@
 		</div>
 		
 		
-		
-		<div class="col-md-8">
-			<% for(let subject of checkedSubjects) { %>
-				<div class="col-md-4">
-					<%= subject.subjectName %><br>
-					  <% for (let yoil of daysOfWeek ) { %>
-						<% if (subject[yoil[1]].length !== 0) { %>
-							<%= yoil[0] %> : 
-							<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
-								<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
-							<% } %>
-							<br>
+		<% for(let subject of checkedSubjects) { %>
+			<div class="col-md-4">
+				<%= subject.subjectName %><br>
+				  <% for (let yoil of daysOfWeek ) { %>
+					<% if (subject[yoil[1]].length !== 0) { %>
+						<%= yoil[0] %> : 
+						<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
+							<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
 						<% } %>
+						<br>
 					<% } %>
+				<% } %>
 
-					Required: <%= subject.mustTake %>
-					Weight: <%= subject.weight %>
-					Credit: <%= subject.credit %>
-					<div>
-						<label for="<%= subject.subjectName%>" class="form-label">Select</label>
-						<input type="checkbox" id="<%= subject.subjectName%>" name="members" value=<%= subject._id %> checked>
-					</div>
+				Required: <%= subject.mustTake %>
+				Weight: <%= subject.weight %>
+				Credit: <%= subject.credit %>
+				<div>
+					<label for="<%= subject.subjectName%>" class="form-label">Select</label>
+					<input type="checkbox" id="<%= subject.subjectName%>" name="members" value=<%= subject._id %> checked>
 				</div>
-			<% } %>
-			
-			<% for(let subject of nonCheckedSubjects) { %>
-				<div class="col-md-4">
-					<%= subject.subjectName %><br>
-					  <% for (let yoil of daysOfWeek ) { %>
-						<% if (subject[yoil[1]].length !== 0) { %>
-							<%= yoil[0] %> : 
-							<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
-								<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
-							<% } %>
-							<br>
+			</div>
+		<% } %>
+
+		<% for(let subject of nonCheckedSubjects) { %>
+			<div class="col-md-4">
+				<%= subject.subjectName %><br>
+				  <% for (let yoil of daysOfWeek ) { %>
+					<% if (subject[yoil[1]].length !== 0) { %>
+						<%= yoil[0] %> : 
+						<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
+							<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
 						<% } %>
+						<br>
 					<% } %>
+				<% } %>
 
-					Required: <%= subject.mustTake %>
-					Weight: <%= subject.weight %>
-					Credit: <%= subject.credit %>
-					<div>
-						<label for="<%= subject.subjectName%>" class="form-label">Select</label>
-						<input type="checkbox" id="<%= subject.subjectName%>" name="members" value=<%= subject._id %>>
-					</div>
+				Required: <%= subject.mustTake %>
+				Weight: <%= subject.weight %>
+				Credit: <%= subject.credit %>
+				<div>
+					<label for="<%= subject.subjectName%>" class="form-label">Select</label>
+					<input type="checkbox" id="<%= subject.subjectName%>" name="members" value=<%= subject._id %>>
 				</div>
-			<% } %>
-		</div>
+			</div>
+		<% } %>
 		
 		<button class="btn btn-primary" type="submit">Submit</button>
 	</form>
