@@ -4,7 +4,9 @@ const { MustTakeGroup } = require("../models/mustTakeGroup");
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
-        // req.session.returnTo = req.originalUrl		// Causes bugs in tests/subject.test.js 87th line
+        req.session.returnTo = req.originalUrl		
+		// Causes bugs in tests/subject.test.js "Success CRUD Subjects with login"
+		// I don't think there's anything wrong tho...
         // console.log("Error: You must be logged in first!")
         return res.redirect('/login');
     }
@@ -15,7 +17,7 @@ module.exports.isOwner = async (req, res, next) => {
     const { id } = req.params;
     const subject = await Subject.findById(id);
     if (!subject.owner.equals(req.user._id)) {
-        console.log('Error: You do not have permission to do that!');
+        // console.log('Error: You do not have permission to do that!');
         return res.redirect("/");
     }
     next();
@@ -25,7 +27,7 @@ module.exports.isRestrictionOwner = async (req, res, next) => {
     const { id } = req.params;
     const restriction = await Restriction.findById(id);
     if (!restriction.owner.equals(req.user._id)) {
-        console.log('Error: You do not have permission to do that!');
+        // console.log('Error: You do not have permission to do that!');
         return res.redirect("/");
     }
     next();
@@ -35,7 +37,7 @@ module.exports.isMustTakeGroupOwner = async (req, res, next) => {
     const { id } = req.params;
     const musttakegroup = await MustTakeGroup.findById(id);
     if (!musttakegroup.owner.equals(req.user._id)) {
-        console.log('Error: You do not have permission to do that!');
+        // console.log('Error: You do not have permission to do that!');
         return res.redirect("/");
     }
     next();
