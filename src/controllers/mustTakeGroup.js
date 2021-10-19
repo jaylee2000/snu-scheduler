@@ -31,8 +31,20 @@ module.exports.renderCreate = async (req, res) => {
 
 module.exports.renderUpdate = async (req, res) => {
 	const mySubjects = await Subject.find( { owner: req.user._id } );
-    const updateGroup = await MustTakeGroup.findById(req.params.id);
-    res.render("musttakegroup/update.ejs", { title, mySubjects, updateGroup, daysOfWeek });
+    const updateGroup = await MustTakeGroup.findById(req.params.id).populate('members');
+	
+	const checkedSubjects = updateGroup.members;
+	
+	const nonCheckedSubjects = mySubjects.filter((mySubject) => {
+		for(let selectedSubject of updateGroup.members) {
+			if(selectedSubject._id.toString() === mySubject._id.toString()) {
+				return false;
+			}
+		}
+		return true;
+	})
+	
+    res.render("musttakegroup/update.ejs", { title, updateGroup, checkedSubjects, nonCheckedSubjects, daysOfWeek });
 };
 
 module.exports.updateMustTakeGroup = async (req, res) => {
