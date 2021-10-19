@@ -5,7 +5,7 @@ const engine = require("ejs-mate");
 const methodOverride = require("method-override");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const session = require('express-session');
+const session = require('cookie-session');
 
 // Auth
 const { User, UserSchema } = require("./models/user.js");
