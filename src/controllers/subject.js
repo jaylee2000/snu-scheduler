@@ -94,6 +94,23 @@ module.exports.renderAddFromDatabase = async (req, res) => {
 }
 
 module.exports.renderDatabaseSearchResults = async (req, res) => {
+	// const {name} = req.query;
+	
+	// // Generate regex that contains name
+	// const Kor_Eng_Num_Whitespace_Dash = '([\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]|[\w]|[\-]|[\s]|[ ])*';
+	// let regex = Kor_Eng_Num_Whitespace_Dash;
+	// for(let letter of name) {
+	// 	regex += `[${letter}]`;
+	// regex += Kor_Eng_Num_Whitespace_Dash;
+	// }
+	// const candidates = await ProvidedSubject.find({subjectName: {$regex: regex, $options: 'i'}});
+	// res.render("./database/searchResult.ejs", {candidates});
+	
+	/*****************************************************************************************************************************************************/
+	
+	// Code reference: https://codeforgeek.com/server-side-pagination-using-node-and-mongo/
+	// Works when we type pageNo, size in query string
+	// ex: https://backupofsnuscheduler-gtkkc.run.goorm.io/database/search?name=기전연&pageNo=1&size=5
 	const {name} = req.query;
 	
 	// Generate regex that contains name
@@ -101,10 +118,36 @@ module.exports.renderDatabaseSearchResults = async (req, res) => {
 	let regex = Kor_Eng_Num_Whitespace_Dash;
 	for(let letter of name) {
 		regex += `[${letter}]`;
-    	regex += Kor_Eng_Num_Whitespace_Dash;
+		regex += Kor_Eng_Num_Whitespace_Dash;
 	}
-	const candidates = await ProvidedSubject.find({subjectName: {$regex: regex, $options: 'i'}});
-	res.render("./database/searchResult.ejs", {candidates});
+	
+    const pageNo = parseInt(req.query.pageNo)
+    const size = parseInt(req.query.size)
+    const query = {}
+    if(pageNo < 0 || pageNo === 0) {
+		response = {"error" : true,"message" : "invalid page number, should start with 1"};
+		return res.json(response)
+    }
+  	query.skip = size * (pageNo - 1)
+  	query.limit = size
+
+    ProvidedSubject.count({},function(err,totalCount) {
+		 if(err) {
+		   response = {"error" : true,"message" : "Error fetching data"}
+		 }
+		 ProvidedSubject.find({subjectName: {$regex: regex, $options: 'i'}},{},query,function(err,data) {
+			  // Mongo command to fetch all data from collection.
+			if(err) {
+				response = {"error" : true,"message" : "Error fetching data"};
+			} else {
+				var totalPages = Math.ceil(totalCount / size)
+				response = {"error" : false,"message" : data,"pages": totalPages};
+			}
+			// res.json(response);
+			const candidates = response.message;
+			res.render("./database/searchResult.ejs", {candidates});
+		 });
+	});
 }
 
 module.exports.addSubjectFromDatabase = async (req, res) => {
