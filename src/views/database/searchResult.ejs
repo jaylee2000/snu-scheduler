@@ -69,7 +69,7 @@
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-	  <% for(let i = 1; i <= ( maxNo / perPage < 10 ? maxNo / perPage : 10) ; i++) { %>
+	  <% for(let i = 1; i <= ( numSeeds / displayPerPage < 10 ? numSeeds / displayPerPage : 10) ; i++) { %>
 		<li class="page-item"><a class="page-link" href="<%=urlUpToName%>&pageNo=<%=i%>&bigPage=<%=bigPage%>"><%=i + 10 * bigPage%></a></li>
 	  <% } %>
     <li class="page-item">

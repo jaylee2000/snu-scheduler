@@ -4,10 +4,14 @@ const Schema = mongoose.Schema;
 const { Subject } = require("../models/subject");
 const { ProvidedSubject } = require("../models/providedSubject");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
-const { parseTimeIntervals } = require("../functions/parseTimeIntervals.js");
+const { parseTimeIntervals } = require("../functions/parseTimeIntervals");
+const { generateRegexForSearch } = require("../functions/generateRegexForSearch");
+
+const { ExpressError } = require("../utils/ExpressError");
 
 const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
 const { title } = require("../definitions/strings");
+const { numSeeds, displayPerPage, pageChunkSize } = require("../definitions/constants");
 const { validateSubject, validateSubjectExtended } = require("../utils/validateJoiSchemas");
 
 const maxSubjectCount = 15;
@@ -93,36 +97,25 @@ module.exports.renderAddFromDatabase = async (req, res) => {
 	res.render("./database/index.ejs");
 }
 
-module.exports.renderDatabaseSearchResults = async (req, res) => {
+module.exports.renderDatabaseSearchResults = async (req, res, next) => {
 	// Code reference: https://codeforgeek.com/server-side-pagination-using-node-and-mongo/
-	// Works when we type pageNo, size in query string
-	// ex: https://backupofsnuscheduler-gtkkc.run.goorm.io/database/search?name=기전연&pageNo=1&size=5
-	const {name} = req.query;
-	
-	const urlUpToName = req.originalUrl.split("&").shift();
-	const maxNo = 7516; // Number of Seeds
-	const perPage = 5;
+	// ex: https://backupofsnuscheduler-gtkkc.run.goorm.io/database/search?name=자구&pageNo=10&bigPage=1
 	
 	// Generate regex that contains name
-	const Kor_Eng_Num_Whitespace_Dash = '([\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]|[\w]|[\-]|[\s]|[ ])*';
-	let regex = Kor_Eng_Num_Whitespace_Dash;
-	for(let letter of name) {
-		regex += `[${letter}]`;
-		regex += Kor_Eng_Num_Whitespace_Dash;
-	}
+	const regex = generateRegexForSearch(req.query.name);
 	
+	// Calculate page number for pagination
     const pageNo = parseInt(req.query.pageNo) || 1;
-	const bigPage = parseInt(req.query.bigPage) || 0; // CHUNK: 10 pages
-	const realpageNo = perPage * 10 * bigPage + pageNo;
+	const bigPage = parseInt(req.query.bigPage) || 0;
+	const realpageNo = displayPerPage * pageChunkSize * bigPage + pageNo;
 	
+	// Backend pagination code for Node.js
     const query = {}
     if(realpageNo < 0 || realpageNo === 0 || pageNo < 0) {
-		response = {"error" : true,"message" : "invalid page number, should start with 1"};
-		return res.json(response)
+		next(new ExpressError("Invalid page number", 400));
     }
-  	query.skip = perPage * (realpageNo - 1)
-  	query.limit = perPage
-
+  	query.skip = displayPerPage * (realpageNo - 1)
+  	query.limit = displayPerPage
     ProvidedSubject.count({},function(err,totalCount) {
 		 if(err) {
 		   response = {"error" : true,"message" : "Error fetching data"}
@@ -132,12 +125,13 @@ module.exports.renderDatabaseSearchResults = async (req, res) => {
 			if(err) {
 				response = {"error" : true,"message" : "Error fetching data"};
 			} else {
-				var totalPages = Math.ceil(totalCount / perPage)
+				var totalPages = Math.ceil(totalCount / displayPerPage)
 				response = {"error" : false,"message" : data,"pages": totalPages};
 			}
-			// res.json(response);
+		
 			const candidates = response.message;
-			res.render("./database/searchResult.ejs", {candidates, urlUpToName, maxNo, perPage, bigPage});
+			const urlUpToName = req.originalUrl.split("&").shift();
+			res.render("./database/searchResult.ejs", {candidates, urlUpToName, numSeeds, displayPerPage, bigPage});
 		 });
 	});
 }
