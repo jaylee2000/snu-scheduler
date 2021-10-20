@@ -94,24 +94,14 @@ module.exports.renderAddFromDatabase = async (req, res) => {
 }
 
 module.exports.renderDatabaseSearchResults = async (req, res) => {
-	// const {name} = req.query;
-	
-	// // Generate regex that contains name
-	// const Kor_Eng_Num_Whitespace_Dash = '([\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]|[\w]|[\-]|[\s]|[ ])*';
-	// let regex = Kor_Eng_Num_Whitespace_Dash;
-	// for(let letter of name) {
-	// 	regex += `[${letter}]`;
-	// regex += Kor_Eng_Num_Whitespace_Dash;
-	// }
-	// const candidates = await ProvidedSubject.find({subjectName: {$regex: regex, $options: 'i'}});
-	// res.render("./database/searchResult.ejs", {candidates});
-	
-	/*****************************************************************************************************************************************************/
-	
 	// Code reference: https://codeforgeek.com/server-side-pagination-using-node-and-mongo/
 	// Works when we type pageNo, size in query string
 	// ex: https://backupofsnuscheduler-gtkkc.run.goorm.io/database/search?name=기전연&pageNo=1&size=5
 	const {name} = req.query;
+	
+	const urlUpToName = req.originalUrl.split("&").shift();
+	const maxNo = 7516; // Number of Seeds
+	const perPage = 5;
 	
 	// Generate regex that contains name
 	const Kor_Eng_Num_Whitespace_Dash = '([\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]|[\w]|[\-]|[\s]|[ ])*';
@@ -121,15 +111,17 @@ module.exports.renderDatabaseSearchResults = async (req, res) => {
 		regex += Kor_Eng_Num_Whitespace_Dash;
 	}
 	
-    const pageNo = parseInt(req.query.pageNo)
-    const size = parseInt(req.query.size)
+    const pageNo = parseInt(req.query.pageNo) || 1;
+	const bigPage = parseInt(req.query.bigPage) || 0; // CHUNK: 10 pages
+	const realpageNo = perPage * 10 * bigPage + pageNo;
+	
     const query = {}
-    if(pageNo < 0 || pageNo === 0) {
+    if(realpageNo < 0 || realpageNo === 0 || pageNo < 0) {
 		response = {"error" : true,"message" : "invalid page number, should start with 1"};
 		return res.json(response)
     }
-  	query.skip = size * (pageNo - 1)
-  	query.limit = size
+  	query.skip = perPage * (realpageNo - 1)
+  	query.limit = perPage
 
     ProvidedSubject.count({},function(err,totalCount) {
 		 if(err) {
@@ -140,12 +132,12 @@ module.exports.renderDatabaseSearchResults = async (req, res) => {
 			if(err) {
 				response = {"error" : true,"message" : "Error fetching data"};
 			} else {
-				var totalPages = Math.ceil(totalCount / size)
+				var totalPages = Math.ceil(totalCount / perPage)
 				response = {"error" : false,"message" : data,"pages": totalPages};
 			}
 			// res.json(response);
 			const candidates = response.message;
-			res.render("./database/searchResult.ejs", {candidates});
+			res.render("./database/searchResult.ejs", {candidates, urlUpToName, maxNo, perPage, bigPage});
 		 });
 	});
 }

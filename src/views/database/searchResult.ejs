@@ -22,11 +22,11 @@
 			</li>
 			<li class="list-group-item">
 			  <p>
-				  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+				  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<%= candidate._id%>" aria-expanded="false" aria-controls="collapseExample<%= candidate._id%>">
 					Show Details
 				  </button>
 			  </p>
-			  <div class="collapse" id="collapseExample">
+			  <div class="collapse" id="collapseExample<%= candidate._id%>">
 			    <div class="card card-body">
 				    <%= candidate.roomNum%><br>
 					<%= candidate.remark%><br>
@@ -57,3 +57,25 @@
 	</div>
 	<% } %>
 	</div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+	<% if(bigPage <= 0) { %>
+	<li class="page-item disabled">
+	<% } else { %>
+    <li class="page-item">
+	<% } %>
+      <a class="page-link" href="<%=urlUpToName%>&pageNo=1&bigPage=<%=bigPage-1%>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+	  <% for(let i = 1; i <= ( maxNo / perPage < 10 ? maxNo / perPage : 10) ; i++) { %>
+		<li class="page-item"><a class="page-link" href="<%=urlUpToName%>&pageNo=<%=i%>&bigPage=<%=bigPage%>"><%=i + 10 * bigPage%></a></li>
+	  <% } %>
+    <li class="page-item">
+      <a class="page-link" href="<%=urlUpToName%>&pageNo=1&bigPage=<%=bigPage+1%>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
