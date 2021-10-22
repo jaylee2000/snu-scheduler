@@ -1,0 +1,27 @@
+<% 
+	formatTime = function(t1) {
+		let t1_input = parseFloat(t1);
+		let hour = Math.floor(t1_input);
+		let min = Math.floor((t1_input - hour) * 60);
+
+		if(hour < 10) {
+			let hour_str = '0' + hour.toString();
+			if(min < 10) {
+				let min_str = '0' + min.toString();
+				return hour_str + ':' + min_str;
+			} else {
+				let min_str = min.toString();
+				return hour_str + ':' + min_str;
+			}
+		} else {
+			let hour_str = hour.toString();
+			if(min < 10) {
+				let min_str = '0' + min.toString();
+				return hour_str + ':' + min_str;
+			} else {
+				let min_str = min.toString();
+				return hour_str + ':' + min_str;
+			}
+		}
+	}
+%>

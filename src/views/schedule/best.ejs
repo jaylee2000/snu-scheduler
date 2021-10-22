@@ -1,4 +1,5 @@
 <% layout('layouts/best_schedule_boilerplate') %>
+<% if(numDisplay != 0) { %>
 <header class="cd-intro">
 	<h1><%= title %></h1>
 </header>
@@ -51,3 +52,6 @@
 
 	<div class="cover-layer"></div>
 </div>
+<% } else { %>
+<h1>There is no such schedule...</h1>
+<% } %>
