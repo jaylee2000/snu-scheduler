@@ -1,0 +1,32 @@
+<%= subject.subjectName %><br>
+  <% for (let yoil of daysOfWeek ) { %>
+	<% if (subject[yoil[1]].length !== 0) { %>
+		<%= yoil[0] %> : 
+		<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
+			<%= subject[yoil[1]][i][0] %> ~ <%= subject[yoil[1]][i][1] %>, 
+		<% } %>
+		<br>
+	<% } %>
+<% } %>
+
+Required: <%= subject.mustTake %><br>
+Weight: <%= subject.weight %><br>
+Credit: <%= subject.credit %><br>
+RoomNum: <%= subject.roomNum %><br>
+Remark: <%= subject.remark %><br>
+
+<% if(subject.classification) { %>
+	classification: <%= subject.classification %><br>
+	college: <%= subject.college %><br>
+	department: <%= subject.department %><br>
+	degree: <%= subject.degree %><br>
+	grade: <%= subject.grade %><br>
+	subjectNum: <%= subject.subjectNum %><br>
+	classNum: <%= subject.classNum %><br>
+	lectureHours: <%= subject.lectureHours %><br>
+	labHours: <%= subject.labHours %><br>
+	formOfClass: <%= subject.formOfClass %><br>
+	prof: <%= subject.prof %><br>
+	capacity: <%= subject.capacity %><br>
+	language: <%= subject.language %>
+<% } %>

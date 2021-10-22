@@ -1,26 +1,53 @@
-<% layout('layouts/boilerplate') %>
-<h1><%= title %></h1>
-<p>This is your <%= title %>!</p>
-
-
- <% for(let i = 0; i < numDisplay; i++) { %>
-	<div class="row g-3">
-		<% for (let j = 0; j < possibleSchedules[i].selectedClasses.length; j++) { %>
-			<%= possibleSchedules[i].selectedClasses[j].subjectName %><br>
-
-			<% for(let yoil of daysOfWeek) { %>
-				<% if(possibleSchedules[i].selectedClasses[j][yoil[1]][0]) { %>
-					<%= yoil[0] %>: <%= possibleSchedules[i].selectedClasses[j][ yoil[1] ] %><br>
-				<% } %>
+<% layout('layouts/best_schedule_boilerplate') %>
+<header class="cd-intro">
+	<h1><%= title %></h1>
+</header>
+<div class="cd-schedule loading">
+	<div class="timeline">
+		<ul>
+			<% for(let time of timeSpan ) { %>
+				<li><span><%=time%></span></li>
 			<% } %>
-			<br>
-	   <% } %>
-	   Weight Sum: <%= possibleSchedules[i].weightSum %><br>
-	   Credit Sum: <%= possibleSchedules[i].creditSum %><br><br><br>
+		</ul>
+	</div> <!-- .timeline -->
+
+	<div class="events">
+		<ul>
+			<% for(let yoil of daysOfWeek){ %>
+			<li class="events-group">
+				<div class="top-info"><span><%=yoil[0]%></span></div>
+				<ul>
+					<% for(let timeBlock of possibleSchedules[0][yoil[1]]) { %>
+						<li class="single-event" data-start="<%=timeBlock["data-start"]%>" data-end="<%=timeBlock["data-end"]%>" 
+							data-content="<%=timeBlock["data-content"]%>" data-event="event-1">
+							<a href="/">
+								<em class="event-name"><%=timeBlock["subject-name"]%></em>
+							</a>
+						</li>
+					<% } %>
+				</ul>
+			</li>
+			<% } %>
+		</ul>
 	</div>
-   
 
- <% } %>
+	<div class="event-modal">
+		<header class="header">
+			<div class="content">
+				<span class="event-date"></span>
+				<h3 class="event-name"></h3>
+			</div>
 
+			<div class="header-bg"></div>
+		</header>
 
- <a href="/">Return to main page</a>
+		<div class="body">
+			<div class="event-info"></div>
+			<div class="body-bg"></div>
+		</div>
+
+		<a href="#0" class="close">Close</a>
+	</div>
+
+	<div class="cover-layer"></div>
+</div>

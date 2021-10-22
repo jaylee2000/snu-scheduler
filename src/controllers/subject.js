@@ -6,10 +6,11 @@ const { ProvidedSubject } = require("../models/providedSubject");
 const { calculateMaxIntervalSum } = require("../functions/intervalScheduling");
 const { parseTimeIntervals } = require("../functions/parseTimeIntervals");
 const { generateRegexForSearch } = require("../functions/generateRegexForSearch");
+const { createRenderScheduleObject } = require("../functions/createRenderScheduleObject");
 
 const { ExpressError } = require("../utils/ExpressError");
 
-const { daysOfWeek, mondayToFriday } = require("../definitions/arrays");
+const { daysOfWeek, mondayToFriday, timeSpan } = require("../definitions/arrays");
 const { title } = require("../definitions/strings");
 const { numSeeds, displayPerPage, pageChunkSize } = require("../definitions/constants");
 const { validateSubject, validateSubjectExtended } = require("../utils/validateJoiSchemas");
@@ -59,6 +60,11 @@ module.exports.renderAllSubjects = async (req, res) => {
     const allSubjects = await Subject.find({owner: req.user._id}); // Show only MY shopping cart.
     res.status(200).render("./subject/index", { title, allSubjects, daysOfWeek });
 };
+
+module.exports.showSubject = async (req, res) => {
+	const subject = await Subject.findOne({_id: req.params.id});
+	res.status(200).render("./subject/indexOne", { title, subject, daysOfWeek });
+}
 
 // Update Subject
 module.exports.renderUpdate = async (req, res) => {
@@ -180,14 +186,19 @@ module.exports.displayBestSchedules = (req, res) => {
         req.body.possibleSchedules.length >= 6
             ? 6
             : req.body.possibleSchedules.length;
+	const object = createRenderScheduleObject(req.body.possibleSchedules);
     res.render("./schedule/best", {
         title: "Optimized Schedule",
-        possibleSchedules: req.body.possibleSchedules,
-        numDisplay,
-        daysOfWeek,
+        possibleSchedules: object,
+		numDisplay,
+		daysOfWeek,
+		timeSpan
     });
 	// printTime('Rendered page');
 };
+
+
+
 
 // function printTime(msg) {
 	// Get time in ms

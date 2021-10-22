@@ -22,6 +22,7 @@ router.route("/update/:id").get(isLoggedIn, isOwner, subject.renderUpdate);
 
 router
     .route("/:id")
+	.get(isLoggedIn, isOwner, subject.showSubject)
     .patch(isLoggedIn, isOwner, subject.parseInput, catchAsync(subject.updateSubject))
     .delete(isLoggedIn, isOwner, subject.deleteSubject);
 
