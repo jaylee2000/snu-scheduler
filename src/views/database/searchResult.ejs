@@ -1,3 +1,4 @@
+<% include('../layouts/ejsFunctions') %>
 <% layout('layouts/boilerplate') %>
 	<h1>Search Results</h1>
 	<div class="row g-3">
@@ -14,11 +15,15 @@
 		  </div>
 		  <ul class="list-group list-group-flush">
 			<li class="list-group-item">
-				<% if(candidate.mon.length) { %> Mon: <%= candidate.mon %> <% } %>
-				<% if(candidate.tue.length) { %> Tue: <%= candidate.tue %> <% } %>
-				<% if(candidate.wed.length) { %> Wed: <%= candidate.wed %> <% } %>
-				<% if(candidate.thur.length) { %> Thur: <%= candidate.thur %> <% } %>
-				<% if(candidate.fri.length) { %> Fri: <%= candidate.fri %> <% } %>
+				<% for (let yoil of daysOfWeek ) { %>
+					<% if (candidate[yoil[1]].length !== 0) { %>
+						<%= yoil[0] %> : 
+						<% for (let i = 0; i < candidate[yoil[1]].length; i++) { %> 
+							<%= formatTime(candidate[yoil[1]][i][0]) %> ~ <%= formatTime(candidate[yoil[1]][i][1]) %>, 
+						<% } %>
+						<br>
+					<% } %>
+				<% } %>
 			</li>
 			<li class="list-group-item">
 			  <p>

@@ -137,7 +137,7 @@ module.exports.renderDatabaseSearchResults = async (req, res, next) => {
 		
 			const candidates = response.message;
 			const urlUpToName = req.originalUrl.split("&").shift();
-			res.render("./database/searchResult.ejs", {candidates, urlUpToName, numSeeds, displayPerPage, bigPage});
+			res.render("./database/searchResult.ejs", {candidates, urlUpToName, numSeeds, displayPerPage, bigPage, daysOfWeek});
 		 });
 	});
 }
