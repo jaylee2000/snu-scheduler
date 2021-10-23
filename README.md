@@ -35,11 +35,8 @@ Then, we take all of the input subjects & restrictions and generate the top 6 sc
 
 ## DEVELOP WITH EXCELLENCE
 	
--   TODO : Make the website look nicer (~ October 22)
-	- Form update → Retain original values (if they existed)
-	- Better view of restrictions/musttakegroups (3 in a row)
-	- Schedule visualization
-	- Deploy (via heroku)
+-   Deployed v0 to Heroku!
+	- Check it out at https://snu-scheduler.herokuapp.com/
 	
 ## Future updates (After developing <<Everytime, Snulife API>>)
 

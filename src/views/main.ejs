@@ -3,8 +3,72 @@
 <h1>
 	SNU Scheduler
 </h1>
+<p>
+	Welcome to SNU Scheduler!  <br>
+	SNU Scheduler is a project aiming to automate the process of generating a schedule.  <br>
+	<br>
+	1) You can add several subjects you would like to take. <br>
+		Example input:  <br>
+		-   Subject Name: Math 101  <br>
+		-   Monday Time: 3-4, 5-6, 7-8  <br>
+		-   Tuesday Time:  <br>
+		-   Wednesday Time: 4-5  <br>
+		-   Thursday Time:  <br>
+		-   Friday Time:  <br>
+		- 	I must take this course: (Check) <br>
+		-   Importance (1 - 10) : 7  <br>
+		-   Credit (0 - 10) : 3  <br>
+	<br>
+	2) You can add several restricted time blocks. <br>
+		Example input:  <br>
+		-   Restriction Name(Optional): Tutoring  <br>
+		-   Monday Time: 9-11  <br>
+		-   Tuesday Time:  <br>
+		-   Wednesday Time:  <br>
+		-   Thursday Time:  <br>
+		-   Friday Time: 6-12, 13-18  <br>
+	<br>
+	3) You can add several 'mustTakeGroups'. In the calculated schedule, a number in the range of [minSelect, maxSelect] subjects will be selected from each mustTakeGroup. <br>
+	   We plan on providing a better input method for selecting member subjects.  <br>
+		Example input:  <br>
+		-   Bundle name: Core Selectives  <br>
+		-   Minimum # of subjects from bundle: 2  <br>
+		-   Maximum # of subjects from bundle: 3  <br>
+		-   (Select subjects by clicking checkboxes) <br>
+</p>
 <% } else { %>
 <h1>
 	SNU 스케줄러
 </h1>
+<p>
+	SNU 스케줄러를 찾아주셔서 감사합니다! <br>
+	아래와 같이 몇 가지 제약사항을 입력해주시면, 중요도를 최대로 높이는 시간표를 제시해 드립니다. <br>
+	<br>
+	1) 듣고 싶은 과목 몇 가지를 장바구니에 담아주세요. <br>
+		예시 입력 양식:  <br>
+		-   과목명: 선형대수학 <br>
+		-   Monday 시간: 3-4, 5-6, 7-8  <br>
+		-   Tuesday 시간:  <br>
+		-   Wednesday 시간: 4-5  <br>
+		-   Thursday 시간:  <br>
+		-   Friday 시간:  <br>
+		-   중요도 (1 - 10) : 7  <br>
+		-   학점 (0 - 10) : 3  <br>
+	<br>
+	2) 허용되지 않은 시간 블럭(=제한사항)을 추가해주세요. <br>
+		예시 입력 양식:  <br>
+		-   이름(선택사항): 과외  <br>
+		-   Monday 시간: 9-11  <br>
+		-   Tuesday 시간:  <br>
+		-   Wednesday 시간:  <br>
+		-   Thursday 시간:  <br>
+		-   Friday 시간: 6-12, 13-18  <br>
+	<br>
+	3) 과목 몇 개를 묶음으로 묶어서, '이 중에서 최소 x과목, 최대 y과목 수강해야 한다'고 알려주세요. <br>
+		예시 입력 양식:  <br>
+		-   묶음 이름: 컴텍 과목들 <br>
+		-   최소 과목 수: 2  <br>
+		-   최대 과목 수: 3  <br>
+		-   (체크박스 선택해서 묶을 과목 선택) <br>
+</p>
 <% } %>
