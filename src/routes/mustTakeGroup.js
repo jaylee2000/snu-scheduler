@@ -10,16 +10,16 @@ const { isLoggedIn, isMustTakeGroupOwner } = require("../utils/loginMiddleware")
 
 router
     .route("/")
-    .get(isLoggedIn, musttakegroup.renderAllMustTakeGroups)
+    .get(isLoggedIn, catchAsync(musttakegroup.renderAllMustTakeGroups))
     .post(isLoggedIn, catchAsync(musttakegroup.createNewMustTakeGroup));
 
-router.route("/new").get(isLoggedIn, musttakegroup.renderCreate);
+router.route("/new").get(isLoggedIn, catchAsync(musttakegroup.renderCreate));
 
-router.route("/update/:id").get(isLoggedIn, isMustTakeGroupOwner, musttakegroup.renderUpdate);
+router.route("/update/:id").get(isLoggedIn, catchAsync(isMustTakeGroupOwner), catchAsync(musttakegroup.renderUpdate));
 
 router
     .route("/:id")
-    .patch(isLoggedIn, isMustTakeGroupOwner, catchAsync(musttakegroup.updateMustTakeGroup))
-    .delete(isLoggedIn, isMustTakeGroupOwner, musttakegroup.deleteMustTakeGroup);
+    .patch(isLoggedIn, catchAsync(isMustTakeGroupOwner), catchAsync(musttakegroup.updateMustTakeGroup))
+    .delete(isLoggedIn, catchAsync(isMustTakeGroupOwner), catchAsync(musttakegroup.deleteMustTakeGroup));
 
 module.exports = router;

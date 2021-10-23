@@ -52,7 +52,7 @@
 			<li class="list-group-item">
 				<form action="/database/add/<%= candidate._id %>?_method=POST" method="POST">
 					Weight : <input type="number" name="weight">
-					Must-take : <input type="checkbox" name="mustTake"><br>
+					Must-take : <input type="checkbox" name="mustTake" value="true"><br>
 					<button>Add to cart</button>
 				</form>	
 			</li>
@@ -111,7 +111,7 @@
 			<li class="list-group-item">
 				<form action="/database/add/<%= candidate._id %>?_method=POST" method="POST">
 					중요도 : <input type="number" name="weight">
-					필수 : <input type="checkbox" name="mustTake"><br>
+					필수 : <input type="checkbox" name="mustTake" value="true"><br>
 					<button class="btn btn-dark btn-sm">담기</button>
 				</form>	
 			</li>

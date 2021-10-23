@@ -17,16 +17,16 @@ router.route("/register")
 
 router.route("/login")
 	.get(user.renderLoginForm)
-	.post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), user.loginUser);
+	.post(catchAsync(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' })), user.loginUser);
 
 router.route("/logout")
 	.get(user.logoutUser);
 
 router.route("/kor")
-	.get(user.changeUserLangToKor);
+	.get(catchAsync(user.changeUserLangToKor));
 
 router.route("/eng")
-	.get(user.changeUserLangToEng);
+	.get(catchAsync(user.changeUserLangToEng));
 
 
 module.exports = router;

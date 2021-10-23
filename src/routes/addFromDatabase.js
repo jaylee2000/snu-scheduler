@@ -12,12 +12,12 @@ const { isLoggedIn } = require("../utils/loginMiddleware");
 const subject = require("../controllers/subject");
 
 router.route("/")
-	.get(isLoggedIn, subject.checkMaxSubjectCount, subject.renderAddFromDatabase);
+	.get(isLoggedIn, catchAsync(subject.checkMaxSubjectCount), subject.renderAddFromDatabase);
 
 router.route("/search")
-	.get(isLoggedIn, subject.checkMaxSubjectCount, subject.renderDatabaseSearchResults);
+	.get(isLoggedIn, catchAsync(subject.checkMaxSubjectCount), catchAsync(subject.renderDatabaseSearchResults));
 
 router.route("/add/:id")
-	.post(isLoggedIn, subject.checkMaxSubjectCount, subject.addSubjectFromDatabase);
+	.post(isLoggedIn, catchAsync(subject.checkMaxSubjectCount), catchAsync(subject.addSubjectFromDatabase));
 
 module.exports = router;

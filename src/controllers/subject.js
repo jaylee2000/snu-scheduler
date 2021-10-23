@@ -19,7 +19,7 @@ const maxSubjectCount = 15;
 
 /* CRUD Functionality for Subjects */
 // Create New Subject
-module.exports.renderCreate = async (req, res) => {
+module.exports.renderCreate = (req, res) => {
     res.status(200).render("./subject/new", { title, daysOfWeek });
 };
 module.exports.parseInput = (req, res, next) => {
@@ -99,7 +99,7 @@ module.exports.deleteSubject = async (req, res) => {
 /*********************************************************************************************************************/
 
 /* Add from Database */
-module.exports.renderAddFromDatabase = async (req, res) => {
+module.exports.renderAddFromDatabase = (req, res) => {
 	res.render("./database/index.ejs");
 }
 
