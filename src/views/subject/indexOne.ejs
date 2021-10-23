@@ -1,34 +1,64 @@
 <% include('../layouts/ejsFunctions') %>
+<% if(lang && lang === 'ENG') { %>
+	<div class="card card-body">
+		Required: <%= subject.mustTake ? 'True' : 'False' %><br>
+		Weight: <%= subject.weight %><br>
+		Credit: <%= subject.credit %><br>
+		<% if(subject.classification) { %>
+		Professor: <%= subject.prof %><br>
+	
 
-<%= subject.subjectName %><br>
-  <% for (let yoil of daysOfWeek ) { %>
-	<% if (subject[yoil[1]].length !== 0) { %>
-		<%= yoil[0] %> : 
-		<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
-			<%= formatTime(subject[yoil[1]][i][0]) %> ~ <%= formatTime(subject[yoil[1]][i][1]) %>, 
+	  <p>
+		  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<%= subject._id%>" aria-expanded="false" aria-controls="collapseExample<%= subject._id%>">
+			Show Details
+		  </button>
+	  </p>
+	  <div class="collapse" id="collapseExample<%= subject._id%>">
+		<div class="card card-body">
+			Room Number : <%= subject.roomNum%><br>
+			Classification : <%= subject.classification%><br>
+
+			Department : <%= subject.department%><br>
+			Recommended grade : <%= subject.grade%><br>
+			Subject ID : <%= subject.subjectNum%><br>
+			Class ID : <%= subject.classNum%><br>
+
+			Capacity : <%= subject.capacity%><br>
+			Language : <%= subject.language%><br>
+			Remark : <%= subject.remark%><br>
+		</div>
+	  </div>
 		<% } %>
-		<br>
-	<% } %>
-<% } %>
+	</div>
+<% } else { %>
+	<div class="card card-body">
+		필수 수강 여부: <%= subject.mustTake ? 'True' : 'False' %><br>
+		중요도: <%= subject.weight %><br>
+		학점: <%= subject.credit %><br>
+		<% if(subject.classification) { %>
+		교수: <%= subject.prof %><br>
+	
 
-Required: <%= subject.mustTake %><br>
-Weight: <%= subject.weight %><br>
-Credit: <%= subject.credit %><br>
-RoomNum: <%= subject.roomNum %><br>
-Remark: <%= subject.remark %><br>
+	  <p>
+		  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<%= subject._id%>" aria-expanded="false" aria-controls="collapseExample<%= subject._id%>">
+			자세히
+		  </button>
+	  </p>
+	  <div class="collapse" id="collapseExample<%= subject._id%>">
+		<div class="card card-body">
+			강의실 : <%= subject.roomNum%><br>
+			분류 : <%= subject.classification%><br>
 
-<% if(subject.classification) { %>
-	classification: <%= subject.classification %><br>
-	college: <%= subject.college %><br>
-	department: <%= subject.department %><br>
-	degree: <%= subject.degree %><br>
-	grade: <%= subject.grade %><br>
-	subjectNum: <%= subject.subjectNum %><br>
-	classNum: <%= subject.classNum %><br>
-	lectureHours: <%= subject.lectureHours %><br>
-	labHours: <%= subject.labHours %><br>
-	formOfClass: <%= subject.formOfClass %><br>
-	prof: <%= subject.prof %><br>
-	capacity: <%= subject.capacity %><br>
-	language: <%= subject.language %>
+			학과 : <%= subject.department%><br>
+			학년 : <%= subject.grade%><br>
+			강좌번호 : <%= subject.subjectNum%><br>
+			분반번호 : <%= subject.classNum%><br>
+
+			인원 : <%= subject.capacity%><br>
+			언어 : <%= subject.language%><br>
+			비고 : <%= subject.remark%><br>
+		</div>
+	  </div>
+		<% } %>
+	</div>
 <% } %>

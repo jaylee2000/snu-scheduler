@@ -1,7 +1,7 @@
 <% include('../layouts/ejsFunctions') %>
 <% layout('layouts/boilerplate') %>
 
-
+<% if(lang && lang === 'ENG') { %>
 <h1><%= title %></h1>
 <p>Welcome to <%= title %>!</p>
 
@@ -19,7 +19,7 @@
 			<% } %>
 		<% } %>
 
-		Required: <%= subject.mustTake %>
+		Required: <%= subject.mustTake ? 'True' : 'False' %>
 		Weight: <%= subject.weight %>
 		Credit: <%= subject.credit %>
 		  <form action="/subject/<%= subject._id %>/?_method=DELETE" method="POST">
@@ -42,7 +42,47 @@
   </form>
   <br>
 
- <a href="/database">Add from database</a><br>
- <a href="/register">Register</a>
- <a href="/login">Login</a>
- <a href="/logout">Logout</a>
+ <a href="/database">Add from database</a>
+<% } else { %>
+<h1><%= title %></h1>
+<p>장바구니 모아보기</p>
+
+<div class="row g-3">
+	<% for(let subject of allSubjects) { %>
+	  <div class="col-md-4">
+		<%= subject.subjectName %><br>
+		  <% for (let yoil of daysOfWeek ) { %>
+			<% if (subject[yoil[1]].length !== 0) { %>
+				<%= yoil[0] %> : 
+				<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
+					<%= formatTime(subject[yoil[1]][i][0]) %> ~ <%= formatTime(subject[yoil[1]][i][1]) %>, 
+				<% } %>
+				<br>
+			<% } %>
+		<% } %>
+
+		필수: <%= subject.mustTake ? 'O' : 'X' %>
+		중요도: <%= subject.weight %>
+		학점: <%= subject.credit %>
+		  <form action="/subject/<%= subject._id %>/?_method=DELETE" method="POST">
+			  <button class="btn btn-danger">삭제하기</button>
+		  </form>
+		  <form action="/subject/update/<%= subject._id %>">
+			  <button class="btn btn-info">수정하기</button>
+		  </form>
+	  </div>
+	<% } %>
+</div>
+
+	  
+ <a href="/subject/new">과목 직접 추가하기</a>
+  <br>
+  <form action="/subject/best">
+	  <label for="maxCredit">최대 학점: </label>
+	  <input type="number" id="maxCredit" name="maxCredit" required>
+	  <button>최적화된 시간표 보기 </button>
+  </form>
+  <br>
+
+ <a href="/database">데이터베이스에서 과목 추가하기</a>
+<% } %>

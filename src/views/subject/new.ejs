@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<% if(lang && lang === 'ENG') { %>
 <h2>Add custom subject</h2>
 <form action="/subject" method="POST" class="row g-3 needs-validation" novalidate>
 	<div class="col-md-4">
@@ -60,3 +61,65 @@
 </form>
 
   <a href="/">Return to main page</a>
+<% } else { %>
+<h2>과목을 직접 입력하세요.</h2>
+<form action="/subject" method="POST" class="row g-3 needs-validation" novalidate>
+	<div class="col-md-4">
+		<label for="subjectName" class="form-label">과목명: </label>
+		<input type="text" class="form-control" id="subjectName" name="subjectName" required><br>
+		<div class="valid-feedback">
+      		좋아요!
+    	</div>
+	</div>
+
+	<% for(let yoil of daysOfWeek) { %>
+		<div class="col-md-6">
+			<label for="<%= yoil[1]%>" class="form-label"><%= yoil[0] %> 시간:</label>
+			<input type="text" class="form-control" id="<%= yoil[1]%>" name="<%= yoil[1] %>"><br>
+		</div>
+	<% } %>
+
+	<div class="col-md-4">
+	    <input type="checkbox" id="mustTake" name="mustTake" value="true">
+	    <label for="mustTake">반드시 수강해야 함</label>
+	</div>
+	
+	<div class="col-md-4">
+		<label for="weight" class="form-label">중요도: </label>
+		<input type="number" class="form-control" id="weight" name="weight" required>
+		<div class="valid-feedback">
+      		좋아요!
+    	</div>
+	</div>
+
+	<div class="col-md-4">
+		<label for="credit" class="form-label">학점: </label>
+		<input type="number" class="form-control" id="credit" name="credit" required>
+		<div class="valid-feedback">
+      		좋아요!
+    	</div>
+	</div>
+	
+	<p>
+	  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+		더 많은 정보 입력하기 (선택사항)
+	  </button>
+	</p>
+
+	<div class="collapse" id="collapseExample">
+	  <div class="card card-body">
+		  <div class="col-md-4">
+			  <label for="roomNum" class="form-label">강의실 번호: </label>
+			  <input type="text" class="form-control" id="roomNum" name="roomNum">
+		  </div>
+		  <div class="col-md-4">
+			  <label for="remark" class="form-label">비고: </label>
+			  <input type="text" class="form-control" id="remark" name="remark">
+		  </div>
+	  </div>
+	</div>
+	
+	<button type="submit" class="btn btn-primary">제출하기</button>
+</form>
+
+<% } %>

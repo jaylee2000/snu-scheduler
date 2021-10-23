@@ -1,5 +1,6 @@
 <% include('../layouts/ejsFunctions') %>
 <% layout('layouts/boilerplate') %>
+<% if(lang && lang === 'ENG') { %>
 <h1>Welcome to restrictions page!</h1>
 
 	<div class="row g-3">
@@ -30,3 +31,35 @@
 
  <a href="/restriction/new">Add new custom restriction</a><br>
  <a href="/">Return to home page</a>
+<% } else { %>
+<h1>제한되는 시간을 관리하세요.</h1>
+
+	<div class="row g-3">
+		<% for(let restriction of restrictions) { %>
+		<div class="col-md-4">
+			<% if(restriction.restrictionName) { %> <%= restriction.restrictionName %> <% } %>
+			<div>
+				<% for (let yoil of daysOfWeek ) { %> 
+					<% if (restriction[yoil[1]].length !== 0) { %> 
+					<%= yoil[0] %> : 
+					<% for (let i = 0; i < restriction[yoil[1]].length; i++) { %> 
+						<%= formatTime(restriction[yoil[1]][i][0]) %> ~ <%= formatTime(restriction[yoil[1]][i][1]) %>, 
+					<% } %> 
+					<br />
+					<% } %> 
+				<% } %>
+				<form action="/restriction/<%= restriction._id %>/?_method=DELETE" method="POST">
+					<button class="btn btn-danger">삭제하기</button>
+				</form>
+				<form action="/restriction/update/<%= restriction._id %>">
+					<button class="btn btn-info">수정하기</button>
+				</form>
+			</div>
+			<br />
+		</div>
+		<% } %>
+	</div>
+
+ <a href="/restriction/new">제한사항 입력하기</a><br>
+ <a href="/">메인 화면으로</a>
+<% } %>

@@ -1,3 +1,4 @@
+<% if(locals.lang && locals.lang === 'ENG') { %>
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="#">SNU Scheduler</a>
@@ -46,6 +47,12 @@
 				</li>
 				<% } else { %>
 				<li class="nav-item">
+					<a class="nav-link" href="/kor"><img src="/images/kor.png" alt="KOR" style="width: 20px"></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/eng"><img src="/images/uk.png" alt="ENG" style="width: 20px"></a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="/logout">Logout</a>
 				</li>
 				<% } %>
@@ -54,3 +61,67 @@
 		</div>
 	</div>
 </nav>
+<% } else { %>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">SNU 스케줄러</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="/">메인으로 가기</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						과목들
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" href="/subject">장바구니</a></li>
+						<li><hr class="dropdown-divider" /></li>
+						<li><a class="dropdown-item" href="/database">과목 추가하기 (데이터베이스)</a></li>
+						<li><a class="dropdown-item" href="/subject/new">과목 추가하기 (직접 작성)</a></li>
+						<li><hr class="dropdown-divider" /></li>
+						<li>
+							<form action="/subject/best" class="dropdown-item">
+							    <label for="maxCredit">최대 학점: </label>
+							    <input type="number" id="maxCredit" name="maxCredit" required><br>
+							    <button class="btn btn-primary">최적화된 시간표 보기 </button>
+						    </form>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/restriction">제한사항</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/musttake">과목 묶음</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+				<% if(!currentUser) { %>
+				<li class="nav-item">
+					<a class="nav-link" href="/login">로그인</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/register">가입하기</a>
+				</li>
+				<% } else { %>
+				<li class="nav-item">
+					<a class="nav-link" href="/kor"><img src="/images/kor.png" alt="KOR" style="width: 20px"></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/eng"><img src="/images/uk.png" alt="ENG" style="width: 20px"></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/logout">로그아웃</a>
+				</li>
+				<% } %>
+				
+			</ul>
+		</div>
+	</div>
+</nav>
+<% } %>

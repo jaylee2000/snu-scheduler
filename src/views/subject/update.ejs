@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<% if(lang && lang === 'ENG') { %>
 <h1>Update <%= updateSubject.subjectName %> </h1>
 	 
   <div>
@@ -67,7 +68,7 @@
 					  <input type="text" class="form-control" id="classification" name="classification" value="<%= updateSubject.classification %>" required>
 				  </div>
 				  <div class="col-md-4">
-					  <label for="college" class="form-label">college </label>
+					  <label for="college" class="form-label">college: </label>
 					  <input type="text" class="form-control" id="college" name="college" value="<%= updateSubject.college %>">
 				  </div>
 				  <div class="col-md-4">
@@ -87,7 +88,7 @@
 					  <input type="text" class="form-control" id="subjectNum" name="subjectNum" value="<%= updateSubject.subjectNum %>">
 				  </div>
 				  <div class="col-md-4">
-					  <label for="classNum" class="form-label">classNum </label>
+					  <label for="classNum" class="form-label">classNum: </label>
 					  <input type="text" class="form-control" id="classNum" name="classNum" value="<%= updateSubject.classNum %>">
 				  </div>
 				  <div class="col-md-4">
@@ -123,3 +124,130 @@
   </div>
 
  <a href="/">Return to main page</a>
+<% } else { %>
+<h1><%= updateSubject.subjectName %> 수정하기</h1>
+	 
+  <div>
+	<form action="/subject/<%= updateSubject._id %>?_method=PATCH" method="POST" class="row g-3 needs-validation" novalidate>
+		
+		<div class="col-md-4">
+			<label for="subjectName" class="form-label">과목명: </label>
+			<input type="text" class="form-control" id="subjectName" name="subjectName" value="<%= updateSubject.subjectName %>" required><br>
+			<div class="valid-feedback">
+				좋아요!
+			</div>
+		</div>
+
+		<% for(let yoil of daysOfWeek) { %>
+			<div class="col-md-6">
+				<label for="<%= yoil[1]%>" class="form-label"><%= yoil[0] %> 시간:</label>
+				<input type="text" class="form-control" id="<%= yoil[1]%>" name="<%= yoil[1] %>" value="<%= updateSubject[yoil[1]]%>"><br>
+			</div>
+		<% } %>
+
+		<div class="col-md-4">
+			<% if(updateSubject.mustTake) { %>
+				<input type="checkbox" id="mustTake" name="mustTake" value="true" checked>
+		  	<% } else { %>
+				<input type="checkbox" id="mustTake" name="mustTake" value="true">
+		  	<% } %>
+			<label for="mustTake">반드시 수강해야 함</label>
+		</div>
+
+		<div class="col-md-4">
+			<label for="weight" class="form-label">중요도: </label>
+			<input type="number" class="form-control" id="weight" name="weight" value="<%= updateSubject.weight %>" required>
+			<div class="valid-feedback">
+				좋아요!
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<label for="credit" class="form-label">학점: </label>
+			<input type="number" class="form-control" id="credit" name="credit" value="<%= updateSubject.credit %>" required>
+			<div class="valid-feedback">
+				좋아요!
+			</div>
+		</div>
+		
+		<p>
+		  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+			더 많은 정보 (선택사항)
+		  </button>
+		</p>
+		
+		
+		<div class="collapse" id="collapseExample">
+		  <div class="card card-body">
+			  <div class="col-md-4">
+				  <label for="roomNum" class="form-label">강의실 번호: </label>
+				  <input type="text" class="form-control" id="roomNum" name="roomNum" value="<%= updateSubject.roomNum %>">
+			  </div>
+			  <div class="col-md-4">
+				  <label for="remark" class="form-label">비고: </label>
+				  <input type="text" class="form-control" id="remark" name="remark" value="<%= updateSubject.remark %>">
+			  </div>
+			  <% if(updateSubject.classification) { %>
+				  <div class="col-md-4">
+					  <label for="classification" class="form-label">분류: </label>
+					  <input type="text" class="form-control" id="classification" name="classification" value="<%= updateSubject.classification %>" required>
+				  </div>
+				  <div class="col-md-4">
+					  <label for="college" class="form-label">단과대학: </label>
+					  <input type="text" class="form-control" id="college" name="college" value="<%= updateSubject.college %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="department" class="form-label">학과: </label>
+					  <input type="text" class="form-control" id="department" name="department" value="<%= updateSubject.department %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="degree" class="form-label">학위: </label>
+					  <input type="text" class="form-control" id="degree" name="degree" value="<%= updateSubject.degree %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="grade" class="form-label">학년: </label>
+					  <input type="text" class="form-control" id="grade" name="grade" value="<%= updateSubject.grade %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="subjectNum" class="form-label">과목 번호: </label>
+					  <input type="text" class="form-control" id="subjectNum" name="subjectNum" value="<%= updateSubject.subjectNum %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="classNum" class="form-label">강좌 번호: </label>
+					  <input type="text" class="form-control" id="classNum" name="classNum" value="<%= updateSubject.classNum %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="lectureHours" class="form-label">강의 시간: </label>
+					  <input type="number" class="form-control" id="lectureHours" name="lectureHours" value="<%= updateSubject.lectureHours %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="labHours" class="form-label">실습 시간: </label>
+					  <input type="number" class="form-control" id="labHours" name="labHours" value="<%= updateSubject.labHours %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="formOfClass" class="form-label">강의 형태: </label>
+					  <input type="text" class="form-control" id="formOfClass" name="formOfClass" value="<%= updateSubject.formOfClass %>">
+				  </div>
+			  	  <div class="col-md-4">
+					  <label for="prof" class="form-label">교수: </label>
+					  <input type="text" class="form-control" id="prof" name="prof" value="<%= updateSubject.prof %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="capacity" class="form-label">인원: </label>
+					  <input type="number" class="form-control" id="capacity" name="capacity" value="<%= updateSubject.capacity %>">
+				  </div>
+				  <div class="col-md-4">
+					  <label for="language" class="form-label">언어: </label>
+					  <input type="text" class="form-control" id="language" name="language" value="<%= updateSubject.language %>">
+				  </div>
+			  <% } %>
+		  </div>
+		</div>
+
+		<button class="btn btn-primary" type="submit">제출하기</button>
+	</form>
+  </div>
+
+ <a href="/">메인 화면으로</a>
+
+<% } %>

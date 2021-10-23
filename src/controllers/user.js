@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { User } = require("../models/user");
 
 module.exports.renderRegisterForm = (req, res) => {
@@ -35,4 +36,18 @@ module.exports.logoutUser = (req, res) => {
     req.logout();
     req.flash('success', 'Farewell!');
     res.redirect('/');
+}
+
+module.exports.changeUserLangToKor = async (req, res) => {
+	const user = await User.findById(req.user._id);
+	user.language = "KOR";
+	await User.findByIdAndUpdate(req.user._id, user);
+	res.redirect('/');
+}
+
+module.exports.changeUserLangToEng = async (req, res) => {
+	const user = await User.findById(req.user._id);
+	user.language = "ENG";
+	await User.findByIdAndUpdate(req.user._id, user);
+	res.redirect('/');
 }

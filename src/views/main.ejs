@@ -1,4 +1,10 @@
 <% layout('layouts/boilerplate') %>
+<% if(locals.lang && locals.lang === 'ENG') { %>
 <h1>
 	SNU Scheduler
 </h1>
+<% } else { %>
+<h1>
+	SNU 스케줄러
+</h1>
+<% } %>

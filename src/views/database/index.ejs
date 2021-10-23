@@ -1,6 +1,10 @@
 <% layout('layouts/boilerplate') %>
-<h1>Hi</h1>
+<h1>
+	<% if (lang && lang === 'ENG') { %> Search a subject. <% } else { %> 과목을 검색하세요. <% } %> 
+</h1>
 <form action="/database/search" method="GET">
 	<input type="text" name="name">
-	<button class="btn btn-outline-dark btn-sm">Submit</button>
+	<button class="btn btn-outline-dark btn-sm">
+		<% if (lang && lang === 'ENG') { %> Submit <% } else { %> 검색하기 <% } %>
+	</button>
 </form>

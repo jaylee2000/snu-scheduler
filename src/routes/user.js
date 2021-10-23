@@ -22,5 +22,11 @@ router.route("/login")
 router.route("/logout")
 	.get(user.logoutUser);
 
+router.route("/kor")
+	.get(user.changeUserLangToKor);
+
+router.route("/eng")
+	.get(user.changeUserLangToEng);
+
 
 module.exports = router;

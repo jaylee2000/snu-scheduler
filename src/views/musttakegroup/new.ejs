@@ -1,10 +1,10 @@
 <% include('../layouts/ejsFunctions') %>
 <% layout('layouts/boilerplate') %>
-
-<h2>Add custom subject</h2>
+<% if(lang && lang === 'ENG') { %>
+<h2>Add custom group</h2>
 <form action="/musttake" method="POST" class="row g-3 needs-validation" novalidate>
 	<div class="col-md-4">
-		<label for="name" class="form-label">mustTakeGroup Name: </label>
+		<label for="name" class="form-label">Bundle Name: </label>
 		<input type="text" class="form-control" id="name" name="name" required><br>
 		<div class="valid-feedback">
 			Looks good!
@@ -12,14 +12,14 @@
 	</div>
 	
 	<div class="col-md-4">
-		<label for="minSelection" class="form-label">Type minSelect value:</label>
+		<label for="minSelection" class="form-label">Minimum # of subjects from bundle:</label>
 		<input type="number" class="form-control" id="minSelection" name="minSelection" required><br>
 		<div class="valid-feedback">
 			Looks good!
 		</div>
 	</div>
 	<div class="col-md-4">
-		<label for="maxSelection" class="form-label">Type maxSelect value:</label>
+		<label for="maxSelection" class="form-label">Maximum # of subjects from bundle:</label>
 		<input type="number" class="form-control" id="maxSelection" name="maxSelection" required><br>
 		<div class="valid-feedback">
 			Looks good!
@@ -29,7 +29,7 @@
 	
 	<% for(let subject of mySubjects) { %>
 		<div class="col-md-4">
-			<%= subject.subjectName %><br>
+			<%= subject.subjectName %> <% if(subject.classNum) { %> (<%= subject.classNum %>) <% } %> <br>
 			  <% for (let yoil of daysOfWeek ) { %>
 				<% if (subject[yoil[1]].length !== 0) { %>
 					<%= yoil[0] %> : 
@@ -40,7 +40,7 @@
 				<% } %>
 			<% } %>
 
-			Required: <%= subject.mustTake %>
+			Required: <%= subject.mustTake ? 'True' : 'False' %>
 			Weight: <%= subject.weight %>
 			Credit: <%= subject.credit %>
 			<div>
@@ -54,3 +54,60 @@
 </form>
 
   <a href="/">Return to main page</a>
+<% } else { %>
+<h2>묶음 만들기</h2>
+<form action="/musttake" method="POST" class="row g-3 needs-validation" novalidate>
+	<div class="col-md-4">
+		<label for="name" class="form-label">묶음 이름: </label>
+		<input type="text" class="form-control" id="name" name="name" required><br>
+		<div class="valid-feedback">
+			좋아요!
+		</div>
+	</div>
+	
+	<div class="col-md-4">
+		<label for="minSelection" class="form-label">최소 과목 수:</label>
+		<input type="number" class="form-control" id="minSelection" name="minSelection" required><br>
+		<div class="valid-feedback">
+			좋아요!
+		</div>
+	</div>
+	<div class="col-md-4">
+		<label for="maxSelection" class="form-label">최대 과목 수:</label>
+		<input type="number" class="form-control" id="maxSelection" name="maxSelection" required><br>
+		<div class="valid-feedback">
+			좋아요!
+		</div>
+	</div>
+	
+	
+	<% for(let subject of mySubjects) { %>
+		<div class="col-md-4">
+			<%= subject.subjectName %> <% if(subject.classNum) { %> (<%= subject.classNum %>) <% } %> <br>
+			  <% for (let yoil of daysOfWeek ) { %>
+				<% if (subject[yoil[1]].length !== 0) { %>
+					<%= yoil[0] %> : 
+					<% for (let i = 0; i < subject[yoil[1]].length; i++) { %> 
+						<%= formatTime(subject[yoil[1]][i][0]) %> ~ <%= formatTime(subject[yoil[1]][i][1]) %>, 
+					<% } %>
+					<br>
+				<% } %>
+			<% } %>
+
+			필수: <%= subject.mustTake ? 'O' : 'X' %>
+			중요도: <%= subject.weight %>
+			학점: <%= subject.credit %>
+			<div>
+				<label for="<%= subject.subjectName%>" class="form-label">선택하기</label>
+				<input type="checkbox" id="<%= subject.subjectName%>" name="members" value=<%= subject._id %>>
+			</div>
+		</div>
+	<% } %>
+	
+	<button class="btn btn-primary" type="submit">제출하기</button>
+</form>
+
+  <a href="/">메인 화면으로</a>
+
+
+<% } %>

@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate') %>
+<% if(lang && lang === 'ENG') { %>
 <h1><%= title %></h1>
-<p>Welcome to <%= title %>!</p>
+<p>Add Must-Take-Groups!</p>
 
  <div class="row g-3">
 	 <% for(let group of allGroups) { %>
@@ -12,8 +13,8 @@
 				<%= member.subjectName %> ( <%= member.classNum %> )<br>
 			<% } %>
 		</div>
-		<div> min: <%= group.minSelection %><br> </div>
-		<div> max: <%= group.maxSelection %><br> </div>
+		<div> Min: <%= group.minSelection %><br> </div>
+		<div> Max: <%= group.maxSelection %><br> </div>
 		<div>
 			<form action="/musttake/<%= group._id %>/?_method=DELETE" method="POST">
 				<button class="btn btn-danger">Delete</button>
@@ -25,7 +26,37 @@
 	 </div>
 	 <% } %>
  </div>
-
- <a href="/musttake/new">Add new custom mustTakeGroup</a>
+ <a href="/musttake/new">Create new subject bundle</a>
   <br>
  <a href="/">Go to home page</a>
+<% } else { %>
+<h1><%= title %></h1>
+<p>과목 묶음을 추가하세요.</p>
+
+ <div class="row g-3">
+	 <% for(let group of allGroups) { %>
+	 <div class="col-md-4">
+	 	<div> <%= group.name %> </div>
+		<div>
+			선택된 과목: <br>
+			<% for(let member of group.members){ %>
+				<%= member.subjectName %> ( <%= member.classNum %> )<br>
+			<% } %>
+		</div>
+		<div> 최소: <%= group.minSelection %><br> </div>
+		<div> 최대: <%= group.maxSelection %><br> </div>
+		<div>
+			<form action="/musttake/<%= group._id %>/?_method=DELETE" method="POST">
+				<button class="btn btn-danger">삭제하기</button>
+			</form>
+			<form action="/musttake/update/<%= group._id %>">
+				<button class="btn btn-info">수정하기</button>
+			</form>
+		</div>
+	 </div>
+	 <% } %>
+ </div>
+ <a href="/musttake/new">과목 묶음 만들기</a>
+  <br>
+ <a href="/">메인 화면</a>
+<% } %>

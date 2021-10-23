@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<% if(lang && lang === 'ENG') { %>
 <h1>Add a restriction!</h1>
 	
 <form action="/restriction" method="POST">
@@ -18,3 +19,24 @@
 	</div>
 </form>
 <a href="/restriction">Go back</a>
+<% } else { %>
+<h1>제한사항 추가하기</h1>
+	
+<form action="/restriction" method="POST">
+	<div class="col-md-12">
+		<label for="restrictionName" class="form-label">이름(선택사항):</label>
+		<input type="text" name="restrictionName" class="form-control"><br>
+	</div>
+	
+	<% for(let yoil of daysOfWeek) { %>
+		<div class="col-md-4">
+			<label for="<%= yoil[1]%>" class="form-label"><%= yoil[0] %> 시간:</label>
+			<input type="text" id="<%= yoil[1]%>" name="<%= yoil[1] %>" class="form-control"><br>
+		</div>
+	<% } %>
+	<div class="col-md-8">
+		<button class="btn btn-primary" type="submit">제출하기</button>
+	</div>
+</form>
+<a href="/restriction">뒤로 가기</a>
+<% } %>

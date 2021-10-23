@@ -7,6 +7,11 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 		unique: true
+	},
+	language: {
+		type: String,
+		enum: ['KOR', 'ENG'],
+		default: 'KOR'
 	}
 });
 
