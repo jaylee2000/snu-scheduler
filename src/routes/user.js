@@ -17,7 +17,7 @@ router.route("/register")
 
 router.route("/login")
 	.get(user.renderLoginForm)
-	.post(catchAsync(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' })), user.loginUser);
+	.post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), user.loginUser);
 
 router.route("/logout")
 	.get(user.logoutUser);

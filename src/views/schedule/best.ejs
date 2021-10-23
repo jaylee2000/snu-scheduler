@@ -1,8 +1,16 @@
 <% layout('layouts/best_schedule_boilerplate') %>
 <% if(numDisplay != 0) { %>
-<header class="cd-intro">
-	<h1><%= title %></h1>
+<% for(let i = 0; i < numDisplay; i++) { %>
+<% if(i == 0) { %>
+<header class="cd-intro cd-intro-first">
+	<h1><%= title %> <%= i+1 %></h1>
 </header>
+<% } else { %>
+<header class="cd-intro">
+	<h1><%= title %> <%= i+1 %></h1>
+</header>
+<% } %>
+
 <div class="cd-schedule loading">
 	<div class="timeline">
 		<ul>
@@ -18,7 +26,7 @@
 			<li class="events-group">
 				<div class="top-info"><span><%=yoil[0]%></span></div>
 				<ul>
-					<% for(let timeBlock of possibleSchedules[0][yoil[1]]) { %>
+					<% for(let timeBlock of possibleSchedules[i][yoil[1]]) { %>
 						<li class="single-event" data-start="<%=timeBlock["data-start"]%>" data-end="<%=timeBlock["data-end"]%>" 
 							data-content="<%=timeBlock["data-content"]%>" data-event="event-1">
 							<a href="/">
@@ -52,6 +60,7 @@
 
 	<div class="cover-layer"></div>
 </div>
+<% } %>
 <% } else { %>
 <h1>There is no such schedule...</h1>
 <% } %>

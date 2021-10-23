@@ -92,7 +92,7 @@ module.exports.updateSubject = async (req, res) => {
 // Delete Subject
 module.exports.deleteSubject = async (req, res) => {
     const removeSubject = await Subject.findByIdAndDelete(req.params.id);
-	req.flash('success', 'Removed subject!');
+	req.flash('success', 'Removed subject! Please update your Must-Take-Groups (Bundles).');
     res.redirect("/subject");
 };
 

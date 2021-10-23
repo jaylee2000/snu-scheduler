@@ -613,6 +613,10 @@ Main Components
 xnugget info 
 
 -------------------------------- */
+.cd-intro {
+	margin-top: 20em;
+}
+
 .cd-intro h1 {
   text-align: center;
   padding: 2.6em 5% .8em;
@@ -659,4 +663,8 @@ xnugget info
 
 .cd-nugget-info .cd-nugget-info-arrow {
   fill: #A2B9B2;
+}
+
+.cd-intro-first {
+	margin-top: 0em;
 }
