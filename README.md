@@ -2,17 +2,19 @@
 
 Welcome to SNU Scheduler!  
 SNU Scheduler is a project aiming to automate the process of generating a schedule.  
+For now, we maximize the "importance sum" based on the information you provide.
 
 1) You can add several subjects you would like to take.
 	Example input:  
 	-   Subject Name: Math 101  
-	-   Monday Time: 3-4, 5-6, 7-8  
+	-   Monday Time: 7-10  				// This indicates 07:00 ~ 10:00
 	-   Tuesday Time:  
-	-   Wednesday Time: 4-5  
+	-   Wednesday Time: 11.25-14.5 		// This indicates 11:15 ~ 14:30
 	-   Thursday Time:  
 	-   Friday Time:  
-	-   Importance: 7  
-	-   Credit: 3  
+	-	I must take this course: (Check)
+	-   Importance (1 - 10): 7  		// An integer in the range of [1, 10]
+	-   Credit (0 - 10): 3  			// An integer in the range of [0, 10]
 
 2) You can add several restricted time blocks.
 	Example input:  
@@ -24,12 +26,11 @@ SNU Scheduler is a project aiming to automate the process of generating a schedu
 	-   Friday Time: 6-12, 13-18  
 
 3) You can add several 'mustTakeGroups'. In the calculated schedule, a number in the range of [minSelect, maxSelect] subjects will be selected from each mustTakeGroup.
-   We plan on providing a better input method for selecting member subjects.  
     Example input:  
-	-   mustTakeGroup Name: Core Selectives  
+	-   Bundle name: Core Selectives
+	-   Minimum # of subjects from bundle: 2  
+	-   Maximum # of subjects from bundle: 3 
 	-   (Select subjects by clicking checkboxes)
-	-   minSelect Value: 2  
-	-   maxSelect Value: 3  
 
 Then, we take all of the input subjects & restrictions and generate the top 6 schedules that maximize importance(weight) sum.
 
